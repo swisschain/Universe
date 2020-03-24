@@ -1,0 +1,79 @@
+<kt-portlet>
+    <kt-portlet-header [class]="'kt-portlet__head--lg'" [viewLoading$]="dataSource.loading$">
+        <ng-container ktPortletTitle>
+            <h3 class="kt-portlet__head-title">
+                <span>Order Books</span>
+            </h3>
+        </ng-container>
+
+        <ng-container ktPortletTools>
+            <button (click)="refresh()" mat-raised-button matTooltip="Refresh" color="primary" type="button">
+                <span>Refresh</span>
+            </button>
+        </ng-container>
+    </kt-portlet-header>
+
+    <kt-portlet-body>
+        <div class="mat-table__wrapper">
+            <mat-table class="lmat-elevation-z8" #table [dataSource]="dataSource">
+
+                <ng-container matColumnDef="assetPairName">
+                    <mat-header-cell *matHeaderCellDef>Asset Pair</mat-header-cell>
+                    <mat-cell *matCellDef="let orderBook">{{getAssetPairName(orderBook.assetPairId)}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="ask">
+                    <mat-header-cell *matHeaderCellDef>Ask</mat-header-cell>
+                    <mat-cell *matCellDef="let orderBook">{{orderBook.ask | number:'1.1-8'}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="bid">
+                    <mat-header-cell *matHeaderCellDef>Bid</mat-header-cell>
+                    <mat-cell *matCellDef="let orderBook">{{orderBook.bid | number:'1.1-8'}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="mid">
+                    <mat-header-cell *matHeaderCellDef>Mid</mat-header-cell>
+                    <mat-cell *matCellDef="let orderBook">{{orderBook.mid | number:'1.1-8'}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="spread">
+                    <mat-header-cell *matHeaderCellDef>Spread</mat-header-cell>
+                    <mat-cell *matCellDef="let orderBook">{{orderBook.spread | number:'1.1-8'}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="sellOrdersCount">
+                    <mat-header-cell *matHeaderCellDef>Sell Orders Count</mat-header-cell>
+                    <mat-cell *matCellDef="let orderBook">{{orderBook.sellOrdersCount}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="buyOrdersCount">
+                    <mat-header-cell *matHeaderCellDef>Buy Orders Count</mat-header-cell>
+                    <mat-cell *matCellDef="let orderBook">{{orderBook.buyOrdersCount}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="timestamp">
+                    <mat-header-cell *matHeaderCellDef>Date</mat-header-cell>
+                    <mat-cell *matCellDef="let orderBook">{{orderBook.timestamp | date:'short'}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="actions">
+                    <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+                    <mat-cell *matCellDef="let orderBook">
+                        <button mat-icon-button color="primary" matTooltip="Order book details" type="button"
+                        [routerLink]="['/order-books/details/',orderBook.assetPairId]">
+                            <mat-icon>more_horiz</mat-icon>
+                        </button>&nbsp;
+                    </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+                <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+            </mat-table>
+            <!-- Message for empty data  -->
+            <div class="mat-table__message" *ngIf="!dataSource.hasItems">No records found</div>
+            <div class="mat-table__message" *ngIf="dataSource.isPreloadTextViewed$ | async">Please wait....</div>
+        </div>
+    </kt-portlet-body>
+</kt-portlet>
