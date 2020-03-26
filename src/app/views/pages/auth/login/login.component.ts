@@ -97,7 +97,6 @@ export class LoginComponent implements OnInit, OnDestroy {
 			.pipe(
 				tap(user => {
 					if (user) {
-						console.log(user);
 						this.store.dispatch(new Login({authToken: user.token}));
 						this.router.navigateByUrl(this.returnUrl);
 					} else {

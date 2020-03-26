@@ -96,16 +96,19 @@ export class AuthService {
 
     // Permission
     getAllPermissions(): Observable<Permission[]> {
-		return this.http.get<Permission[]>(API_PERMISSION_URL);
+        return of([]);
+        // this.http.get<Permission[]>(API_PERMISSION_URL);
     }
 
     getRolePermissions(roleId: number): Observable<Permission[]> {
-        return this.http.get<Permission[]>(API_PERMISSION_URL + '/getRolePermission?=' + roleId);
+        return of([]);
+        //return this.http.get<Permission[]>(API_PERMISSION_URL + '/getRolePermission?=' + roleId);
     }
 
     // Roles
     getAllRoles(): Observable<Role[]> {
-        return this.http.get<Role[]>(API_ROLES_URL);
+        return of([]);
+        //return this.http.get<Role[]>(API_ROLES_URL);
     }
 
     getRoleById(roleId: number): Observable<Role> {

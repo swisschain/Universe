@@ -4,9 +4,7 @@ import {
 	ChangeDetectionStrategy,
 	ChangeDetectorRef,
 	Component,
-	ElementRef,
 	OnInit,
-	Renderer2
 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 // RxJS
@@ -16,7 +14,6 @@ import * as objectPath from 'object-path';
 // Layout
 import {
 	LayoutConfigService,
-	MenuConfigService,
 	MenuHorizontalService,
 	MenuOptions,
 	OffcanvasOptions
@@ -31,10 +28,10 @@ import { HtmlClassService } from '../../html-class.service';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MenuHorizontalComponent implements OnInit, AfterViewInit {
-	// Public properties
-	currentRouteUrl: any = '';
 
+	currentRouteUrl: any = '';
 	rootArrowEnabled: boolean;
+	menuItems: any[];
 
 	menuOptions: MenuOptions = {
 		submenu: {
@@ -61,59 +58,38 @@ export class MenuHorizontalComponent implements OnInit, AfterViewInit {
 		}
 	};
 
-	/**
-	 * Component Conctructor
-	 *
-	 * @param el: ElementRef
-	 * @param htmlClassService: HtmlClassService
-	 * @param menuHorService: MenuHorService
-	 * @param menuConfigService: MenuConfigService
-	 * @param layoutConfigService: LayouConfigService
-	 * @param router: Router
-	 * @param render: Renderer2
-	 * @param cdr: ChangeDetectorRef
-	 */
 	constructor(
-		private el: ElementRef,
 		public htmlClassService: HtmlClassService,
 		public menuHorService: MenuHorizontalService,
-		private menuConfigService: MenuConfigService,
 		private layoutConfigService: LayoutConfigService,
 		private router: Router,
-		private render: Renderer2,
 		private cdr: ChangeDetectorRef
 	) {
 	}
 
-	/**
-	 * @ Lifecycle sequences => https://angular.io/guide/lifecycle-hooks
-	 */
-
-	/**
-	 * After view init
-	 */
 	ngAfterViewInit(): void {
 	}
 
-	/**
-	 * On init
-	 */
 	ngOnInit(): void {
 		this.rootArrowEnabled = this.layoutConfigService.getConfig('header.menu.self.root-arrow');
 
-		this.currentRouteUrl = this.router.url;
+		this.currentRouteUrl = this.router.url.split(/[?#]/)[0];
+
 		this.router.events
 			.pipe(filter(event => event instanceof NavigationEnd))
 			.subscribe(event => {
-				this.currentRouteUrl = this.router.url;
-				this.cdr.markForCheck();
+				const currentRouteUrl = this.router.url.split(/[?#]/)[0];
+
+				if (this.currentRouteUrl !== currentRouteUrl) {
+					this.currentRouteUrl = currentRouteUrl;
+					this.menuItems = this.menuHorService.getItems(this.currentRouteUrl);
+					this.cdr.markForCheck();
+				}
 			});
+
+		this.menuItems = this.menuHorService.getItems(this.currentRouteUrl);
 	}
 
-	/**
-	 * Return Css Class Name
-	 * @param item: any
-	 */
 	getItemCssClasses(item) {
 		let classes = 'kt-menu__item';
 
@@ -151,10 +127,6 @@ export class MenuHorizontalComponent implements OnInit, AfterViewInit {
 		return classes;
 	}
 
-	/**
-	 * Returns Attribute SubMenu Toggle
-	 * @param item: any
-	 */
 	getItemAttrSubmenuToggle(item) {
 		let toggle = 'hover';
 		if (objectPath.get(item, 'toggle') === 'click') {
@@ -168,10 +140,6 @@ export class MenuHorizontalComponent implements OnInit, AfterViewInit {
 		return toggle;
 	}
 
-	/**
-	 * Returns Submenu CSS Class Name
-	 * @param item: any
-	 */
 	getItemMenuSubmenuClass(item) {
 		let classes = '';
 
@@ -201,10 +169,6 @@ export class MenuHorizontalComponent implements OnInit, AfterViewInit {
 		return classes;
 	}
 
-	/**
-	 * Check Menu is active
-	 * @param item: any
-	 */
 	isMenuItemIsActive(item): boolean {
 		if (item.submenu) {
 			return this.isMenuRootItemIsActive(item);
@@ -217,10 +181,6 @@ export class MenuHorizontalComponent implements OnInit, AfterViewInit {
 		return this.currentRouteUrl.indexOf(item.page) !== -1;
 	}
 
-	/**
-	 * Check Menu Root Item is active
-	 * @param item: any
-	 */
 	isMenuRootItemIsActive(item): boolean {
 		if (item.submenu.items) {
 			for (const subItem of item.submenu.items) {

@@ -2,7 +2,7 @@
 <div ktOffcanvas [options]="offcanvasOptions" class="kt-header-menu-wrapper" id="kt_header_menu_wrapper">
 	<div ktMenu [options]="menuOptions" id="kt_header_menu" class="kt-header-menu kt-header-menu-mobile" [ngClass]="htmlClassService.getClasses('header_menu', true)">
 		<ul class="kt-menu__nav" [ngClass]="htmlClassService.getClasses('header_menu_nav', true)">
-			<ng-container *ngFor="let item of menuHorService.menuList$ | async">
+			<ng-container *ngFor="let item of menuItems">
 				<ng-container *ngIf="item.title" [ngTemplateOutlet]="menuTemplate" [ngTemplateOutletContext]="{ item: item }"></ng-container>
 			</ng-container>
 		</ul>

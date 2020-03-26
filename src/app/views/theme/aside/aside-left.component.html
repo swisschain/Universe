@@ -19,7 +19,7 @@
 <!-- END: Left Aside -->
 
 <ng-template #menuListTemplate>
-	<ng-container *ngFor="let child of menuAsideService.menuList$ | async">
+	<ng-container *ngFor="let child of menu">
 		<ng-container *ngIf="child.section" [ngTemplateOutlet]="menuItemSectionTemplate"
 			[ngTemplateOutletContext]="{ item: child }"></ng-container>
 		<ng-container *ngIf="child.separator" [ngTemplateOutlet]="menuItemSeparatorTemplate"

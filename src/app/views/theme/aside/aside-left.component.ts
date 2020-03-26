@@ -23,7 +23,7 @@ import { HtmlClassService } from '../html-class.service';
 })
 export class AsideLeftComponent implements OnInit, AfterViewInit {
 
-	@ViewChild('asideMenu', {static: true}) asideMenu: ElementRef;
+	@ViewChild('asideMenu', { static: true }) asideMenu: ElementRef;
 
 	currentRouteUrl = '';
 	insideTm: any;
@@ -79,6 +79,8 @@ export class AsideLeftComponent implements OnInit, AfterViewInit {
 	) {
 	}
 
+	menu: any[];
+
 	ngAfterViewInit(): void {
 	}
 
@@ -88,8 +90,13 @@ export class AsideLeftComponent implements OnInit, AfterViewInit {
 		this.router.events
 			.pipe(filter(event => event instanceof NavigationEnd))
 			.subscribe(event => {
-				this.currentRouteUrl = this.router.url.split(/[?#]/)[0];
-				this.cdr.markForCheck();
+				const currentRouteUrl = this.router.url.split(/[?#]/)[0];
+
+				if (this.currentRouteUrl !== currentRouteUrl) {
+					this.currentRouteUrl = currentRouteUrl;
+					this.menu = this.menuAsideService.getItems(this.currentRouteUrl);
+					this.cdr.markForCheck();
+				}
 			});
 
 		const config = this.layoutConfigService.getConfig();
@@ -99,6 +106,8 @@ export class AsideLeftComponent implements OnInit, AfterViewInit {
 			// tslint:disable-next-line:max-line-length
 			this.render.setAttribute(this.asideMenu.nativeElement, 'data-ktmenu-dropdown-timeout', objectPath.get(config, 'aside.menu.submenu.dropdown.hover-timeout'));
 		}
+
+		this.menu = this.menuAsideService.getItems(this.currentRouteUrl);
 	}
 
 	/**
