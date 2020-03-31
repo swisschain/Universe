@@ -1,0 +1,73 @@
+<kt-portlet>
+    <kt-portlet-header [class]="'kt-portlet__head--lg'" [viewLoading$]="dataSource.loading$">
+        <ng-container ktPortletTitle>
+            <h3 class="kt-portlet__head-title">
+                <span>Broker Accounts</span>
+            </h3>
+        </ng-container>
+
+        <ng-container ktPortletTools>
+            <button (click)="add()" mat-raised-button matTooltip="Create broker account" color="primary" type="button">
+                <span>Add Account</span>
+            </button>
+        </ng-container>
+    </kt-portlet-header>
+
+    <kt-portlet-body>
+        <div class="mat-table__wrapper">
+            <mat-table class="lmat-elevation-z8" #table [dataSource]="dataSource">
+
+                <ng-container matColumnDef="name">
+                    <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+                    <mat-cell *matCellDef="let account">{{account.name}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="id">
+                    <mat-header-cell *matHeaderCellDef>Id</mat-header-cell>
+                    <mat-cell *matCellDef="let account">{{account.brokerAccountId}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="blockchains">
+                    <mat-header-cell *matHeaderCellDef>Blockchains</mat-header-cell>
+                    <mat-cell *matCellDef="let account">0</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="accounts">
+                    <mat-header-cell *matHeaderCellDef>Accounts</mat-header-cell>
+                    <mat-cell *matCellDef="let account">0</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="state">
+                    <mat-header-cell *matHeaderCellDef>State</mat-header-cell>
+                    <mat-cell *matCellDef="let account">{{account.state}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="created">
+                    <mat-header-cell *matHeaderCellDef>Created</mat-header-cell>
+                    <mat-cell *matCellDef="let account">{{account.creationDateTime | date:'short'}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="activated">
+                    <mat-header-cell *matHeaderCellDef>Activated</mat-header-cell>
+                    <mat-cell *matCellDef="let account">{{account.activationDateTime | date:'short'}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="actions">
+                    <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+                    <mat-cell *matCellDef="let account">
+                        <button mat-icon-button color="primary" matTooltip="Details" type="button">
+                            <mat-icon>more_horiz</mat-icon>
+                        </button>&nbsp;
+                    </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+                <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+            </mat-table>
+            <!-- Message for empty data  -->
+            <div class="mat-table__message" *ngIf="!dataSource.hasItems">No records found</div>
+            <div class="mat-table__message" *ngIf="dataSource.isPreloadTextViewed$ | async">Please wait....</div>
+        </div>
+    </kt-portlet-body>
+</kt-portlet>

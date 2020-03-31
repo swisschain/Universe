@@ -60,11 +60,10 @@ export class LoginComponent implements OnInit, OnDestroy {
 	initLoginForm() {
 
 		this.loginForm = this.fb.group({
-			email: [null, Validators.compose([
+			login: [null, Validators.compose([
 				Validators.required,
-				Validators.email,
 				Validators.minLength(3),
-				Validators.maxLength(320)
+				Validators.maxLength(50)
 			])
 			],
 			password: [null, Validators.compose([
@@ -88,12 +87,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
 		this.loading = true;
 
-		const authData = {
-			email: controls.email.value,
-			password: controls.password.value
-		};
 		this.auth
-			.login(authData.email, authData.password)
+			.login(controls.login.value, controls.password.value)
 			.pipe(
 				tap(user => {
 					if (user) {

@@ -4,7 +4,6 @@ import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpResponse } fr
 // RxJS
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { debug } from 'util';
 
 import { environment } from '../../../../../environments/environment';
 
@@ -33,7 +32,7 @@ export class InterceptService implements HttpInterceptor {
 		const userToken = localStorage.getItem(environment.authTokenKey);
 
 				
-		const apiReq = request.clone({ url: `${environment.baseUrl}/${request.url}`, headers: request.headers.set('Authorization', `Bearer ${userToken}`)});
+		const apiReq = request.clone({ url: `${environment.apiUrl}/${request.url}`, headers: request.headers.set('Authorization', `Bearer ${userToken}`)});
 		return next.handle(apiReq);
 
 		return next.handle(request).pipe(

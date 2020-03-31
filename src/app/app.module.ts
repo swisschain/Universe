@@ -61,6 +61,10 @@ import * as scss from 'highlight.js/lib/languages/scss';
 import * as xml from 'highlight.js/lib/languages/xml';
 import * as json from 'highlight.js/lib/languages/json';
 
+import { TenantHeaderInterceptor } from './core/interceptors/tenant-header-interceptor';
+import { ApiUrlInterceptor } from './core/interceptors/api-url-interceptor';
+import { AuthHeaderInterceptor } from './core/interceptors/auth-header-interceptor';
+
 
 // NEW
 
@@ -149,12 +153,12 @@ export function hljsLanguages(): HighlightLanguage[] {
 		HttpUtilsService,
 		TypesUtilsService,
 		LayoutUtilsService,
-		InterceptService,
-	 	{
-	 		provide: HTTP_INTERCEPTORS,
-	 		useClass: InterceptService,
-	 		multi: true
-	 	},
+
+		ApiUrlInterceptor,
+		AuthHeaderInterceptor,
+		TenantHeaderInterceptor,
+		{ provide: HTTP_INTERCEPTORS, useClass: ApiUrlInterceptor, multi: true },
+		{ provide: HTTP_INTERCEPTORS, useClass: AuthHeaderInterceptor, multi: true }
 	],
 	bootstrap: [AppComponent]
 })

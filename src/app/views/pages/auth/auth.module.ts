@@ -35,7 +35,7 @@ const routes: Routes = [
 			{
 				path: 'login',
 				component: LoginComponent,
-				data: {returnUrl: window.location.pathname}
+				data: { returnUrl: window.location.pathname }
 			},
 			{
 				path: 'register',
@@ -64,14 +64,8 @@ const routes: Routes = [
 		StoreModule.forFeature('auth', authReducer),
 		EffectsModule.forFeature([AuthEffects])
 	],
-	// providers: [
-	// 	InterceptService,
-	// 	{
-	// 		provide: HTTP_INTERCEPTORS,
-	// 		useClass: InterceptService,
-	// 		multi: true
-	// 	},
-	// ],
+	providers: [		
+	],
 	exports: [AuthComponent],
 	declarations: [
 		AuthComponent,

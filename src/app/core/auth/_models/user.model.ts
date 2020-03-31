@@ -8,6 +8,7 @@ export class User extends BaseModel {
     password: string;
     email: string;
     accessToken: string;
+    tenantId: string;
     refreshToken: string;
     roles: number[];
     pic: string;
