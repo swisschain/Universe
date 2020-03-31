@@ -28,4 +28,4 @@ jobs:
       env:
         KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
         NAMESPACE: universe
-        POD: admin-panel
+        POD: admina-panel
