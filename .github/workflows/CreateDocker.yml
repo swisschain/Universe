@@ -27,3 +27,9 @@ jobs:
         workdir: ./
 
         tag_names: true
+    - name: Restart service
+      uses: SC-Poc/kube-restart-pods@master
+      env:
+        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+        NAMESPACE: universe
+        POD: admin-panel
