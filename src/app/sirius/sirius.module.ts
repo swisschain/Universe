@@ -9,28 +9,30 @@ import { HttpUtilsService, TypesUtilsService, InterceptService, LayoutUtilsServi
 import { ActionNotificationComponent, DeleteEntityDialogComponent, FetchEntityDialogComponent, UpdateStatusDialogComponent } from '../views/partials/content/crud';
 import { ModuleGuard } from '../core/auth';
 import {
-  MatInputModule,
-  MatPaginatorModule,
-  MatProgressSpinnerModule,
-  MatSortModule,
-  MatTableModule,
-  MatSelectModule,
-  MatMenuModule,
-  MatProgressBarModule,
-  MatButtonModule,
-  MatCheckboxModule,
-  MatDialogModule,
-  MatTabsModule,
-  MatNativeDateModule,
-  MatCardModule,
-  MatRadioModule,
-  MatIconModule,
-  MatDatepickerModule,
-  MatAutocompleteModule,
-  MAT_DIALOG_DEFAULT_OPTIONS,
-  MatSnackBarModule,
-  MatTooltipModule
+	MatInputModule,
+	MatPaginatorModule,
+	MatProgressSpinnerModule,
+	MatSortModule,
+	MatTableModule,
+	MatSelectModule,
+	MatMenuModule,
+	MatProgressBarModule,
+	MatButtonModule,
+	MatCheckboxModule,
+	MatDialogModule,
+	MatTabsModule,
+	MatNativeDateModule,
+	MatCardModule,
+	MatRadioModule,
+	MatIconModule,
+	MatDatepickerModule,
+	MatAutocompleteModule,
+	MAT_DIALOG_DEFAULT_OPTIONS,
+	MatSnackBarModule,
+	MatTooltipModule
 } from '@angular/material';
+
+import { ClipboardModule } from 'ngx-clipboard';
 
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { SiriusRoutingModule } from './sirius-routing.module';
@@ -38,18 +40,39 @@ import { BrokerAccountListComponent } from './brokerage/broker-account-list/brok
 import { ApiUrlInterceptor } from '../core/interceptors/api-url-interceptor';
 import { AuthHeaderInterceptor } from '../core/interceptors/auth-header-interceptor';
 import { BrokerAccountEditDialogComponent } from './brokerage/broker-account-edit/broker-account-edit.dialog.component';
+import { AccountListComponent } from './brokerage/account-list/account-list.component';
+import { AccountEditDialogComponent } from './brokerage/account-edit/account-edit.dialog.component';
+
+import { AccountService } from './api/account.service';
+import { BrokerAccountService } from './api/broker-account.service';
+import { AccountDetailsComponent } from './brokerage/account-details/account-details.component';
+import { AssetsService } from './api/assets.service';
+import { BlockchainsService } from './api/blockchains.service';
+import { AccountRequisitesListComponent } from './brokerage/account-requisites-list/account-requisites-list.component';
+import { AssetsListComponent } from './shared/assets-list/assets-list.component';
+import { AssetRequisitesDialogComponent } from './shared/asset-requisites/asset-requisites.dialog.component';
+import { BrokerAccountDetailsComponent } from './brokerage/broker-account-details/broker-account-details.component';
+import { BrokerAccountRequisitesComponent } from './brokerage/broker-account-requisites/broker-account-requisites.component';
 
 @NgModule({
-  declarations: [
-    DashboardComponent,
-    BrokerAccountListComponent,
-    BrokerAccountEditDialogComponent
-  ],
-  imports: [
-    CommonModule,
-    SiriusRoutingModule,
+	declarations: [
+		DashboardComponent,
+		BrokerAccountListComponent,
+		BrokerAccountEditDialogComponent,
+		AccountListComponent,
+		AccountEditDialogComponent,
+		AccountDetailsComponent,
+		AccountRequisitesListComponent,
+		AssetsListComponent,
+		AssetRequisitesDialogComponent,
+		BrokerAccountDetailsComponent,
+		BrokerAccountRequisitesComponent
+	],
+	imports: [
+		CommonModule,
+		SiriusRoutingModule,
 
-    MatDialogModule,
+		MatDialogModule,
 		CommonModule,
 		HttpClientModule,
 		PartialsModule,
@@ -73,10 +96,12 @@ import { BrokerAccountEditDialogComponent } from './brokerage/broker-account-edi
 		MatProgressSpinnerModule,
 		MatSnackBarModule,
 		MatTabsModule,
-		MatTooltipModule
-  ],
-  providers: [
-    ModuleGuard,
+		MatTooltipModule,
+
+		ClipboardModule
+	],
+	providers: [
+		ModuleGuard,
 		{
 			provide: MAT_DIALOG_DEFAULT_OPTIONS,
 			useValue: {
@@ -91,15 +116,22 @@ import { BrokerAccountEditDialogComponent } from './brokerage/broker-account-edi
 		TypesUtilsService,
 		LayoutUtilsService,
 		{ provide: HTTP_INTERCEPTORS, useClass: ApiUrlInterceptor, multi: true },
-		{ provide: HTTP_INTERCEPTORS, useClass: AuthHeaderInterceptor, multi: true }
-  ],
+		{ provide: HTTP_INTERCEPTORS, useClass: AuthHeaderInterceptor, multi: true },
+
+		AccountService,
+		AssetsService,
+		BlockchainsService,
+		BrokerAccountService
+	],
 	entryComponents: [
 		ActionNotificationComponent,
 		DeleteEntityDialogComponent,
 		FetchEntityDialogComponent,
 		UpdateStatusDialogComponent,
 
-		BrokerAccountEditDialogComponent
+		AccountEditDialogComponent,
+		BrokerAccountEditDialogComponent,
+		AssetRequisitesDialogComponent
 	]
 })
 export class SiriusModule { }

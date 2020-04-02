@@ -15,7 +15,6 @@ export class ApiUrlInterceptor implements HttpInterceptor {
 
         const path = request.url.split('/')[0];
 
-        console.log(path);
         switch (path) {
             case 'home':
                 apiUrl = environment.apiUrl;

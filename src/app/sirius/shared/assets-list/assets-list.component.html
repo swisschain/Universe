@@ -1,0 +1,71 @@
+<div class="kt-form kt-margin-b-30">
+    <div class="kt-form__filtration">
+        <div class="row align-items-center">
+            <div class="col-md-2 kt-margin-bottom-10-mobile">
+                <mat-form-field class="mat-form-field-fluid">
+                    <input matInput placeholder="Search asset" #searchInput placeholder="Search">
+                    <mat-hint align="start">
+                        <strong>Search</strong> by symbol
+                    </mat-hint>
+                </mat-form-field>
+            </div>
+            <div class="col-md-2 kt-margin-bottom-10-mobile">
+                <mat-form-field class="mat-form-field-fluid">
+                    <mat-select [(value)]="blockchainId" (selectionChange)="load()">
+                        <mat-option value="">All</mat-option>
+                        <mat-option *ngFor="let blockchain of blockchains" [value]="blockchain.blockchainId">
+                            {{blockchain.name}}</mat-option>
+                    </mat-select>
+                    <mat-hint align="start">
+                        <strong>Filter</strong> by blockchain
+                    </mat-hint>
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mat-table__wrapper">
+    <mat-table class="lmat-elevation-z8" #table [dataSource]="dataSource">
+        <ng-container matColumnDef="id">
+            <mat-header-cell *matHeaderCellDef>Id</mat-header-cell>
+            <mat-cell *matCellDef="let item">{{item.assetId}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="symbol">
+            <mat-header-cell *matHeaderCellDef>Symbol</mat-header-cell>
+            <mat-cell *matCellDef="let item">{{item.symbol}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="blockchainName">
+            <mat-header-cell *matHeaderCellDef>Blockchain</mat-header-cell>
+            <mat-cell *matCellDef="let item">{{item.blockchainId}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="address">
+            <mat-header-cell *matHeaderCellDef>Address</mat-header-cell>
+            <mat-cell *matCellDef="let item">{{item.address}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="accuracy">
+            <mat-header-cell *matHeaderCellDef>Accuracy</mat-header-cell>
+            <mat-cell *matCellDef="let item">{{item.accuracy}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+            <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+            <mat-cell *matCellDef="let item">
+                <button mat-icon-button color="primary" matTooltip="Select asset" (click)="select(item)">
+                    <mat-icon>more_horiz</mat-icon>
+                </button>
+            </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+    </mat-table>
+    <!-- Message for empty data  -->
+    <div class="mat-table__message" *ngIf="!dataSource.hasItems">No records found</div>
+    <div class="mat-table__message" *ngIf="dataSource.isPreloadTextViewed$ | async">Please wait....</div>
+</div>
