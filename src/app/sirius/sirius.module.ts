@@ -34,11 +34,12 @@ import {
 
 import { ClipboardModule } from 'ngx-clipboard';
 
+import { ApiUrlInterceptor } from '../core/interceptors/api-url-interceptor';
+import { AuthHeaderInterceptor } from '../core/interceptors/auth-header-interceptor';
+
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { SiriusRoutingModule } from './sirius-routing.module';
 import { BrokerAccountListComponent } from './brokerage/broker-account-list/broker-account-list.component';
-import { ApiUrlInterceptor } from '../core/interceptors/api-url-interceptor';
-import { AuthHeaderInterceptor } from '../core/interceptors/auth-header-interceptor';
 import { BrokerAccountEditDialogComponent } from './brokerage/broker-account-edit/broker-account-edit.dialog.component';
 import { AccountListComponent } from './brokerage/account-list/account-list.component';
 import { AccountEditDialogComponent } from './brokerage/account-edit/account-edit.dialog.component';
