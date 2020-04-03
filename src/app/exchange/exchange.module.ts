@@ -49,6 +49,7 @@ import { AssetPairEditDialogComponent } from './instruments/asset-pair-edit/asse
 import { AssetPairsService } from './api/asset-pairs.service';
 import { AssetDetailsDialogComponent } from './instruments/asset-details/asset-details.dialog.component';
 import { AssetPairDetailsDialogComponent } from './instruments/asset-pair-details/asset-pair-details.dialog.component';
+import { WorkingOnItComponent } from './shared/working-on-it/working-on-it.component';
 
 @NgModule({
 	declarations: [
@@ -59,7 +60,8 @@ import { AssetPairDetailsDialogComponent } from './instruments/asset-pair-detail
 		AssetPairListComponent,
 		AssetPairEditDialogComponent,
 		AssetDetailsDialogComponent,
-		AssetPairDetailsDialogComponent
+		AssetPairDetailsDialogComponent,
+		WorkingOnItComponent
 	],
 	imports: [
 		CommonModule,

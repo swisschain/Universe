@@ -49,7 +49,7 @@
 			</div>
 			<!--begin::Action-->
 			<div class="kt-login__actions">
-				<a href="javascript:;" routerLink="/auth/forgot-password" class="kt-link kt-login__link-forgot">
+				<a href="javascript:;" routerLink="/auth/forgot-password" class="kt-link kt-login__link-forgot"  style="display: none;">
 					{{ 'AUTH.GENERAL.FORGOT_BUTTON' | translate }}
 				</a>
 				<button (click)="submit()" [ngClass]="{'kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light': loading}" id="kt_login_signin_submit" class="btn btn-primary btn-elevate kt-login__btn-primary">{{ 'AUTH.LOGIN.BUTTON' | translate }}</button>
@@ -59,7 +59,7 @@
 		<!--end::Form-->
 
 		<!--begin::Divider-->
-		<div class="kt-login__divider">
+		<div class="kt-login__divider" style="display: none;">
 			<div class="kt-divider">
 				<span></span>
 				<span>OR</span>
@@ -69,7 +69,7 @@
 		<!--end::Divider-->
 
 		<!--begin::Options-->
-		<div class="kt-login__options">
+		<div class="kt-login__options" style="display: none;">
 			<a href="javascript:;" class="btn btn-primary kt-btn">
 				<i class="fab fa-facebook-f"></i>
 				Facebook

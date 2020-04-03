@@ -46,7 +46,7 @@ const routes: Routes = [
 			},
 			{ path: 'error/:type', component: ErrorPageComponent },
 			{ path: '', redirectTo: 'home', pathMatch: 'full' },
-			{ path: '**', redirectTo: 'home', pathMatch: 'full' },
+			{ path: '**', redirectTo: 'home/comming-soon', pathMatch: 'full' },
 		],
 	},
 	{ path: '**', redirectTo: 'error/403', pathMatch: 'full' },

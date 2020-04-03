@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router'
 
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { InstrumentsComponent } from './instruments/instruments/instruments.component';
+import { WorkingOnItComponent } from './shared/working-on-it/working-on-it.component';
 
 const routes: Routes = [
     {
@@ -17,7 +18,12 @@ const routes: Routes = [
         path: '',
         redirectTo: 'dashboard',
         pathMatch: 'full'
-    }
+    },
+    {
+        path: 'comming-soon',
+        component: WorkingOnItComponent
+    },
+    { path: '**', redirectTo: 'comming-soon', pathMatch: 'full' },
 ];
 
 @NgModule({

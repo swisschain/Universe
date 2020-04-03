@@ -54,6 +54,7 @@ import { AssetsListComponent } from './shared/assets-list/assets-list.component'
 import { AssetRequisitesDialogComponent } from './shared/asset-requisites/asset-requisites.dialog.component';
 import { BrokerAccountDetailsComponent } from './brokerage/broker-account-details/broker-account-details.component';
 import { BrokerAccountRequisitesComponent } from './brokerage/broker-account-requisites/broker-account-requisites.component';
+import { WorkingOnItComponent } from './shared/working-on-it/working-on-it.component';
 
 @NgModule({
 	declarations: [
@@ -67,7 +68,8 @@ import { BrokerAccountRequisitesComponent } from './brokerage/broker-account-req
 		AssetsListComponent,
 		AssetRequisitesDialogComponent,
 		BrokerAccountDetailsComponent,
-		BrokerAccountRequisitesComponent
+		BrokerAccountRequisitesComponent,
+		WorkingOnItComponent
 	],
 	imports: [
 		CommonModule,

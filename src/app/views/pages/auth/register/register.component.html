@@ -113,7 +113,7 @@
 
 			<!--begin::Action-->
 			<div class="kt-login__actions">
-				<a href="javascript:;" routerLink="/auth/forgot-password" class="kt-link kt-login__link-forgot">
+				<a href="javascript:;" routerLink="/auth/forgot-password" class="kt-link kt-login__link-forgot"  style="display: none;">
 					{{ 'AUTH.GENERAL.FORGOT_BUTTON' | translate }}
 				</a>
 				<button routerLink="/auth/login" [disabled]="loading" id="kt_login_signup_cancel" class="btn btn-secondary btn-elevate kt-login__btn-secondary">{{ 'AUTH.GENERAL.BACK_BUTTON' | translate }}</button>

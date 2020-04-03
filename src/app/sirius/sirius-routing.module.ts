@@ -6,6 +6,7 @@ import { AccountListComponent } from './brokerage/account-list/account-list.comp
 import { AccountDetailsComponent } from './brokerage/account-details/account-details.component';
 import { BrokerAccountListComponent } from './brokerage/broker-account-list/broker-account-list.component';
 import { BrokerAccountDetailsComponent } from './brokerage/broker-account-details/broker-account-details.component';
+import { WorkingOnItComponent } from './shared/working-on-it/working-on-it.component';
 
 const routes: Routes = [
     {
@@ -33,7 +34,11 @@ const routes: Routes = [
         redirectTo: 'dashboard',
         pathMatch: 'full'
     },
-    { path: '**', redirectTo: 'dashboard', pathMatch: 'full' },
+    {
+        path: 'comming-soon',
+        component: WorkingOnItComponent
+    },
+    { path: '**', redirectTo: 'comming-soon', pathMatch: 'full' },
 ];
 
 @NgModule({
