@@ -1,0 +1,99 @@
+<kt-portlet>
+    <kt-portlet-header [class]="'kt-portlet__head--lg'" [viewLoading$]="dataSource.loading$">
+        <ng-container ktPortletTitle>
+            <h3 class="kt-portlet__head-title">
+                <span>Accounts</span>
+            </h3>
+        </ng-container>
+
+        <ng-container ktPortletTools>
+            <button (click)="load()" mat-raised-button matTooltip="Refresh" type="button">
+                <span>Refresh</span>
+            </button>&nbsp;
+            <button (click)="add()" mat-raised-button matTooltip="Create account" color="primary" type="button">
+                <span>Create</span>
+            </button>
+        </ng-container>
+    </kt-portlet-header>
+
+    <kt-portlet-body>
+        <div class="kt-form kt-margin-b-30">
+            <div class="kt-form__filtration">
+                <div class="row align-items-center">
+                    <div class="col-md-3 kt-margin-bottom-10-mobile">
+                        <div class="kt-form__control">
+                            <mat-form-field class="mat-form-field-fluid">
+                                <mat-select [(value)]="brokerAccountId" (selectionChange)="load()">
+                                    <mat-option value="">All</mat-option>
+                                    <mat-option *ngFor="let brokerAccount of brokerAccounts" [value]="brokerAccount.brokerAccountId">
+                                        {{brokerAccount.name}}</mat-option>
+                                </mat-select>
+                                <mat-hint align="start">
+                                    <strong>Filter</strong> by broker account
+                                </mat-hint>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-md-3 kt-margin-bottom-10-mobile">
+                        <mat-form-field class="mat-form-field-fluid">
+                            <input matInput placeholder="Reference Id" #searchInput>
+                            <mat-hint align="start">
+                                <strong>Search</strong> by reference id
+                            </mat-hint>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mat-table__wrapper">
+            <mat-table class="lmat-elevation-z8" #table [dataSource]="dataSource">
+                <ng-container matColumnDef="accountId">
+                    <mat-header-cell *matHeaderCellDef>Id</mat-header-cell>
+                    <mat-cell *matCellDef="let account">{{account.accountId}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="referenceId">
+                    <mat-header-cell *matHeaderCellDef>Reference Id</mat-header-cell>
+                    <mat-cell *matCellDef="let account">{{account.referenceId}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="brokerAccountId">
+                    <mat-header-cell *matHeaderCellDef>Broker Account</mat-header-cell>
+                    <mat-cell *matCellDef="let account">{{getBrokerName(account.brokerAccountId)}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="state">
+                    <mat-header-cell *matHeaderCellDef>State</mat-header-cell>
+                    <mat-cell *matCellDef="let account">{{account.state}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="created">
+                    <mat-header-cell *matHeaderCellDef>Created</mat-header-cell>
+                    <mat-cell *matCellDef="let account">{{account.creationDateTime | date:'short'}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="activated">
+                    <mat-header-cell *matHeaderCellDef>Activated</mat-header-cell>
+                    <mat-cell *matCellDef="let account">{{account.activationDateTime | date:'short'}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="actions">
+                    <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+                    <mat-cell *matCellDef="let account">
+                        <button mat-icon-button color="primary" matTooltip="Details" type="button" [routerLink]="['./',account.accountId]">
+                            <mat-icon>more_horiz</mat-icon>
+                        </button>&nbsp;
+                    </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+                <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+            </mat-table>
+            <!-- Message for empty data  -->
+            <div class="mat-table__message" *ngIf="!dataSource.hasItems">No records found</div>
+            <div class="mat-table__message" *ngIf="dataSource.isPreloadTextViewed$ | async">Please wait....</div>
+        </div>
+    </kt-portlet-body>
+</kt-portlet>

@@ -61,7 +61,6 @@ import * as scss from 'highlight.js/lib/languages/scss';
 import * as xml from 'highlight.js/lib/languages/xml';
 import * as json from 'highlight.js/lib/languages/json';
 
-import { TenantHeaderInterceptor } from './core/interceptors/tenant-header-interceptor';
 import { ApiUrlInterceptor } from './core/interceptors/api-url-interceptor';
 import { AuthHeaderInterceptor } from './core/interceptors/auth-header-interceptor';
 
@@ -156,7 +155,6 @@ export function hljsLanguages(): HighlightLanguage[] {
 
 		ApiUrlInterceptor,
 		AuthHeaderInterceptor,
-		TenantHeaderInterceptor,
 		{ provide: HTTP_INTERCEPTORS, useClass: ApiUrlInterceptor, multi: true },
 		{ provide: HTTP_INTERCEPTORS, useClass: AuthHeaderInterceptor, multi: true }
 	],

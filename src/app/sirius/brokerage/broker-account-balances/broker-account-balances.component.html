@@ -1,0 +1,67 @@
+<div class="kt-form kt-margin-b-30">
+    <div class="kt-form__filtration">
+        <div class="row align-items-right">
+            <div class="col-md-2 kt-margin-bottom-10-mobile">
+                <button (click)="load()" mat-raised-button matTooltip="Refresh" color="primary" type="button">
+                    <span>Refresh</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mat-table__wrapper">
+    <mat-table class="lmat-elevation-z8" #table [dataSource]="dataSource">
+        <ng-container matColumnDef="assetId">
+            <mat-header-cell *matHeaderCellDef>Asset</mat-header-cell>
+            <mat-cell *matCellDef="let item">{{getAssetName(item.assetId)}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="ownedBalance">
+            <mat-header-cell *matHeaderCellDef>Owned Balance</mat-header-cell>
+            <mat-cell *matCellDef="let item">{{item.ownedBalance | number:'1.1-8'}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="availableBalance">
+            <mat-header-cell *matHeaderCellDef>Available Balance</mat-header-cell>
+            <mat-cell *matCellDef="let item">{{item.availableBalance | number:'1.1-8'}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="pendingBalance">
+            <mat-header-cell *matHeaderCellDef>Pending Balance</mat-header-cell>
+            <mat-cell *matCellDef="let item">{{item.pendingBalance | number:'1.1-8'}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="reservedBalance">
+            <mat-header-cell *matHeaderCellDef>Reserved Balance</mat-header-cell>
+            <mat-cell *matCellDef="let item">{{item.reservedBalance | number:'1.1-8'}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="ownedBalanceUpdateDateTime">
+            <mat-header-cell *matHeaderCellDef>Owned Balance Updated</mat-header-cell>
+            <mat-cell *matCellDef="let item">{{item.ownedBalanceUpdateDateTime | date:'short'}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="availableBalanceUpdateDateTime">
+            <mat-header-cell *matHeaderCellDef>Available Balance Updated</mat-header-cell>
+            <mat-cell *matCellDef="let item">{{item.availableBalanceUpdateDateTime | date:'short'}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="pendingBalanceUpdateDateTime">
+            <mat-header-cell *matHeaderCellDef>Pending Balance Updated</mat-header-cell>
+            <mat-cell *matCellDef="let item">{{item.pendingBalanceUpdateDateTime | date:'short'}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="reservedBalanceUpdateDateTime">
+            <mat-header-cell *matHeaderCellDef>Reserved Balance Updated</mat-header-cell>
+            <mat-cell *matCellDef="let item">{{item.reservedBalanceUpdateDateTime | date:'short'}}</mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+    </mat-table>
+    <!-- Message for empty data  -->
+    <div class="mat-table__message" *ngIf="!dataSource.hasItems">No records found</div>
+    <div class="mat-table__message" *ngIf="dataSource.isPreloadTextViewed$ | async">Please wait....</div>
+</div>

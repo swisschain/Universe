@@ -1,0 +1,71 @@
+<div class="kt-portlet" [ngClass]="{ 'kt-portlet--body-progress kt-portlet--body-progress-overlay' : viewLoading }">
+    <div class="kt-portlet__head kt-portlet__head__custom">
+        <div class="kt-portlet__head-label">
+            <h3 class="kt-portlet__head-title">Asset Pair</h3>
+        </div>
+    </div>
+    <div class="kt-form">
+        <div class="kt-portlet__body">
+            <div class="kt-form__section kt-form__section--first">
+                <div class="kt-form__heading">
+                    <h3 class="kt-form__heading-title">Info:</h3>
+                </div>
+                <div class="form-group kt-form__group row">
+                    <label class="col-lg-2 col-form-label">Id:</label>
+                    <label class="col-lg-6 col-form-label">{{assetPair.id}}</label>
+                </div>
+                <div class="form-group kt-form__group row">
+                    <label class="col-lg-2 col-form-label">Name:</label>
+                    <label class="col-lg-2 col-form-label">{{assetPair.name}}</label>
+                    <label class="col-lg-2 col-form-label">Status:</label>
+                    <label class="col-lg-2 col-form-label"
+                        [ngStyle]="{'color': assetPair.isDisabled === false ? 'red' : 'green'}">{{assetPair.isDisabled ? 'active' : 'disable'}}</label>
+                </div>
+                <div class="form-group kt-form__group row">
+                    <label class="col-lg-2 col-form-label">Base Asset Id:</label>
+                    <label class="col-lg-2 col-form-label">{{assetPair.baseAssetId}}</label>
+                    <label class="col-lg-3 col-form-label">Quoting Asset Id:</label>
+                    <label class="col-lg-2 col-form-label">{{assetPair.quotingAssetId}}</label>
+                </div>
+                <div class="kt-form__heading">
+                    <h3 class="kt-form__heading-title">Properties:</h3>
+                </div>
+                <div class="form-group kt-form__group row">
+                    <label class="col-lg-2 col-form-label">Accuracy:</label>
+                    <label class="col-lg-4 col-form-label">{{assetPair.accuracy}}</label>
+                </div>
+                <div class="form-group kt-form__group row">
+                    <label class="col-lg-2 col-form-label">Min Volume:</label>
+                    <label class="col-lg-2 col-form-label">{{assetPair.minVolume | number:'1.1-8'}}</label>
+                    <label class="col-lg-2 col-form-label">Max Volume:</label>
+                    <label class="col-lg-2 col-form-label">{{assetPair.maxVolume | number:'1.1-8'}}</label>
+                </div>
+                <div class="form-group kt-form__group row">
+                    <label class="col-lg-4 col-form-label">Max Opposite Volume:</label>
+                    <label class="col-lg-2 col-form-label">{{assetPair.maxOppositeVolume | number:'1.1-8'}}</label>
+                    <label class="col-lg-4 col-form-label">Market Order Price Threshold:</label>
+                    <label
+                        class="col-lg-2 col-form-label">{{assetPair.marketOrderPriceThreshold | number:'1.1-8'}}</label>
+                </div>
+                <div class="form-group kt-form__group row">
+                    <label class="col-lg-2 col-form-label">Created:</label>
+                    <label class="col-lg-4 col-form-label">{{assetPair.created | date:'short'}}</label>
+                    <label class="col-lg-2 col-form-label">Modified:</label>
+                    <label class="col-lg-4 col-form-label">{{assetPair.modified | date:'short'}}</label>
+                </div>
+            </div>
+        </div>
+        <div class="kt-portlet__foot kt-portlet__no-border kt-portlet__foot--fit">
+            <div class="kt-form__actions kt-form__actions--solid">
+                <div class="row text-right">
+                    <div class="col-lg-12">
+                        <button type="button" mat-raised-button [mat-dialog-close]="data.animal" cdkFocusInitial
+                            matTooltip="Cancel">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,37 @@
+<kt-portlet>
+    <kt-portlet-header [class]="'kt-portlet__head--lg'">
+        <ng-container ktPortletTitle>
+            <h3 class="kt-portlet__head-title">
+                <span>Broker Account Details</span>
+            </h3>
+        </ng-container>
+    </kt-portlet-header>
+
+    <kt-portlet-body>
+        <div class="form-group kt-form__group row">
+            <label class="col-lg-3 col-form-label">Id: <strong>{{brokerAccount?.brokerAccountId}}</strong></label>
+            <label class="col-lg-4 col-form-label">Name: <strong>{{brokerAccount?.name}}</strong></label>
+        </div>
+        <div class="form-group kt-form__group row">
+            <label class="col-lg-3 col-form-label">Blockchains: <strong>0</strong></label>
+            <label class="col-lg-4 col-form-label">Accounts: <strong>0</strong></label>
+        </div>
+        <mat-tab-group>
+            <mat-tab label="Balances">
+                <ng-template matTabContent>
+                    <kt-broker-account-balances></kt-broker-account-balances>
+                </ng-template>
+            </mat-tab>
+            <mat-tab label="Movements">
+                <ng-template matTabContent>
+                    Movements
+                </ng-template>
+            </mat-tab>
+            <mat-tab label="Requisites">
+                <ng-template matTabContent>
+                    <kt-broker-account-requisites></kt-broker-account-requisites>
+                </ng-template>
+            </mat-tab>
+        </mat-tab-group>
+    </kt-portlet-body>
+</kt-portlet>

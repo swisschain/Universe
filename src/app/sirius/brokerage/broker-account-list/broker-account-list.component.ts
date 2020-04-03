@@ -44,7 +44,7 @@ export class BrokerAccountListComponent implements OnInit, OnDestroy {
     const saveMessage = 'Brocker account added';
     
 		const messageType = MessageType.Create;
-		const dialogRef = this.dialog.open(BrokerAccountEditDialogComponent, { data: { } });
+		const dialogRef = this.dialog.open(BrokerAccountEditDialogComponent, { data: { }, width: '400px' });
     
     dialogRef.afterClosed().subscribe(res => {
 			if (!res) {

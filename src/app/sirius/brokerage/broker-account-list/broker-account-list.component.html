@@ -7,8 +7,11 @@
         </ng-container>
 
         <ng-container ktPortletTools>
+            <button (click)="load()" mat-raised-button matTooltip="Refresh" type="button">
+                <span>Refresh</span>
+            </button>&nbsp;
             <button (click)="add()" mat-raised-button matTooltip="Create broker account" color="primary" type="button">
-                <span>Add Account</span>
+                <span>Create</span>
             </button>
         </ng-container>
     </kt-portlet-header>
@@ -55,7 +58,7 @@
                 <ng-container matColumnDef="actions">
                     <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
                     <mat-cell *matCellDef="let account">
-                        <button mat-icon-button color="primary" matTooltip="Details" type="button">
+                        <button mat-icon-button color="primary" matTooltip="Details" type="button"  [routerLink]="['./',account.brokerAccountId]">
                             <mat-icon>more_horiz</mat-icon>
                         </button>&nbsp;
                     </mat-cell>

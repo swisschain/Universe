@@ -1,0 +1,24 @@
+<kt-portlet>
+    <kt-portlet-header [class]="'kt-portlet__head--lg'">
+        <ng-container ktPortletTitle>
+            <h3 class="kt-portlet__head-title">
+                <span>Instruments</span>
+            </h3>
+        </ng-container>
+    </kt-portlet-header>
+
+    <kt-portlet-body>
+        <mat-tab-group>
+            <mat-tab label="Assets">
+                <ng-template matTabContent>
+                    <kt-asset-list></kt-asset-list>
+                </ng-template>
+            </mat-tab>
+            <mat-tab label="Asset Pairs">
+                <ng-template matTabContent>
+                    <kt-asset-pair-list></kt-asset-pair-list>
+                </ng-template>
+            </mat-tab>
+        </mat-tab-group>
+    </kt-portlet-body>
+</kt-portlet>

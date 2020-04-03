@@ -14,7 +14,7 @@ import { BrokerAccountService } from '../../api/broker-account.service';
 })
 export class BrokerAccountEditDialogComponent implements OnInit, OnDestroy {
 
-  private componentSubscriptions: Subscription;
+  private subscriptions: Subscription;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -33,8 +33,8 @@ export class BrokerAccountEditDialogComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.componentSubscriptions) {
-      this.componentSubscriptions.unsubscribe();
+    if (this.subscriptions) {
+      this.subscriptions.unsubscribe();
     }
   }
 
