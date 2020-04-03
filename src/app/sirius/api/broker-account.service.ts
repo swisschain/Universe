@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 
 import { BrokerAccount } from './models/brocker-account/broker-account.interface';
-import { BrokerBalance } from './models/broker-balances/broker-balance.interface';
+import { BrokerBalance } from './models/brocker-account/broker-balance.interface';
 import { BrokerAccountRequisite } from './models/brocker-account/broker-account-requisite.interface';
 import { PagedResponse } from './models/pagination/paged-response.interface';
 
