@@ -28,7 +28,7 @@ export class AssetsListComponent implements OnInit, OnDestroy {
   private searchValue = '';
 
   dataSource: AssetsDataSource;
-  displayedColumns = ['id', 'symbol', 'blockchainName', 'address', 'accuracy', 'actions'];
+  displayedColumns = ['assetId', 'symbol', 'blockchainName', 'address', 'accuracy', 'actions'];
 
   blockchainId: string = '';
   blockchains: Blockchain[];

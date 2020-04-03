@@ -1,12 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
+
 import { BrokerAccount } from './models/brocker-account/broker-account.interface';
+import { BrokerBalance } from './models/broker-balances/broker-balance.interface';
 import { BrokerAccountRequisite } from './models/brocker-account/broker-account-requisite.interface';
 import { PagedResponse } from './models/pagination/paged-response.interface';
 
 import { v4 as uuidv4 } from 'uuid';
 import { of } from 'rxjs';
 import { map } from 'rxjs/operators';
+
 
 const API_URL = 'sirius/api/broker-accounts';
 
@@ -32,6 +35,10 @@ export class BrokerAccountService {
 
     getRequisites(brokerAccountId: number, assetId: number) {
         return this.http.get<BrokerAccountRequisite>(`${API_URL}/${brokerAccountId}/requisites/by-asset-id/${assetId}`);
+    }
+
+    getBalances(brokerAccountId: number) {
+        return this.http.get<PagedResponse<BrokerBalance>>(`${API_URL}/${brokerAccountId}/balances`);
     }
 
     create(name: string) {

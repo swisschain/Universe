@@ -10,6 +10,10 @@ const API_URL = 'sirius/api/assets';
 export class AssetsService {
     constructor(private http: HttpClient) { }
 
+    getAll() {
+        return this.http.get<PagedResponse<Asset>>(`${API_URL}`);
+    }
+
     get(symbol: string, blockchainId: string) {
         const params = new HttpParams()
             .set('symbol', symbol)
