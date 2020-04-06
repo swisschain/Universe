@@ -31,7 +31,7 @@ export class BrokerAccountBalancesComponent implements OnInit, OnDestroy {
   private assets: Asset[];
 
   dataSource: BrokerAccountBalancesDataSource;
-  displayedColumns = ['assetId', 'ownedBalance', 'availableBalance', 'pendingBalance', 'reservedBalance', 'ownedBalanceUpdateDateTime', 'availableBalanceUpdateDateTime', 'pendingBalanceUpdateDateTime', 'reservedBalanceUpdateDateTime'];
+  displayedColumns = ['assetId', 'pendingBalance', 'ownedBalance', 'availableBalance', 'reservedBalance', 'pendingBalanceUpdateDateTime', 'ownedBalanceUpdateDateTime', 'availableBalanceUpdateDateTime', 'reservedBalanceUpdateDateTime'];
 
   ngOnInit() {
     this.dataSource = new BrokerAccountBalancesDataSource(this.brokerAccountService);

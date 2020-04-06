@@ -20,14 +20,14 @@
         <div class="mat-table__wrapper">
             <mat-table class="lmat-elevation-z8" #table [dataSource]="dataSource">
 
+                <ng-container matColumnDef="brokerAccountId">
+                    <mat-header-cell *matHeaderCellDef>Id</mat-header-cell>
+                    <mat-cell *matCellDef="let account">{{account.brokerAccountId}}</mat-cell>
+                </ng-container>
+
                 <ng-container matColumnDef="name">
                     <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
                     <mat-cell *matCellDef="let account">{{account.name}}</mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="id">
-                    <mat-header-cell *matHeaderCellDef>Id</mat-header-cell>
-                    <mat-cell *matCellDef="let account">{{account.brokerAccountId}}</mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="blockchains">

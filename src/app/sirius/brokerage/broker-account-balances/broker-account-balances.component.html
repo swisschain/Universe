@@ -17,6 +17,11 @@
             <mat-cell *matCellDef="let item">{{getAssetName(item.assetId)}}</mat-cell>
         </ng-container>
 
+        <ng-container matColumnDef="pendingBalance">
+            <mat-header-cell *matHeaderCellDef>Pending Balance</mat-header-cell>
+            <mat-cell *matCellDef="let item">{{item.pendingBalance | number:'1.1-8'}}</mat-cell>
+        </ng-container>
+
         <ng-container matColumnDef="ownedBalance">
             <mat-header-cell *matHeaderCellDef>Owned Balance</mat-header-cell>
             <mat-cell *matCellDef="let item">{{item.ownedBalance | number:'1.1-8'}}</mat-cell>
@@ -27,14 +32,14 @@
             <mat-cell *matCellDef="let item">{{item.availableBalance | number:'1.1-8'}}</mat-cell>
         </ng-container>
 
-        <ng-container matColumnDef="pendingBalance">
-            <mat-header-cell *matHeaderCellDef>Pending Balance</mat-header-cell>
-            <mat-cell *matCellDef="let item">{{item.pendingBalance | number:'1.1-8'}}</mat-cell>
-        </ng-container>
-
         <ng-container matColumnDef="reservedBalance">
             <mat-header-cell *matHeaderCellDef>Reserved Balance</mat-header-cell>
             <mat-cell *matCellDef="let item">{{item.reservedBalance | number:'1.1-8'}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="pendingBalanceUpdateDateTime">
+            <mat-header-cell *matHeaderCellDef>Pending Balance Updated</mat-header-cell>
+            <mat-cell *matCellDef="let item">{{item.pendingBalanceUpdateDateTime | date:'short'}}</mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="ownedBalanceUpdateDateTime">
@@ -45,11 +50,6 @@
         <ng-container matColumnDef="availableBalanceUpdateDateTime">
             <mat-header-cell *matHeaderCellDef>Available Balance Updated</mat-header-cell>
             <mat-cell *matCellDef="let item">{{item.availableBalanceUpdateDateTime | date:'short'}}</mat-cell>
-        </ng-container>
-
-        <ng-container matColumnDef="pendingBalanceUpdateDateTime">
-            <mat-header-cell *matHeaderCellDef>Pending Balance Updated</mat-header-cell>
-            <mat-cell *matCellDef="let item">{{item.pendingBalanceUpdateDateTime | date:'short'}}</mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="reservedBalanceUpdateDateTime">

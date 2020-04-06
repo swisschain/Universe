@@ -50,7 +50,7 @@ export class AccountEditDialogComponent implements OnInit, OnDestroy {
   createForm() {
     this.form = this.fb.group({
       brokerAccountId: [null, Validators.required],
-      referenceId: ['', Validators.compose([Validators.required, Validators.maxLength(50)])]
+      referenceId: ['', Validators.maxLength(50)]
     });
   }
 

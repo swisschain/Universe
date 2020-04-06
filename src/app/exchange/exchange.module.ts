@@ -46,10 +46,18 @@ import { AssetEditDialogComponent } from './instruments/asset-edit/asset-edit.di
 import { AssetPairListComponent } from './instruments/asset-pair-list/asset-pair-list.component';
 import { AssetPairEditDialogComponent } from './instruments/asset-pair-edit/asset-pair-edit.dialog.component';
 
-import { AssetPairsService } from './api/asset-pairs.service';
 import { AssetDetailsDialogComponent } from './instruments/asset-details/asset-details.dialog.component';
 import { AssetPairDetailsDialogComponent } from './instruments/asset-pair-details/asset-pair-details.dialog.component';
+import { LimitOrderEditDialogComponent } from './trading/limit-order-edit/limit-order-edit.dialog.component';
+import { OrderBookListComponent } from './trading/order-book-list/order-book-list.component';
+import { OrderBookDetailsComponent } from './trading/order-book-details/order-book-details.component';
+
 import { WorkingOnItComponent } from './shared/working-on-it/working-on-it.component';
+
+import { AssetPairsService } from './api/asset-pairs.service';
+import { OrderBooksService } from './api/order-books.service';
+import { LimitOrdersService } from './api/limit-orders.service';
+
 
 @NgModule({
 	declarations: [
@@ -61,7 +69,10 @@ import { WorkingOnItComponent } from './shared/working-on-it/working-on-it.compo
 		AssetPairEditDialogComponent,
 		AssetDetailsDialogComponent,
 		AssetPairDetailsDialogComponent,
-		WorkingOnItComponent
+		WorkingOnItComponent,
+		OrderBookListComponent,
+		OrderBookDetailsComponent,
+		LimitOrderEditDialogComponent
 	],
 	imports: [
 		CommonModule,
@@ -114,7 +125,9 @@ import { WorkingOnItComponent } from './shared/working-on-it/working-on-it.compo
 		{ provide: HTTP_INTERCEPTORS, useClass: AuthHeaderInterceptor, multi: true },
 
 		AssetsService,
-		AssetPairsService
+		AssetPairsService,
+		OrderBooksService,
+		LimitOrdersService
 	],
 	entryComponents: [
 		ActionNotificationComponent,
@@ -125,7 +138,8 @@ import { WorkingOnItComponent } from './shared/working-on-it/working-on-it.compo
 		AssetEditDialogComponent,
 		AssetDetailsDialogComponent,
 		AssetPairEditDialogComponent,
-		AssetPairDetailsDialogComponent
+		AssetPairDetailsDialogComponent,
+		LimitOrderEditDialogComponent
 	]
 })
 export class ExchangeModule { }

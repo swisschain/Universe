@@ -25,7 +25,7 @@ export class BrokerAccountListComponent implements OnInit, OnDestroy {
     private brokerAccountService: BrokerAccountService) { }
 
   dataSource: BrokerAccountsDataSource;
-  displayedColumns = ['name', 'id', 'blockchains', 'accounts', 'state', 'created', 'activated', 'actions'];
+  displayedColumns = ['brokerAccountId', 'name', 'blockchains', 'accounts', 'state', 'created', 'activated', 'actions'];
 
   ngOnInit() {
     this.dataSource = new BrokerAccountsDataSource(this.brokerAccountService);
