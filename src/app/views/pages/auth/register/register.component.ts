@@ -5,7 +5,7 @@ import { finalize, takeUntil, tap } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../../core/reducers';
-import { AuthNoticeService, AuthService, Register, User } from '../../../../core/auth/';
+import { AuthNoticeService, AuthService, Register, User, Login } from '../../../../core/auth/';
 import { Subject } from 'rxjs';
 import { ConfirmPasswordValidator } from './confirm-password.validator';
 
@@ -108,9 +108,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
 		this.auth.register(name, company, email, login, password).pipe(
 			tap(result => {
 				if (result.token) {
-					this.store.dispatch(new Register({ authToken: result.token }));
-					this.authNoticeService.setNotice(this.translate.instant('AUTH.REGISTER.SUCCESS'), 'success');
-					this.router.navigateByUrl('/auth/login');
+					this.store.dispatch(new Login({authToken: result.token}));
+					this.router.navigateByUrl('/home');
 				} else {
 					this.authNoticeService.setNotice(result.error, 'danger');
 				}

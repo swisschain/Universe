@@ -55,21 +55,21 @@ export class MenuConfig {
 					{
 						title: 'Invoices',
 						root: true,
-						icon: 'flaticon2-layers-1',
+						icon: 'flaticon2-rocket',
 						page: '/billing/invoices',
 						bullet: 'dot'
 					},
 					{
 						title: 'Cost Analisys',
 						root: true,
-						icon: 'flaticon2-layers-1',
+						icon: 'flaticon2-rocket',
 						page: '/billing/report',
 						bullet: 'dot'
 					},
 					{
-						title: 'Peyment Method',
+						title: 'Payment Method',
 						root: true,
-						icon: 'flaticon2-layers-1',
+						icon: 'flaticon2-rocket',
 						page: '/billing/payment',
 						bullet: 'dot'
 					},
@@ -77,42 +77,42 @@ export class MenuConfig {
 					{
 						title: 'Sirius',
 						root: true,
-						icon: 'flaticon2-layers-2',
+						icon: 'flaticon-star',
 						page: '/services/sirius',
 						bullet: 'dot'
 					},
 					{
 						title: 'Exchange',
 						root: true,
-						icon: 'flaticon2-layers-1',
+						icon: 'flaticon2-line-chart',
 						page: '/services/exchange',
 						bullet: 'dot'
 					},
 					{
 						title: 'OMS',
 						root: true,
-						icon: 'flaticon2-layers-1',
+						icon: 'flaticon2-rocket',
 						page: '/services/oms',
 						bullet: 'dot'
 					},
 					{
 						title: 'KYC',
 						root: true,
-						icon: 'flaticon2-layers-1',
+						icon: 'flaticon2-rocket',
 						page: '/services/kyc',
 						bullet: 'dot'
 					},
 					{
 						title: 'Token Issue',
 						root: true,
-						icon: 'flaticon2-layers-1',
+						icon: 'flaticon2-rocket',
 						page: '/services/tokens',
 						bullet: 'dot'
 					},
 					{
 						title: 'Bridge',
 						root: true,
-						icon: 'flaticon2-layers-1',
+						icon: 'flaticon2-rocket',
 						page: '/services/bridge',
 						bullet: 'dot'
 					}
@@ -139,7 +139,7 @@ export class MenuConfig {
 					{
 						title: 'API Keys',
 						root: true,
-						icon: 'flaticon2-layers-2',
+						icon: 'flaticon2-rocket',
 						page: '/services/exchange/management/api-keys',
 						bullet: 'dot'
 					},
@@ -147,7 +147,7 @@ export class MenuConfig {
 					{
 						title: 'Overview',
 						root: true,
-						icon: 'flaticon2-layers-2',
+						icon: 'flaticon2-rocket',
 						page: '/services/exchange/accounts/overview',
 						bullet: 'dot'
 					},
@@ -155,7 +155,7 @@ export class MenuConfig {
 					{
 						title: 'Order Books',
 						root: true,
-						icon: 'flaticon2-layers-2',
+						icon: 'flaticon2-rocket',
 						page: '/services/exchange/trading/order-books',
 						bullet: 'dot'
 					},
@@ -163,14 +163,14 @@ export class MenuConfig {
 					{
 						title: 'Money Flow',
 						root: true,
-						icon: 'flaticon2-layers-2',
+						icon: 'flaticon2-rocket',
 						page: '/services/exchange/reports/cash-operations',
 						bullet: 'dot'
 					},
 					{
 						title: 'Trades',
 						root: true,
-						icon: 'flaticon2-layers-2',
+						icon: 'flaticon2-rocket',
 						page: '/services/exchange/reports/trades',
 						bullet: 'dot'
 					},
@@ -178,14 +178,14 @@ export class MenuConfig {
 					{
 						title: 'Overview',
 						root: true,
-						icon: 'flaticon2-layers-2',
+						icon: 'flaticon2-rocket',
 						page: '/services/exchange/sirius/overview',
 						bullet: 'dot'
 					},
 					{
 						title: 'Connections',
 						root: true,
-						icon: 'flaticon2-layers-2',
+						icon: 'flaticon2-rocket',
 						page: '/services/exchange/sirius/connections',
 						bullet: 'dot'
 					},
@@ -193,7 +193,7 @@ export class MenuConfig {
 					{
 						title: 'OMS',
 						root: true,
-						icon: 'flaticon2-layers-2',
+						icon: 'flaticon2-rocket',
 						bullet: 'dot',
 						submenu: [
 							{
@@ -209,7 +209,7 @@ export class MenuConfig {
 					{
 						title: 'SwissChain',
 						root: true,
-						icon: 'flaticon2-layers-2',
+						icon: 'flaticon2-rocket',
 						bullet: 'dot',
 						submenu: [
 							{
@@ -226,7 +226,7 @@ export class MenuConfig {
 					{
 						title: 'API Calls',
 						root: true,
-						icon: 'flaticon2-layers-2',
+						icon: 'flaticon2-rocket',
 						page: '/services/exchange/debugging/api-calls',
 						bullet: 'dot'
 					}
@@ -246,35 +246,35 @@ export class MenuConfig {
 					{
 						title: 'Overview',
 						root: true,
-						icon: 'flaticon2-layers-1',
+						icon: 'flaticon2-rocket',
 						page: '/services/sirius/brakerage/overview',
 						bullet: 'dot'
 					},
 					{
 						title: 'Broker Accounts',
 						root: true,
-						icon: 'flaticon2-layers-1',
+						icon: 'flaticon-users',
 						page: '/services/sirius/brakerage/broker-accounts',
 						bullet: 'dot'
 					},
 					{
 						title: 'Accounts',
 						root: true,
-						icon: 'flaticon2-layers-2',
+						icon: 'flaticon2-group',
 						page: '/services/sirius/brakerage/accounts',
 						bullet: 'dot'
 					},
 					{
 						title: 'Deposits',
 						root: true,
-						icon: 'flaticon2-layers-2',
+						icon: 'flaticon2-rocket',
 						page: '/services/sirius/brakerage/deposits',
 						bullet: 'dot'
 					},
 					{
 						title: 'Withdrawal',
 						root: true,
-						icon: 'flaticon2-layers-2',
+						icon: 'flaticon2-rocket',
 						page: '/services/sirius/brakerage/withdrawal',
 						bullet: 'dot'
 					},
@@ -282,21 +282,21 @@ export class MenuConfig {
 					{
 						title: 'Overview',
 						root: true,
-						icon: 'flaticon2-layers-2',
+						icon: 'flaticon2-rocket',
 						page: '/services/sirius/wallets/overview',
 						bullet: 'dot'
 					},
 					{
 						title: 'Management',
 						root: true,
-						icon: 'flaticon2-layers-2',
+						icon: 'flaticon2-rocket',
 						page: '/services/sirius/wallets/list',
 						bullet: 'dot'
 					},
 					{
 						title: 'API Keys',
 						root: true,
-						icon: 'flaticon2-layers-2',
+						icon: 'flaticon2-rocket',
 						page: '/services/sirius/wallets/api-keys',
 						bullet: 'dot'
 					},
@@ -304,21 +304,21 @@ export class MenuConfig {
 					{
 						title: 'Overview',
 						root: true,
-						icon: 'flaticon2-layers-2',
+						icon: 'flaticon2-rocket',
 						page: '/services/sirius/vault/overview',
 						bullet: 'dot'
 					},
 					{
 						title: 'Connections',
 						root: true,
-						icon: 'flaticon2-layers-2',
+						icon: 'flaticon2-rocket',
 						page: '/services/sirius/vault/connections',
 						bullet: 'dot'
 					},
 					{
 						title: 'API Keys',
 						root: true,
-						icon: 'flaticon2-layers-2',
+						icon: 'flaticon2-rocket',
 						page: '/services/sirius/vault/api-keys',
 						bullet: 'dot'
 					},
@@ -326,7 +326,7 @@ export class MenuConfig {
 					{
 						title: 'Blockchain list',
 						root: true,
-						icon: 'flaticon2-layers-2',
+						icon: 'flaticon2-rocket',
 						page: '/services/sirius/setup/blockchain-list',
 						bullet: 'dot'
 					},
@@ -334,21 +334,21 @@ export class MenuConfig {
 					{
 						title: 'Brokerage API Calls',
 						root: true,
-						icon: 'flaticon2-layers-2',
+						icon: 'flaticon2-rocket',
 						page: '/services/sirius/debugging/brokerage/api-calls',
 						bullet: 'dot'
 					},
 					{
 						title: 'Wallet API Calls',
 						root: true,
-						icon: 'flaticon2-layers-2',
+						icon: 'flaticon2-rocket',
 						page: '/services/sirius/debugging/wallets/api-calls',
 						bullet: 'dot'
 					},
 					{
 						title: 'Vault Call History',
 						root: true,
-						icon: 'flaticon2-layers-2',
+						icon: 'flaticon2-rocket',
 						page: '/services/sirius/debugging/vault/api-calls',
 						bullet: 'dot'
 					}
