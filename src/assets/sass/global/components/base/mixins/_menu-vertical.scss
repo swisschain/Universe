@@ -262,7 +262,7 @@
 
 		> .kt-menu__heading,
 		> .kt-menu__link {
-			@include kt-attr(background-color, kt-get($item, link, self, bg-color, active));
+			@include kt-attr(background-color, #10121c);//kt-get($item, link, self, bg-color, active));
 
 			// menu item link's text part
 			.kt-menu__link-text {
