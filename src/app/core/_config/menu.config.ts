@@ -155,7 +155,7 @@ export class MenuConfig {
 					{
 						title: 'Order Books',
 						root: true,
-						icon: 'flaticon2-rocket',
+						icon: 'flaticon2-graphic-1',
 						page: '/services/exchange/trading/order-books',
 						bullet: 'dot'
 					},

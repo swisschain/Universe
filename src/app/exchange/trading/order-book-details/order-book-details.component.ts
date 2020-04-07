@@ -29,7 +29,7 @@ export class OrderBookDetailsComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];
 
   dataSource: LimitOrdersDataSource;
-  displayedColumns = ['limitOrderId', 'price', 'volume', 'walletId', 'actions'];
+  displayedColumns = ['buyPrice', 'volume', 'sellPrice', 'walletId', 'limitOrderId', 'actions'];
 
   ngOnInit() {
     this.dataSource = new LimitOrdersDataSource(this.orderBooksService);
@@ -86,5 +86,10 @@ export class OrderBookDetailsComponent implements OnInit, OnDestroy {
             }
           );
       });
+  }
+
+  do(item: any)
+  {
+    console.log(item);
   }
 }

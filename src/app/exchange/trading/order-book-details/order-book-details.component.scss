@@ -2,10 +2,22 @@
     flex: 0 0 280px !important;
 }
 
-.mat-column-price {
+.mat-column-buyPrice {
+    flex: 0 0 150px !important;
+}
+
+.mat-column-sellPrice {
     flex: 0 0 150px !important;
 }
 
 .mat-column-volume {
     flex: 0 0 150px !important;
+}
+
+.mat-row-buy {
+    background-color: #d7fddf !important;
+}
+
+.mat-row-sell {
+    background-color: #fdd7d7 !important;
 }

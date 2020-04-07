@@ -20,16 +20,11 @@
         <div class="mat-table__wrapper">
             <mat-table class="lmat-elevation-z8" #table [dataSource]="dataSource">
 
-                <ng-container matColumnDef="limitOrderId">
-                    <mat-header-cell *matHeaderCellDef>Limit Order Id</mat-header-cell>
+                <ng-container matColumnDef="buyPrice">
+                    <mat-header-cell *matHeaderCellDef>Buy Price</mat-header-cell>
                     <mat-cell *matCellDef="let limitOrder">
-                        <span style="white-space: nowrap; font-size: small;">{{limitOrder.id}}</span>
+                        <span *ngIf="limitOrder.type === 'Buy'">{{limitOrder.price | number:'1.1-8'}}</span>
                     </mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="price">
-                    <mat-header-cell *matHeaderCellDef>Price</mat-header-cell>
-                    <mat-cell *matCellDef="let limitOrder" [ngStyle]="{'color': limitOrder.type === 'Sell' ? 'red' : 'green'}">{{limitOrder.price | number:'1.1-8'}}</mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="volume">
@@ -37,9 +32,23 @@
                     <mat-cell *matCellDef="let limitOrder">{{limitOrder.volume | number:'1.1-8'}}</mat-cell>
                 </ng-container>
 
+                <ng-container matColumnDef="sellPrice">
+                    <mat-header-cell *matHeaderCellDef>Sell Price</mat-header-cell>
+                    <mat-cell *matCellDef="let limitOrder">
+                        <span *ngIf="limitOrder.type === 'Sell'">{{limitOrder.price | number:'1.1-8'}}</span>
+                    </mat-cell>
+                </ng-container>
+
                 <ng-container matColumnDef="walletId">
                     <mat-header-cell *matHeaderCellDef>Wallet Id</mat-header-cell>
                     <mat-cell *matCellDef="let limitOrder">{{limitOrder.walletId}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="limitOrderId">
+                    <mat-header-cell *matHeaderCellDef>Limit Order Id</mat-header-cell>
+                    <mat-cell *matCellDef="let limitOrder">
+                        {{limitOrder.id}}
+                    </mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="actions">
@@ -54,7 +63,7 @@
 
                 <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
 
-                <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns" [ngClass]="{'mat-row-buy': row.type === 'Buy', 'mat-row-sell': row.type === 'Sell'}"></mat-row>
             </mat-table>
             <!-- Message for empty data  -->
             <div class="mat-table__message" *ngIf="!dataSource.hasItems">No records found</div>
