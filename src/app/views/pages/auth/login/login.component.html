@@ -19,8 +19,8 @@
 		<form class="kt-form" [formGroup]="loginForm" autocomplete="off">
 			<div class="form-group">
 				<mat-form-field>
-					<mat-label>Login</mat-label>
-					<input matInput placeholder="Login" formControlName="login" autocomplete="off"/>
+					<mat-label>Login or email</mat-label>
+					<input matInput placeholder="Login or email" formControlName="login" autocomplete="off"/>
 					<mat-error *ngIf="isControlHasError('login','required')">
 						<strong>{{ 'AUTH.VALIDATION.REQUIRED_FIELD' | translate }}</strong>
 					</mat-error>
@@ -28,7 +28,7 @@
 						<strong>{{ 'AUTH.VALIDATION.MIN_LENGTH_FIELD' | translate }} 3</strong>
 					</mat-error>
 					<mat-error *ngIf="isControlHasError('login','maxlength')">
-						<strong>{{ 'AUTH.VALIDATION.MAX_LENGTH_FIELD' | translate }} 50</strong>
+						<strong>{{ 'AUTH.VALIDATION.MAX_LENGTH_FIELD' | translate }} 320</strong>
 					</mat-error>
 				</mat-form-field>
 			</div>
