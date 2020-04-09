@@ -25,9 +25,9 @@ export class OrderBookDetailsComponent implements OnInit, OnDestroy {
     private limitOrdersService: LimitOrdersService,
     private orderBooksService: OrderBooksService) { }
 
-  private assetPairId: string;
   private subscriptions: Subscription[] = [];
 
+  assetPairId: string;
   dataSource: LimitOrdersDataSource;
   displayedColumns = ['buyPrice', 'volume', 'sellPrice', 'walletId', 'limitOrderId', 'actions'];
 

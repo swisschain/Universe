@@ -6,6 +6,8 @@ import { InstrumentsComponent } from './instruments/instruments/instruments.comp
 import { WorkingOnItComponent } from './shared/working-on-it/working-on-it.component';
 import { OrderBookListComponent } from './trading/order-book-list/order-book-list.component';
 import { OrderBookDetailsComponent } from './trading/order-book-details/order-book-details.component';
+import { AccountListComponent } from './accounts/account-list/account-list.component';
+import { AccountDetailsComponent } from './accounts/account-details/account-details.component';
 
 const routes: Routes = [
     {
@@ -15,6 +17,14 @@ const routes: Routes = [
     {
         path: 'management/instruments',
         component: InstrumentsComponent
+    },
+    {
+        path: 'management/accounts',
+        component: AccountListComponent
+    },
+    {
+        path: 'management/accounts/:accountId',
+        component: AccountDetailsComponent
     },
     {
         path: 'trading/order-books',

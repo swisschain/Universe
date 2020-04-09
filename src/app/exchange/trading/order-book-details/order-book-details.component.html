@@ -2,11 +2,15 @@
     <kt-portlet-header [class]="'kt-portlet__head--lg'" [viewLoading$]="dataSource.loading$">
         <ng-container ktPortletTitle>
             <h3 class="kt-portlet__head-title">
-                <span>Order Book: {{assetPairName}}</span>
+                <span>Order Book: {{assetPairId}}</span>
             </h3>
         </ng-container>
 
         <ng-container ktPortletTools>
+            <a [routerLink]="['../']" class="btn btn-secondary kt-margin-r-10" mat-raised-button matTooltip="Back to the order books list">
+				<i class="la la-arrow-left"></i>
+				<span class="kt-hidden-mobile">Back</span>
+			</a>
             <button (click)="create()" mat-raised-button matTooltip="Create limit order" color="info" type="button">
                 <span>Create</span>
             </button>&nbsp;

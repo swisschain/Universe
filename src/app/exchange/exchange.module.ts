@@ -54,10 +54,17 @@ import { OrderBookDetailsComponent } from './trading/order-book-details/order-bo
 
 import { WorkingOnItComponent } from './shared/working-on-it/working-on-it.component';
 
+import { AccountsService } from './api/accounts.service';
 import { AssetPairsService } from './api/asset-pairs.service';
 import { OrderBooksService } from './api/order-books.service';
 import { LimitOrdersService } from './api/limit-orders.service';
-
+import { AccountListComponent } from './accounts/account-list/account-list.component';
+import { AccountDetailsComponent } from './accounts/account-details/account-details.component';
+import { AccountEditDialogComponent } from './accounts/account-edit/account-edit.dialog.component';
+import { AccountBalanceListComponent } from './accounts/account-balance-list/account-balance-list.component';
+import { AccountBalanceHistoryListComponent } from './accounts/account-balance-history-list/account-balance-history-list.component';
+import { AccountOrderListComponent } from './accounts/account-order-list/account-order-list.component';
+import { AccountTradeListComponent } from './accounts/account-trade-list/account-trade-list.component';
 
 @NgModule({
 	declarations: [
@@ -72,7 +79,14 @@ import { LimitOrdersService } from './api/limit-orders.service';
 		WorkingOnItComponent,
 		OrderBookListComponent,
 		OrderBookDetailsComponent,
-		LimitOrderEditDialogComponent
+		LimitOrderEditDialogComponent,
+		AccountListComponent,
+		AccountDetailsComponent,
+		AccountEditDialogComponent,
+		AccountBalanceListComponent,
+		AccountBalanceHistoryListComponent,
+		AccountOrderListComponent,
+		AccountTradeListComponent
 	],
 	imports: [
 		CommonModule,
@@ -124,6 +138,7 @@ import { LimitOrdersService } from './api/limit-orders.service';
 		{ provide: HTTP_INTERCEPTORS, useClass: ApiUrlInterceptor, multi: true },
 		{ provide: HTTP_INTERCEPTORS, useClass: AuthHeaderInterceptor, multi: true },
 
+		AccountsService,
 		AssetsService,
 		AssetPairsService,
 		OrderBooksService,
@@ -139,7 +154,8 @@ import { LimitOrdersService } from './api/limit-orders.service';
 		AssetDetailsDialogComponent,
 		AssetPairEditDialogComponent,
 		AssetPairDetailsDialogComponent,
-		LimitOrderEditDialogComponent
+		LimitOrderEditDialogComponent,
+		AccountEditDialogComponent
 	]
 })
 export class ExchangeModule { }

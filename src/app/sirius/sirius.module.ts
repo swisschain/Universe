@@ -56,6 +56,7 @@ import { BrokerAccountDetailsComponent } from './brokerage/broker-account-detail
 import { BrokerAccountRequisitesComponent } from './brokerage/broker-account-requisites/broker-account-requisites.component';
 import { WorkingOnItComponent } from './shared/working-on-it/working-on-it.component';
 import { BrokerAccountBalancesComponent } from './brokerage/broker-account-balances/broker-account-balances.component';
+import { DepositListComponent } from './brokerage/deposit-list/deposit-list.component';
 
 @NgModule({
 	declarations: [
@@ -71,7 +72,8 @@ import { BrokerAccountBalancesComponent } from './brokerage/broker-account-balan
 		BrokerAccountDetailsComponent,
 		BrokerAccountRequisitesComponent,
 		WorkingOnItComponent,
-		BrokerAccountBalancesComponent
+		BrokerAccountBalancesComponent,
+		DepositListComponent
 	],
 	imports: [
 		CommonModule,

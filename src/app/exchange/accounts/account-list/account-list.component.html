@@ -1,0 +1,101 @@
+<kt-portlet>
+    <kt-portlet-header [class]="'kt-portlet__head--lg'" [viewLoading$]="dataSource.loading$">
+        <ng-container ktPortletTitle>
+            <h3 class="kt-portlet__head-title">
+                <span>Accounts</span>
+            </h3>
+        </ng-container>
+
+        <ng-container ktPortletTools>
+            <button (click)="add()" mat-raised-button matTooltip="Create account" color="primary" type="button">
+                <span>Create</span>
+            </button>
+        </ng-container>
+    </kt-portlet-header>
+
+    <kt-portlet-body>
+        <div class="kt-form kt-margin-b-30">
+            <div class="kt-form__filtration">
+                <div class="row align-items-center">
+                    <div class="col-md-3 kt-margin-bottom-10-mobile">
+                        <mat-form-field class="mat-form-field-fluid">
+                            <input matInput placeholder="Name" #searchByNameInput>
+                            <mat-hint align="start">
+                                <strong>Search</strong> by name
+                            </mat-hint>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3 kt-margin-bottom-10-mobile">
+                        <div class="kt-form__control">
+                            <mat-form-field class="mat-form-field-fluid">
+                                <mat-select [(value)]="status" (selectionChange)="load()">
+                                    <mat-option value="">All</mat-option>
+                                    <mat-option value="enabled">Enabled</mat-option>
+                                    <mat-option value="disabled">Disabled</mat-option>
+                                </mat-select>
+                                <mat-hint align="start">
+                                    <strong>Filter</strong> status
+                                </mat-hint>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mat-table__wrapper">
+            <mat-table class="lmat-elevation-z8" #table [dataSource]="dataSource">
+                <ng-container matColumnDef="accountId">
+                    <mat-header-cell *matHeaderCellDef>Id</mat-header-cell>
+                    <mat-cell *matCellDef="let item">{{item.id}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="name">
+                    <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+                    <mat-cell *matCellDef="let item">{{item.name}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="isDisabled">
+                    <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+                    <mat-cell *matCellDef="let item" [ngStyle]="{'color': item.isDisabled === true ? 'red' : 'green'}">
+                        {{item.isDisabled === true ? 'disable' : 'active'}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="created">
+                    <mat-header-cell *matHeaderCellDef>Created</mat-header-cell>
+                    <mat-cell *matCellDef="let item">{{item.created | date:'short'}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="modified">
+                    <mat-header-cell *matHeaderCellDef>Modified</mat-header-cell>
+                    <mat-cell *matCellDef="let item">{{item.modified | date:'short'}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="actions">
+                    <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+                    <mat-cell *matCellDef="let item">
+                        <button mat-icon-button color="primary" matTooltip="Account details" type="button"
+                            [routerLink]="['./',item.id]">
+                            <mat-icon>more_horiz</mat-icon>
+                        </button>&nbsp;
+                        <button mat-icon-button color="primary" matTooltip="Edit account" type="button"
+                            (click)="edit(item)">
+                            <mat-icon>create</mat-icon>
+                        </button>&nbsp;
+                        <button mat-icon-button color="warn" matTooltip="Delete account" type="button"
+                            (click)="delete(item)">
+                            <mat-icon>delete</mat-icon>
+                        </button>&nbsp;
+                    </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+                <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+            </mat-table>
+            <!-- Message for empty data  -->
+            <div class="mat-table__message" *ngIf="!dataSource.hasItems">No records found</div>
+            <div class="mat-table__message" *ngIf="dataSource.isPreloadTextViewed$ | async">Please wait....</div>
+        </div>
+    </kt-portlet-body>
+</kt-portlet>

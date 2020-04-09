@@ -143,12 +143,11 @@ export class MenuConfig {
 						page: '/services/exchange/management/api-keys',
 						bullet: 'dot'
 					},
-					{ section: 'Accounts' },
 					{
-						title: 'Overview',
+						title: 'Accounts',
 						root: true,
-						icon: 'flaticon2-rocket',
-						page: '/services/exchange/accounts/overview',
+						icon: 'flaticon2-avatar',
+						page: '/services/exchange/management/accounts',
 						bullet: 'dot'
 					},
 					{ section: 'Trading' },
@@ -244,13 +243,6 @@ export class MenuConfig {
 					},
 					{ section: 'Brakerage' },
 					{
-						title: 'Overview',
-						root: true,
-						icon: 'flaticon2-rocket',
-						page: '/services/sirius/brakerage/overview',
-						bullet: 'dot'
-					},
-					{
 						title: 'Broker Accounts',
 						root: true,
 						icon: 'flaticon-users',
@@ -267,7 +259,7 @@ export class MenuConfig {
 					{
 						title: 'Deposits',
 						root: true,
-						icon: 'flaticon2-rocket',
+						icon: 'flaticon-coins',
 						page: '/services/sirius/brakerage/deposits',
 						bullet: 'dot'
 					},
