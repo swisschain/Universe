@@ -5,7 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { PartialsModule } from '../views/partials/partials.module';
 import { EffectsModule } from '@ngrx/effects';
-import { HttpUtilsService, TypesUtilsService, InterceptService, LayoutUtilsService } from '../core/_base/crud';
+import { HttpUtilsService, TypesUtilsService, LayoutUtilsService } from '../core/_base/crud';
 import { ActionNotificationComponent, DeleteEntityDialogComponent, FetchEntityDialogComponent, UpdateStatusDialogComponent } from '../views/partials/content/crud';
 import { ModuleGuard } from '../core/auth';
 import {
@@ -34,7 +34,6 @@ import {
 
 import { ClipboardModule } from 'ngx-clipboard';
 
-import { ApiUrlInterceptor } from '../core/interceptors/api-url-interceptor';
 import { AuthHeaderInterceptor } from '../core/interceptors/auth-header-interceptor';
 
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -57,6 +56,10 @@ import { BrokerAccountRequisitesComponent } from './brokerage/broker-account-req
 import { WorkingOnItComponent } from './shared/working-on-it/working-on-it.component';
 import { BrokerAccountBalancesComponent } from './brokerage/broker-account-balances/broker-account-balances.component';
 import { DepositListComponent } from './brokerage/deposit-list/deposit-list.component';
+import { DepositsService } from './api/deposits.service';
+
+import { NumberDirective } from './shared/numbers-only.directive';
+import { DepositDetailsComponent } from './brokerage/deposit-details/deposit-details.component';
 
 @NgModule({
 	declarations: [
@@ -73,7 +76,9 @@ import { DepositListComponent } from './brokerage/deposit-list/deposit-list.comp
 		BrokerAccountRequisitesComponent,
 		WorkingOnItComponent,
 		BrokerAccountBalancesComponent,
-		DepositListComponent
+		DepositListComponent,
+		NumberDirective,
+		DepositDetailsComponent
 	],
 	imports: [
 		CommonModule,
@@ -122,13 +127,13 @@ import { DepositListComponent } from './brokerage/deposit-list/deposit-list.comp
 		HttpUtilsService,
 		TypesUtilsService,
 		LayoutUtilsService,
-		{ provide: HTTP_INTERCEPTORS, useClass: ApiUrlInterceptor, multi: true },
 		{ provide: HTTP_INTERCEPTORS, useClass: AuthHeaderInterceptor, multi: true },
 
 		AccountService,
 		AssetsService,
 		BlockchainsService,
-		BrokerAccountService
+		BrokerAccountService,
+		DepositsService
 	],
 	entryComponents: [
 		ActionNotificationComponent,

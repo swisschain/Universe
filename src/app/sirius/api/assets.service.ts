@@ -3,6 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 
 import { Asset } from './models/assets/asset.interface';
 import { PagedResponse } from './models/pagination/paged-response.interface';
+import { map } from 'rxjs/operators';
 
 const API_URL = 'sirius/api/assets';
 
@@ -19,5 +20,16 @@ export class AssetsService {
             .set('symbol', symbol)
             .set('blockchainId', blockchainId);
         return this.http.get<PagedResponse<Asset>>(`${API_URL}`, { params: params });
+    }
+
+    getById(assetId: number) {
+        const params = new HttpParams()
+            .set('assetId', assetId.toString());
+        return this.http.get<PagedResponse<Asset>>(`${API_URL}`, { params: params })
+            .pipe(
+                map(result => {
+                    return result.items[0];
+                })
+            );
     }
 }

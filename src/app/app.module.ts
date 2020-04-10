@@ -153,9 +153,9 @@ export function hljsLanguages(): HighlightLanguage[] {
 		TypesUtilsService,
 		LayoutUtilsService,
 
-		ApiUrlInterceptor,
+		//ApiUrlInterceptor,
 		AuthHeaderInterceptor,
-		{ provide: HTTP_INTERCEPTORS, useClass: ApiUrlInterceptor, multi: true },
+		//{ provide: HTTP_INTERCEPTORS, useClass: ApiUrlInterceptor, multi: true },
 		{ provide: HTTP_INTERCEPTORS, useClass: AuthHeaderInterceptor, multi: true }
 	],
 	bootstrap: [AppComponent]

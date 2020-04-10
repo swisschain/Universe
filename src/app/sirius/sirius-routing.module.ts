@@ -9,6 +9,7 @@ import { BrokerAccountDetailsComponent } from './brokerage/broker-account-detail
 import { DepositListComponent } from './brokerage/deposit-list/deposit-list.component';
 
 import { WorkingOnItComponent } from './shared/working-on-it/working-on-it.component';
+import { DepositDetailsComponent } from './brokerage/deposit-details/deposit-details.component';
 
 const routes: Routes = [
     {
@@ -34,6 +35,10 @@ const routes: Routes = [
     {
         path: 'brakerage/deposits',
         component: DepositListComponent
+    },
+    {
+        path: 'brakerage/deposits/:depositId',
+        component: DepositDetailsComponent
     },
     {
         path: '',

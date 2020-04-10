@@ -4,7 +4,7 @@
     "description": "Packages used by Angular",
     "scripts": {
         "ng": "ng",
-        "start": "node --max_old_space_size=8192 node_modules/@angular/cli/bin/ng serve",
+        "start": "ng serve --proxy-config proxy.conf.json",
         "build": "ng build --prod",
         "build-dev": "ng build",
         "test": "ng test",

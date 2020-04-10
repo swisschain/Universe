@@ -1,0 +1,172 @@
+<kt-portlet>
+    <kt-portlet-header [class]="'kt-portlet__head--lg'">
+        <ng-container ktPortletTitle>
+            <h3 class="kt-portlet__head-title">
+                <span>Deposit: {{depositId}}</span>
+            </h3>
+        </ng-container>
+        <ng-container ktPortletTools>
+            <a [routerLink]="['../']" class="btn btn-secondary kt-margin-r-10" mat-raised-button
+                matTooltip="Back to the deposits list">
+                <i class="la la-arrow-left"></i>
+                <span class="kt-hidden-mobile">Back</span>
+            </a>
+        </ng-container>
+    </kt-portlet-header>
+
+    <kt-portlet-body>
+        <mat-tab-group>
+            <mat-tab label="Details">
+                <ng-template matTabContent>
+                    <div *ngIf="deposit">
+                        <div class="form-group kt-form__group row">
+                            <label class="col-lg-2 col-form-label">State: <strong>{{deposit.state}}</strong></label>
+                            <label class="col-lg-2 col-form-label">Amount:
+                                <strong>{{deposit.amount | number:'1.1-8'}}</strong></label>
+                        </div>
+                        <div class="kt-form__heading">
+                            <h4 class="kt-form__heading-title">Broker Account:</h4>
+                        </div>
+                        <div class="form-group kt-form__group row">
+                            <label class="col-lg-2 col-form-label">Id:
+                                <strong>{{brokerAccount?.brokerAccountId}}</strong></label>
+                            <label class="col-lg-4 col-form-label">Name:
+                                <strong>{{brokerAccount?.name}}</strong></label>
+                        </div>
+                        <div *ngIf="account">
+                            <div class="kt-form__heading">
+                                <h4 class="kt-form__heading-title">Account:</h4>
+                            </div>
+                            <div class="form-group kt-form__group row">
+                                <label class="col-lg-2 col-form-label">Id:
+                                    <strong>{{account?.accountId}}</strong></label>
+                                <label class="col-lg-4 col-form-label">Reference Id:
+                                    <strong>{{account?.referenceId}}</strong></label>
+                            </div>
+                        </div>
+                        <div class="kt-form__heading">
+                            <h4 class="kt-form__heading-title">Asset:</h4>
+                        </div>
+                        <div class="form-group kt-form__group row">
+                            <label class="col-lg-2 col-form-label">Id: <strong>{{asset?.assetId}}</strong></label>
+                            <label class="col-lg-4 col-form-label">Symbol: <strong>{{asset?.symbol}}</strong></label>
+                        </div>
+                        <div class="kt-form__heading">
+                            <h4 class="kt-form__heading-title">Blockchain:</h4>
+                        </div>
+                        <div class="form-group kt-form__group row">
+                            <label class="col-lg-3 col-form-label">Id:
+                                <strong>{{blockchain?.blockchainId}}</strong></label>
+                            <label class="col-lg-4 col-form-label">Name: <strong>{{blockchain?.name}}</strong></label>
+                        </div>
+                        <div *ngIf="deposit && deposit.fees.lenght > 0">
+                            <div class="kt-form__heading">
+                                <h4 class="kt-form__heading-title">Fees:</h4>
+                            </div>
+                            <div class="form-group kt-form__group row" *ngFor="let fee of deposit.fees">
+                                <label class="col-lg-2 col-form-label">Id: <strong>{{fee.assetId}}</strong></label>
+                                <label class="col-lg-2 col-form-label">Symbol:
+                                    <strong>{{getAssetSymbol(fee.assetId)}}</strong></label>
+                                <label class="col-lg-2 col-form-label">Amount:
+                                    <strong>{{fee.amount | number:'1.1-8'}}</strong></label>
+                            </div>
+                        </div>
+                        <div class="kt-form__heading">
+                            <h4 class="kt-form__heading-title">Transaction:</h4>
+                        </div>
+                        <div class="form-group kt-form__group row">
+                            <label class="col-lg-3 col-form-label">Id:
+                                <strong>{{deposit?.transactionInfo.transactionId}}</strong></label>
+                            <label class="col-lg-3 col-form-label">Block:
+                                <strong>{{deposit?.transactionInfo.transactionBlock}}</strong></label>
+                        </div>
+                        <div class="form-group kt-form__group row">
+                            <label class="col-lg-3 col-form-label">Confirmations:
+                                <strong>{{deposit?.transactionInfo.confirmationsCount}}</strong></label>
+                            <label class="col-lg-3 col-form-label">Required confirmations:
+                                <strong>{{deposit?.transactionInfo.requiredConfirmationsCount}}</strong></label>
+                        </div>
+                        <div class="form-group kt-form__group row">
+                            <label class="col-lg-3 col-form-label">Date:
+                                <strong>{{deposit?.transactionInfo.date | date:'short'}}</strong></label>
+                        </div>
+                        <div class="kt-separator kt-separator--dashed"></div>
+                        <div class="form-group kt-form__group row">
+                            <label class="col-lg-3 col-form-label">Detected:
+                                <strong>{{deposit?.detectedDateTime | date:'short'}}</strong></label>
+                            <label class="col-lg-3 col-form-label">Confirmed:
+                                <strong>{{deposit?.confirmedDateTime | date:'short'}}</strong></label>
+                            <label class="col-lg-3 col-form-label">Completed:
+                                <strong>{{deposit?.completedDateTime | date:'short'}}</strong></label>
+                        </div>
+                        <div class="form-group kt-form__group row">
+                            <label class="col-lg-3 col-form-label">Cancelled:
+                                <strong>{{deposit?.cancelledDateTime | date:'short'}}</strong></label>
+                            <label class="col-lg-3 col-form-label">Failed:
+                                <strong>{{deposit?.failedDateTime | date:'short'}}</strong></label>
+                        </div>
+                    </div>
+                    <div>&nbsp;</div>
+                </ng-template>
+            </mat-tab>
+            <mat-tab label="Requisites">
+                <ng-template matTabContent>
+                    <div class="kt-form__heading">
+                        <h4 class="kt-form__heading-title">Broker Account Requisites:</h4>
+                    </div>
+                    <div class="form-group kt-form__group row">
+                        <label class="col-lg-2 col-form-label">Id:
+                            <strong>{{deposit?.brokerAccountRequisites.id}}</strong></label>
+                    </div>
+                    <div class="form-group kt-form__group row">
+                        <label class="col-lg-6 col-form-label">Address:
+                            <strong>{{deposit?.brokerAccountRequisites.address}}</strong></label>
+                    </div>
+                    <div *ngIf="deposit.accountRequisites">
+                        <div class="kt-form__heading">
+                            <h4 class="kt-form__heading-title">Account Requisites:</h4>
+                        </div>
+                        <div class="form-group kt-form__group row">
+                            <label class="col-lg-2 col-form-label">Id:
+                                <strong>{{deposit?.accountRequisites.id}}</strong></label>
+                        </div>
+                        <div class="form-group kt-form__group row">
+                            <label class="col-lg-6 col-form-label">Address:
+                                <strong>{{deposit?.accountRequisites.address}}</strong></label>
+                        </div>
+                        <div class="form-group kt-form__group row">
+                            <label class="col-lg-2 col-form-label">Tag:
+                                <strong>{{deposit?.accountRequisites.tag}}</strong></label>
+                            <label class="col-lg-2 col-form-label">Tag Type:
+                                <strong>{{deposit?.accountRequisites.tagType}}</strong></label>
+                        </div>
+                    </div>
+                    <div>&nbsp;</div>
+                </ng-template>
+            </mat-tab>
+            <mat-tab label="Sources">
+                <ng-template matTabContent>
+                    <div class="mat-table__wrapper">
+                        <mat-table [dataSource]="deposit?.sources">
+                            <ng-container matColumnDef="address">
+                                <mat-header-cell *matHeaderCellDef>Address</mat-header-cell>
+                                <mat-cell *matCellDef="let item">{{item.address}}</mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="amount">
+                                <mat-header-cell *matHeaderCellDef>Amount</mat-header-cell>
+                                <mat-cell *matCellDef="let item">{{item.amount | number:'1.1-8'}}</mat-cell>
+                            </ng-container>
+
+                            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+                            <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+                        </mat-table>
+                        <div class="mat-table__message" *ngIf="deposit?.sources.length === 0">No records</div>
+                    </div>
+                    <div>&nbsp;</div>
+                </ng-template>
+            </mat-tab>
+        </mat-tab-group>
+    </kt-portlet-body>
+</kt-portlet>

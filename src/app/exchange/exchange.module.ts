@@ -34,7 +34,6 @@ import {
 
 import { ClipboardModule } from 'ngx-clipboard';
 
-import { ApiUrlInterceptor } from '../core/interceptors/api-url-interceptor';
 import { AuthHeaderInterceptor } from '../core/interceptors/auth-header-interceptor';
 
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -135,7 +134,6 @@ import { AccountTradeListComponent } from './accounts/account-trade-list/account
 		HttpUtilsService,
 		TypesUtilsService,
 		LayoutUtilsService,
-		{ provide: HTTP_INTERCEPTORS, useClass: ApiUrlInterceptor, multi: true },
 		{ provide: HTTP_INTERCEPTORS, useClass: AuthHeaderInterceptor, multi: true },
 
 		AccountsService,

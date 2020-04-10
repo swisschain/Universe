@@ -6,6 +6,7 @@ import { catchError, finalize, distinctUntilChanged, skip } from 'rxjs/operators
 import { OrderBooksService } from '../api/order-books.service';
 import { LimitOrder } from '../api/models/order-books/limit-order.interface';
 import { OrderBook } from '../api/models/order-books/order-book.interface';
+import { PagedResponse } from '../api/models/pagination/paged-response.interface';
 
 export class LimitOrdersDataSource implements DataSource<LimitOrder> {
 

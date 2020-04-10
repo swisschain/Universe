@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 import { AssetPair } from './models/asset-pairs/asset-pair.interface';
 import { PagedResponse } from './models/pagination/paged-response.interface';
 
-const API_URL = 'exchange/api/asset/public-asset-pairs';
+const API_URL = 'exchange/api/asset/asset-pairs';
 
 @Injectable()
 export class AssetPairsService {

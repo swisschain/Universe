@@ -7,6 +7,7 @@ import { OrderBook } from '../api/models/order-books/order-book.interface';
 import { LimitOrderType } from '../api/models/order-books/limit-order-type.enum';
 import { OrderBooksService } from '../api/order-books.service';
 import { OrderBookRowItem } from './order-book-row-item.interface';
+import { PagedResponse } from '../api/models/pagination/paged-response.interface';
 
 export class OrderBooksDataSource implements DataSource<OrderBookRowItem> {
 
@@ -45,9 +46,9 @@ export class OrderBooksDataSource implements DataSource<OrderBookRowItem> {
                 catchError(() => of([])),
                 finalize(() => this.loadingSubject.next(false))
             )
-            .subscribe((orderBooks: OrderBook[]) => {
-                this.paginatorTotalSubject.next(orderBooks.length);
-                this.itemsSubject.next(orderBooks.map(orderBook => {
+            .subscribe((orderBooks: PagedResponse<OrderBook>) => {
+                this.paginatorTotalSubject.next(orderBooks.items.length);
+                this.itemsSubject.next(orderBooks.items.map(orderBook => {
                     const ask = this.getPrice(orderBook, LimitOrderType.Sell);
                     const bid = this.getPrice(orderBook, LimitOrderType.Buy);
                     return {
