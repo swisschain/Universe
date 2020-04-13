@@ -29,7 +29,6 @@ export class AuthService {
         return this.http.get<User>(API_PROFILES_URL)
             .pipe(
                 map((res: User) => {
-                    localStorage.setItem(environment.tetantIdTokenKey, res.tenantId)
                     return res;
                 })
             );

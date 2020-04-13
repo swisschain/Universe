@@ -5,7 +5,6 @@ import { AssetsService } from './services/assets.service';
 import { AssetPairsService } from './services/asset-pairs.service';
 
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { InterceptService } from '../core/_base/crud';
 import { BalancesService } from './services/balances.service';
 import { OrderBooksService } from './services/order-books.service';
 import { LimitOrdersService } from './services/limit-orders.service';
@@ -21,13 +20,7 @@ import { LimitOrdersService } from './services/limit-orders.service';
     AssetPairsService,
     BalancesService,
     OrderBooksService,
-    LimitOrdersService,
-    InterceptService,
-	 	{
-	 		provide: HTTP_INTERCEPTORS,
-	 		useClass: InterceptService,
-	 		multi: true
-	 	}
+    LimitOrdersService
   ]
 })
 export class ApiModule { }

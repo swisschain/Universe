@@ -5,7 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { PartialsModule } from '../views/partials/partials.module';
 import { EffectsModule } from '@ngrx/effects';
-import { HttpUtilsService, TypesUtilsService, InterceptService, LayoutUtilsService } from '../core/_base/crud';
+import { HttpUtilsService, TypesUtilsService, LayoutUtilsService } from '../core/_base/crud';
 import { ActionNotificationComponent, DeleteEntityDialogComponent, FetchEntityDialogComponent, UpdateStatusDialogComponent } from '../views/partials/content/crud';
 import { ModuleGuard } from '../core/auth';
 import {

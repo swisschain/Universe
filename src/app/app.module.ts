@@ -51,7 +51,7 @@ import { AuthModule } from './views/pages/auth/auth.module';
 import { AuthService } from './core/auth';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 // CRUD
-import { HttpUtilsService, InterceptService, LayoutUtilsService, TypesUtilsService } from './core/_base/crud';
+import { HttpUtilsService, LayoutUtilsService, TypesUtilsService } from './core/_base/crud';
 // Config
 import { LayoutConfig } from './core/_config/layout.config';
 // Highlight JS
@@ -61,7 +61,6 @@ import * as scss from 'highlight.js/lib/languages/scss';
 import * as xml from 'highlight.js/lib/languages/xml';
 import * as json from 'highlight.js/lib/languages/json';
 
-import { ApiUrlInterceptor } from './core/interceptors/api-url-interceptor';
 import { AuthHeaderInterceptor } from './core/interceptors/auth-header-interceptor';
 
 

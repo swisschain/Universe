@@ -35,6 +35,7 @@ export class DepositListComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];
 
   searchByAccountIdInput = new FormControl();
+  searchByReferenceIdInput = new FormControl();
 
   selectedBrokerAccountId = '';
   selectedBlockchainId = '';
@@ -61,10 +62,24 @@ export class DepositListComponent implements OnInit, OnDestroy {
         distinctUntilChanged()
       )
       .subscribe(value => {
-        console.log(value);
+        this.selectedAccountId = Number(value);
+        this.load();
       });
 
     this.subscriptions.push(searchByIdSubscription);
+
+    const searchByReferenceIdInput = this.searchByReferenceIdInput.valueChanges
+      .pipe(
+        map(value => isNaN(+value) ? '' : value),
+        debounceTime(500),
+        distinctUntilChanged()
+      )
+      .subscribe(value => {
+        this.selectedReferenceId = value;
+        this.load();
+      });
+
+    this.subscriptions.push(searchByReferenceIdInput);
 
     this.load();
     this.loadBrokerAccounts();

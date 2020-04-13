@@ -42,7 +42,7 @@
                     </div>
                     <div class="col-md-3 kt-margin-bottom-10-mobile">
                         <mat-form-field class="mat-form-field-fluid">
-                            <input matInput placeholder="Reference Id" #searchByReferenceIdInput>
+                            <input matInput placeholder="Reference Id" [formControl]="searchByReferenceIdInput">
                             <mat-hint align="start">
                                 <strong>Search</strong> by reference id
                             </mat-hint>

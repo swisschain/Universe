@@ -8,7 +8,7 @@ import { CashOperationsDialogComponent } from './cash-operations/cash-operations
 import { BalancesRoutingModule } from './balances-routing.module';
 import { ApiModule } from '../../../api/api.module';
 import { EffectsModule } from '@ngrx/effects';
-import { HttpUtilsService, TypesUtilsService, InterceptService, LayoutUtilsService } from '../../../core/_base/crud';
+import { HttpUtilsService, TypesUtilsService, LayoutUtilsService } from '../../../core/_base/crud';
 import { ActionNotificationComponent, DeleteEntityDialogComponent, FetchEntityDialogComponent, UpdateStatusDialogComponent } from '../../partials/content/crud';
 import { ModuleGuard } from '../../../core/auth';
 import {

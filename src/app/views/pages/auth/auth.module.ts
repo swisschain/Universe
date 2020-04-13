@@ -11,8 +11,6 @@ import { TranslateModule } from '@ngx-translate/core';
 // NGRX
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-// CRUD
-import { InterceptService } from '../../../core/_base/crud/';
 // Module components
 import { AuthComponent } from './auth.component';
 import { LoginComponent } from './login/login.component';
