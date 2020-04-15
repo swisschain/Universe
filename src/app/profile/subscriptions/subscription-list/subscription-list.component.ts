@@ -1,4 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { Subscription } from 'rxjs';
 
@@ -20,6 +21,7 @@ export class SubscriptionListComponent implements OnInit, OnDestroy {
   constructor(
     public dialog: MatDialog,
     public snackBar: MatSnackBar,
+    private router: Router,
     private layoutUtilsService: LayoutUtilsService,
     private subscriptionsService: SubscriptionsService,
     private usersService: UsersService) { }
@@ -110,8 +112,8 @@ export class SubscriptionListComponent implements OnInit, OnDestroy {
           this.usersService.updateToken()
             .subscribe(
               result => {
-                this.load();
                 this.layoutUtilsService.showActionNotification('Subscription has been activated.', MessageType.Delete, 3000, true, false);
+                this.router.navigateByUrl('/home/dashboard');
               }
             );
         },

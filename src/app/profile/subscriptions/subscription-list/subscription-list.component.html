@@ -29,10 +29,6 @@
                     <mat-header-cell *matHeaderCellDef>Active</mat-header-cell>
                     <mat-cell *matCellDef="let item">
                         <span class="kt-badge kt-badge--inline kt-badge--pill kt-badge--success kt-badge--wide" *ngIf="item.id === currentSubscriptionId">Active</span>
-                        <button mat-icon-button color="warn" matTooltip="Activate subscription" type="button"
-                            (click)="activate(item)" *ngIf="item.id !== currentSubscriptionId">
-                            <mat-icon>done</mat-icon>
-                        </button>
                     </mat-cell>
                 </ng-container>
 
@@ -51,6 +47,9 @@
                     <mat-cell *matCellDef="let item">
                         <button mat-icon-button color="primary" matTooltip="Details" type="button" [routerLink]="['./',item.id]">
                             <mat-icon>more_horiz</mat-icon>
+                        </button>&nbsp;
+                        <button mat-icon-button color="primary" matTooltip="Activate" type="button" (click)="activate(item)">
+                            <mat-icon>sync</mat-icon>
                         </button>&nbsp;
                         <button mat-icon-button color="primary" matTooltip="Edit subscription" type="button"
                             (click)="edit(item)">
