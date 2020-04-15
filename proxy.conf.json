@@ -1,11 +1,20 @@
 {
-    "context": [
-        "/api",
-        "/sirius",
-        "/exchange"
-    ],
-    "target": "https://universe.swisschain.io",
-    "secure": false,
-    "logLevel": "info",
-    "changeOrigin": true
+    "/api": {
+        "target": "https://universe.swisschain.io/",
+        "secure": false,
+        "logLevel": "info",
+        "changeOrigin": true
+    },
+    "/exchange": {
+        "target": "https://universe.swisschain.io/",
+        "secure": false,
+        "logLevel": "info",
+        "changeOrigin": true
+    },
+    "/sirius": {
+        "target": "https://universe.swisschain.io/",
+        "secure": false,
+        "logLevel": "info",
+        "changeOrigin": true
+    }
 }

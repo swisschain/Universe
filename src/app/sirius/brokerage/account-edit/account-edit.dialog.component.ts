@@ -90,7 +90,6 @@ export class AccountEditDialogComponent implements OnInit, OnDestroy {
         },
         error => {
           this.viewLoading = false;
-          console.log('Account creating error', error);
           this.layoutUtilsService.showActionNotification('An error occurred while creating account.', MessageType.Update, 3000, true, false);
         }
       );

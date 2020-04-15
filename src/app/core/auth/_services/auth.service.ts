@@ -13,7 +13,7 @@ import { SignUpResponse } from '../_models/sign-up-response.interface';
 
 const API_SIGN_IN_URL = 'api/sign-in';
 const API_SIGN_UP_URL = 'api/sign-up';
-const API_PROFILES_URL = 'api/profiles';
+const API_PROFILES_URL = 'api/users';
 const API_PERMISSION_URL = 'api/permissions';
 const API_ROLES_URL = 'api/roles';
 

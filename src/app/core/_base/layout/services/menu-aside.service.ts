@@ -16,6 +16,8 @@ export class MenuAsideService {
 	getItems(path: string) {
 		if (path.indexOf('/home/') !== -1)
 			return objectPath.get(this.menuConfigService.getMenus(), 'aside.home.items');
+		if (path.indexOf('/profile/') !== -1)
+			return objectPath.get(this.menuConfigService.getMenus(), 'aside.profile.items');
 		if (path.indexOf('/exchange/') !== -1)
 			return objectPath.get(this.menuConfigService.getMenus(), 'aside.exchange.items');
 		if (path.indexOf('/sirius/') !== -1)

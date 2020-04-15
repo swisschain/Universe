@@ -194,7 +194,6 @@ export class AssetPairListComponent implements OnInit {
               this.load();
             },
             error => {
-              console.log('Asset pair delete error', error);
               this.layoutUtilsService.showActionNotification('An error occurred while deleting asset pair.', MessageType.Update, 3000, true, false);
             }
           );

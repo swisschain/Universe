@@ -97,7 +97,6 @@ export class AccountEditDialogComponent implements OnInit, OnDestroy {
         },
         error => {
           this.viewLoading = false;
-          console.log('Account adding error', error);
           this.layoutUtilsService.showActionNotification('An error occurred while adding account.', MessageType.Update, 3000, true, false);
         }
       );
@@ -113,7 +112,6 @@ export class AccountEditDialogComponent implements OnInit, OnDestroy {
         },
         error => {
           this.viewLoading = false;
-          console.log('Account update error', error);
           this.layoutUtilsService.showActionNotification('An error occurred while updating account.', MessageType.Update, 3000, true, false);
         }
       );

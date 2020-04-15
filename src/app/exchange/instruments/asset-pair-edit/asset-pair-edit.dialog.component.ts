@@ -135,7 +135,6 @@ export class AssetPairEditDialogComponent implements OnInit, OnDestroy {
         },
         error => {
           this.viewLoading = false;
-          console.log('Asset pair adding error', error);
           this.layoutUtilsService.showActionNotification('An error occurred while adding asset pair.', MessageType.Update, 3000, true, false);
         }
       );
@@ -151,7 +150,6 @@ export class AssetPairEditDialogComponent implements OnInit, OnDestroy {
         },
         error => {
           this.viewLoading = false;
-          console.log('Asset pair update error', error);
           this.layoutUtilsService.showActionNotification('An error occurred while updating asset pair.', MessageType.Update, 3000, true, false);
         }
       );

@@ -80,7 +80,6 @@ export class BrokerAccountEditDialogComponent implements OnInit, OnDestroy {
         },
         error => {
           this.viewLoading = false;
-          console.log('Broker account creating error', error);
           this.layoutUtilsService.showActionNotification('An error occurred while creating broker account.', MessageType.Update, 3000, true, false);
         }
       );

@@ -133,7 +133,6 @@ export class AssetListComponent implements OnInit, OnDestroy {
               this.load();
             },
             error => {
-              console.log('Asset delete error', error);
               this.layoutUtilsService.showActionNotification('An error occurred while deleting asset.', MessageType.Update, 3000, true, false);
             }
           );

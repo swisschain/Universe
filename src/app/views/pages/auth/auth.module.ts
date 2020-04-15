@@ -19,6 +19,7 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { AuthNoticeComponent } from './auth-notice/auth-notice.component';
 // Auth
 import { AuthEffects, AuthGuard, authReducer, AuthService } from '../../../core/auth';
+import { SubscriptionGuard } from '../../../core/auth/_guards/subscription.guard';
 
 const routes: Routes = [
 	{
@@ -80,7 +81,8 @@ export class AuthModule {
 			ngModule: AuthModule,
 			providers: [
 				AuthService,
-				AuthGuard
+				AuthGuard,
+				SubscriptionGuard
 			]
 		};
 	}

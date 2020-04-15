@@ -81,7 +81,6 @@ export class OrderBookDetailsComponent implements OnInit, OnDestroy {
               this.load();
             },
             error => {
-              console.log('Cancel limit order error', error);
               this.layoutUtilsService.showActionNotification('An error occurred while cancelling limit order.', MessageType.Update, 3000, true, false);
             }
           );

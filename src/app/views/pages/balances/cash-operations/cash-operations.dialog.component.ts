@@ -112,7 +112,6 @@ export class CashOperationsDialogComponent implements OnInit, OnDestroy {
         },
         error => {
           this.viewLoading = false;
-          console.log('Cash-In operation error', error);
           this.layoutUtilsService.showActionNotification('An error occurred while cash-in.', MessageType.Update, 3000, true, false);
         }
       );
@@ -128,7 +127,6 @@ export class CashOperationsDialogComponent implements OnInit, OnDestroy {
         },
         error => {
           this.viewLoading = false;
-          console.log('Cash-Out operation error', error);
           this.layoutUtilsService.showActionNotification('An error occurred while cash-out.', MessageType.Update, 3000, true, false);
         }
       );

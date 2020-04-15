@@ -106,7 +106,6 @@ export class AccountListComponent implements OnInit, OnDestroy {
               this.load();
             },
             error => {
-              console.log('Account delete error', error);
               this.layoutUtilsService.showActionNotification('An error occurred while deleting account.', MessageType.Update, 3000, true, false);
             }
           );

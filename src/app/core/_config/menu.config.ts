@@ -11,6 +11,14 @@ export class MenuConfig {
 						translate: 'MENU.DASHBOARD'
 					}]
 			},
+			profile: {
+				items: [
+					{
+						title: 'Home',
+						root: true,
+						page: '/home/dashboard'
+					}]
+			},
 			exchange: {
 				items: [
 					{
@@ -116,6 +124,24 @@ export class MenuConfig {
 						page: '/services/bridge',
 						bullet: 'dot'
 					}
+				]
+			},
+			profile: {
+				items: [
+					{
+						title: 'Profile',
+						root: true,
+						icon: 'flaticon-avatar',
+						page: '/profile/account',
+						bullet: 'dot'
+					},
+					{
+						title: 'Subscriptions',
+						root: true,
+						icon: 'flaticon2-delivery-package',
+						page: '/profile/subscriptions',
+						bullet: 'dot'
+					},
 				]
 			},
 			exchange: {

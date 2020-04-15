@@ -39,7 +39,6 @@ export class AssetsService {
     }
 
     update(asset: Asset) {
-        console.log(asset);
         return this.http.put(API_URL, {
             id: asset.id,
             name: asset.name,

@@ -112,7 +112,6 @@ export class AssetEditDialogComponent implements OnInit, OnDestroy {
         },
         error => {
           this.viewLoading = false;
-          console.log('Asset adding error', error);
           this.layoutUtilsService.showActionNotification('An error occurred while adding asset.', MessageType.Update, 3000, true, false);
         }
       );
@@ -128,7 +127,6 @@ export class AssetEditDialogComponent implements OnInit, OnDestroy {
         },
         error => {
           this.viewLoading = false;
-          console.log('Asset update error', error);
           this.layoutUtilsService.showActionNotification('An error occurred while updating asset.', MessageType.Update, 3000, true, false);
         }
       );

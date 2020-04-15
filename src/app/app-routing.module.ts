@@ -6,6 +6,7 @@ import { BaseComponent } from './views/theme/base/base.component';
 import { ErrorPageComponent } from './views/theme/content/error-page/error-page.component';
 // Auth
 import { AuthGuard } from './core/auth';
+import { SubscriptionGuard } from './core/auth/_guards/subscription.guard';
 
 const routes: Routes = [
 	{
@@ -20,6 +21,11 @@ const routes: Routes = [
 			{
 				path: 'home',
 				loadChildren: () => import('app/home/home.module').then(m => m.HomeModule),
+				canActivate: [SubscriptionGuard]
+			},
+			{
+				path: 'profile',
+				loadChildren: () => import('app/profile/profile.module').then(m => m.ProfileModule),
 			},
 			{
 				path: 'services',
@@ -32,7 +38,8 @@ const routes: Routes = [
 						path: 'sirius',
 						loadChildren: () => import('app/sirius/sirius.module').then(m => m.SiriusModule),
 					}
-				]
+				],
+				canActivate: [SubscriptionGuard]
 			},
 			{
 				path: 'error/403',
