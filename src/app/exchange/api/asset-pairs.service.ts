@@ -18,26 +18,25 @@ export class AssetPairsService {
             );
     }
 
-    get(assetPairId: string, baseAssetId: string, quotingAssetId: string, isEnabled: boolean) {
+    get(symbol: string, baseAsset: string, quotingAsset: string, IsDisabled: boolean) {
         const params = new HttpParams()
-            .set('assetPairId', assetPairId)
-            .set('baseAssetId', baseAssetId)
-            .set('quotingAssetId', quotingAssetId)
-            .set('isEnabled', isEnabled ? 'true' : 'false');
+            .set('symbol', symbol)
+            .set('baseAsset', baseAsset)
+            .set('quotingAsset', quotingAsset)
+            .set('IsDisabled', IsDisabled === true ? 'true' : IsDisabled === false ? 'false' : '');
 
         return this.http.get<PagedResponse<AssetPair>>(`${API_URL}`, { params: params });
     }
 
-    getById(assetPairId: string) {
-        return this.http.get<AssetPair>(`${API_URL}/${assetPairId}`);
+    getBySymbol(symbol: string) {
+        return this.http.get<AssetPair>(`${API_URL}/${symbol}`);
     }
 
     add(assetPair: AssetPair) {
         return this.http.post(`${API_URL}`, {
-            id: assetPair.id,
-            name: assetPair.name,
-            baseAssetId: assetPair.baseAssetId,
-            quotingAssetId: assetPair.quotingAssetId,
+            symbol: assetPair.symbol,
+            baseAsset: assetPair.baseAsset,
+            quotingAsset: assetPair.quotingAsset,
             accuracy: assetPair.accuracy,
             minVolume: assetPair.minVolume,
             maxVolume: assetPair.maxVolume,
@@ -49,10 +48,9 @@ export class AssetPairsService {
 
     update(assetPair: AssetPair) {
         return this.http.put(`${API_URL}`, {
-            id: assetPair.id,
-            name: assetPair.name,
-            baseAssetId: assetPair.baseAssetId,
-            quotingAssetId: assetPair.quotingAssetId,
+            symbol: assetPair.symbol,
+            baseAsset: assetPair.baseAsset,
+            quotingAsset: assetPair.quotingAsset,
             accuracy: assetPair.accuracy,
             minVolume: assetPair.minVolume,
             maxVolume: assetPair.maxVolume,
@@ -62,7 +60,7 @@ export class AssetPairsService {
         });
     }
 
-    delete(assetPairId: string) {
-        return this.http.delete(`${API_URL}/${assetPairId}`);
+    delete(symbol: string) {
+        return this.http.delete(`${API_URL}/${symbol}`);
     }
 }

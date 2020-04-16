@@ -1,5 +1,5 @@
 export interface Balance {
-    assetId: string;
+    symbol: string;
     amount: number;
     reserved: number;
     timestamp: Date;

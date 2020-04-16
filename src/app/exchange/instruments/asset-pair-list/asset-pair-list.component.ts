@@ -1,7 +1,7 @@
-import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, ViewChild, ElementRef } from '@angular/core';
-import { MatPaginator, MatSort, MatDialog, MatSnackBar } from '@angular/material';
-import { debounceTime, distinctUntilChanged, tap, skip, delay, take, catchError, finalize, map, startWith } from 'rxjs/operators';
-import { fromEvent, merge, Subscription, of, Observable } from 'rxjs';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { MatDialog, MatSnackBar } from '@angular/material';
+import { debounceTime, distinctUntilChanged, map, startWith } from 'rxjs/operators';
+import { Subscription, Observable } from 'rxjs';
 import { FormControl } from '@angular/forms';
 
 import { LayoutUtilsService, MessageType } from '../../../core/_base/crud';
@@ -31,85 +31,85 @@ export class AssetPairListComponent implements OnInit {
 
   private subscriptions: Subscription[] = [];
 
-  searchByIdInput = new FormControl();
-  searchByBaseAssetIdInput = new FormControl();
-  searchByQuotingAssetIdInput = new FormControl();
+  searchBySymbolInput = new FormControl();
+  searchByBaseAssetSymbolInput = new FormControl();
+  searchByQuotingAssetSymbolInput = new FormControl();
 
-  assetIds: string[] = [];
-  assetPairIds: string[] = [];
-  filteredAssetPairIds: Observable<string[]>;
-  filteredBaseAssetIds: Observable<string[]>;
-  filteredQuotingAssetIds: Observable<string[]>;
+  assetSymbols: string[] = [];
+  assetPairSymbols: string[] = [];
+  filteredAssetPairSymbols: Observable<string[]>;
+  filteredBaseAssetSymbols: Observable<string[]>;
+  filteredQuotingAssetSymbols: Observable<string[]>;
 
   dataSource: AssetPairsDataSource;
-  displayedColumns = ['assetPairId', 'name', 'baseAssetId', 'quotingAssetId', 'accuracy', 'minVolume', 'maxVolume', 'maxOppositeVolume', 'marketOrderPriceThreshold', 'isDisabled', 'created', 'modified', 'actions'];
+  displayedColumns = ['symbol', 'baseAsset', 'quotingAsset', 'accuracy', 'minVolume', 'maxVolume', 'maxOppositeVolume', 'marketOrderPriceThreshold', 'isDisabled', 'created', 'modified', 'actions'];
 
-  assetPairId = '';
-  baseAssetId = '';
-  quotingAssetId = '';
+  assetPairSymbol = '';
+  baseAssetSymbol = '';
+  quotingAssetSymbol = '';
   status = '';
 
   ngOnInit() {
 
     this.dataSource = new AssetPairsDataSource(this.assetPairsService);
 
-    const searchByIdSubscription = this.searchByIdInput.valueChanges
+    const searchBySymbolSubscription = this.searchBySymbolInput.valueChanges
       .pipe(
         debounceTime(500),
         distinctUntilChanged()
       )
       .subscribe(value => {
-        this.assetPairId = value;
+        this.assetPairSymbol = value;
         this.load();
       });
-    this.subscriptions.push(searchByIdSubscription);
+    this.subscriptions.push(searchBySymbolSubscription);
 
-    const searchByBaseAssetIdSubscription = this.searchByBaseAssetIdInput.valueChanges
+    const searchByBaseAssetSymbolSubscription = this.searchByBaseAssetSymbolInput.valueChanges
       .pipe(
         debounceTime(500),
         distinctUntilChanged()
       )
       .subscribe(value => {
-        this.baseAssetId = value;
+        this.baseAssetSymbol = value;
         this.load();
       });
-    this.subscriptions.push(searchByBaseAssetIdSubscription);
+    this.subscriptions.push(searchByBaseAssetSymbolSubscription);
 
-    const searchByQuotingAssetIdSubscription = this.searchByQuotingAssetIdInput.valueChanges
+    const searchByQuotingAssetSymbolSubscription = this.searchByQuotingAssetSymbolInput.valueChanges
       .pipe(
         debounceTime(500),
         distinctUntilChanged()
       )
       .subscribe(value => {
-        this.quotingAssetId = value;
+        this.quotingAssetSymbol = value;
         this.load();
       });
-    this.subscriptions.push(searchByQuotingAssetIdSubscription);
+    this.subscriptions.push(searchByQuotingAssetSymbolSubscription);
 
-    this.filteredAssetPairIds = this.searchByIdInput.valueChanges
+    this.filteredAssetPairSymbols = this.searchBySymbolInput.valueChanges
       .pipe(
         startWith(''),
         map(value => {
           const filterValue = value.toLowerCase();
-          return this.assetPairIds.filter(assetPairId => assetPairId.toLowerCase().includes(filterValue));
+          return this.assetPairSymbols.filter(assetPairSymbol => assetPairSymbol.toLowerCase().includes(filterValue));
         })
       );
 
-    this.filteredBaseAssetIds = this.searchByBaseAssetIdInput.valueChanges
+    this.filteredBaseAssetSymbols = this.searchByBaseAssetSymbolInput.valueChanges
       .pipe(
         startWith(''),
         map(value => {
           const filterValue = value.toLowerCase();
-          return this.assetIds.filter(assetId => assetId.toLowerCase().includes(filterValue));
+          return this.assetSymbols.filter(assetSymbol => assetSymbol.toLowerCase().includes(filterValue));
         })
       );
 
-    this.filteredQuotingAssetIds = this.searchByQuotingAssetIdInput.valueChanges
+    this.filteredQuotingAssetSymbols = this.searchByQuotingAssetSymbolInput.valueChanges
       .pipe(
         startWith(''),
         map(value => {
           const filterValue = value.toLowerCase();
-          return this.assetIds.filter(assetId => assetId.toLowerCase().includes(filterValue));
+          return this.assetSymbols.filter(assetSymbol => assetSymbol.toLowerCase().includes(filterValue));
         })
       );
 
@@ -123,21 +123,21 @@ export class AssetPairListComponent implements OnInit {
   }
 
   load() {
-    const status = this.status === 'enabled' ? true : this.status === 'disabled' ? false : null;
-    this.dataSource.load(this.assetPairId, this.baseAssetId, this.quotingAssetId, status);
+    const isDisabled = this.status === 'enabled' ? false : this.status === 'disabled' ? true : null;
+    this.dataSource.load(this.assetPairSymbol, this.baseAssetSymbol, this.quotingAssetSymbol, isDisabled);
   }
 
   loadAssets() {
     this.assetsService.getAll()
       .subscribe(assets => {
-        this.assetIds = assets.map(item => item.id);
+        this.assetSymbols = assets.map(item => item.symbol);
       });
   }
 
   loadAssetPairs() {
     this.assetPairsService.getAll()
       .subscribe(assetPairs => {
-        this.assetPairIds = assetPairs.map(item => item.id);
+        this.assetPairSymbols = assetPairs.map(item => item.symbol);
       });
   }
 
@@ -147,10 +147,9 @@ export class AssetPairListComponent implements OnInit {
 
   add() {
     const assetPair: AssetPair = {
-      id: null,
-      name: null,
-      baseAssetId: null,
-      quotingAssetId: null,
+      symbol: null,
+      baseAsset: null,
+      quotingAsset: null,
       accuracy: 0,
       minVolume: 0,
       maxVolume: 0,
@@ -165,8 +164,8 @@ export class AssetPairListComponent implements OnInit {
   }
 
   edit(assetPair: AssetPair) {
-    const saveMessage = assetPair.id ? 'Asset pair updated' : 'Asset pair added';
-    const messageType = assetPair.id ? MessageType.Update : MessageType.Create;
+    const saveMessage = assetPair.symbol ? 'Asset pair updated' : 'Asset pair added';
+    const messageType = assetPair.symbol ? MessageType.Update : MessageType.Create;
     const dialogRef = this.dialog.open(AssetPairEditDialogComponent, { data: { assetPair } });
 
     dialogRef.afterClosed().subscribe(res => {
@@ -187,7 +186,7 @@ export class AssetPairListComponent implements OnInit {
           return;
         }
 
-        this.assetPairsService.delete(assetPair.id)
+        this.assetPairsService.delete(assetPair.symbol)
           .subscribe(
             response => {
               this.layoutUtilsService.showActionNotification('Asset pair has been deleted.', MessageType.Delete, 3000, true, false);

@@ -1,6 +1,5 @@
 export interface Asset {
-    id: string;
-    name: string;
+    symbol: string;
     description: string;
     accuracy: number;
     isDisabled: boolean;

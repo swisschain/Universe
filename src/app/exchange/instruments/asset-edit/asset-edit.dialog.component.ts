@@ -1,10 +1,9 @@
-import { Component, OnInit, ChangeDetectionStrategy, ViewEncapsulation, OnDestroy, Inject } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ViewEncapsulation, OnDestroy, Inject, ChangeDetectorRef } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
+
 import { Asset } from '../../api/models/assets/asset.interface';
 import { AssetsService } from '../../api/assets.service';
-import { MessageType, LayoutUtilsService } from '../../../core/_base/crud';
 
 @Component({
   selector: 'kt-asset-edit-dialog',
@@ -15,20 +14,19 @@ import { MessageType, LayoutUtilsService } from '../../../core/_base/crud';
 })
 export class AssetEditDialogComponent implements OnInit, OnDestroy {
 
-  asset: Asset;
-  form: FormGroup;
-  hasFormErrors = false;
-  viewLoading = false;
-
-  private componentSubscriptions: Subscription;
-
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<AssetEditDialogComponent>,
     private fb: FormBuilder,
-    private assetsService: AssetsService,
-    private layoutUtilsService: LayoutUtilsService) {
+    private cdr: ChangeDetectorRef,
+    private assetsService: AssetsService) {
   }
+
+  asset: Asset;
+  form: FormGroup;
+  hasFormErrors = false;
+  errorMessage = '';
+  viewLoading = false;
 
   ngOnInit() {
     this.asset = this.data.asset;
@@ -36,33 +34,25 @@ export class AssetEditDialogComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.componentSubscriptions) {
-      this.componentSubscriptions.unsubscribe();
-    }
   }
 
   createForm() {
     this.form = this.fb.group({
-      id: [{ value: this.asset.id, disabled: this.asset.id ? true : false }, Validators.required],
-      name: [this.asset.name, Validators.required],
-      description: [this.asset.description, Validators.required],
-      accuracy: [this.asset.accuracy, Validators.required],
+      symbol: [{ value: this.asset.symbol, disabled: this.asset.symbol ? true : false }, Validators.compose([
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(36)]
+      )],
+      accuracy: [this.asset.accuracy, Validators.compose([
+        Validators.required,
+        Validators.min(0),
+        Validators.max(8)]
+      )],
+      description: [this.asset.description, Validators.compose([
+        Validators.maxLength(500)]
+      )],
       isDisabled: [this.asset.isDisabled, Validators.required]
     });
-  }
-
-  getTitle(): string {
-    if (this.asset.id) {
-      return 'Edit asset';
-    }
-
-    return 'New asset';
-  }
-
-  isControlInvalid(controlName: string): boolean {
-    const control = this.form.controls[controlName];
-    const result = control.invalid && control.touched;
-    return result;
   }
 
   onSubmit() {
@@ -73,13 +63,11 @@ export class AssetEditDialogComponent implements OnInit, OnDestroy {
       Object.keys(controls).forEach(controlName =>
         controls[controlName].markAsTouched()
       );
-
-      this.hasFormErrors = true;
       return;
     }
 
     const asset = this.prepare();
-    if (this.asset.id) {
+    if (this.asset.symbol) {
       this.update(asset);
     } else {
       this.create(asset);
@@ -90,8 +78,7 @@ export class AssetEditDialogComponent implements OnInit, OnDestroy {
     const controls = this.form.controls;
 
     const asset: Asset = {
-      id: this.asset.id,
-      name: controls.name.value,
+      symbol: controls.symbol.value,
       description: controls.description.value,
       accuracy: controls.accuracy.value,
       isDisabled: controls.isDisabled.value,
@@ -112,7 +99,9 @@ export class AssetEditDialogComponent implements OnInit, OnDestroy {
         },
         error => {
           this.viewLoading = false;
-          this.layoutUtilsService.showActionNotification('An error occurred while adding asset.', MessageType.Update, 3000, true, false);
+          this.hasFormErrors = true;
+          this.errorMessage = 'An error occurred while adding asset.';
+          this.cdr.markForCheck();
         }
       );
   }
@@ -127,13 +116,24 @@ export class AssetEditDialogComponent implements OnInit, OnDestroy {
         },
         error => {
           this.viewLoading = false;
-          this.layoutUtilsService.showActionNotification('An error occurred while updating asset.', MessageType.Update, 3000, true, false);
+          this.hasFormErrors = true;
+          this.errorMessage = 'An error occurred while updating asset.';
+          this.cdr.markForCheck();
         }
       );
   }
 
-  onAlertClose($event) {
-    this.hasFormErrors = false;
+  isControlHasError(controlName: string, validationType: string): boolean {
+    const control = this.form.controls[controlName];
+    if (!control) {
+      return false;
+    }
+    const result = control.hasError(validationType) && (control.dirty || control.touched);
+    return result;
   }
 
+  onAlertClose($event) {
+    this.hasFormErrors = false;
+    this.errorMessage = '';
+  }
 }

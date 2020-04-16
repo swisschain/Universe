@@ -30,5 +30,4 @@ export class AssetPairDetailsDialogComponent implements OnInit, OnDestroy {
       this.subscriptions.unsubscribe();
     }
   }
-
 }

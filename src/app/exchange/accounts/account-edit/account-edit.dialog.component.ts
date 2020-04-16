@@ -1,9 +1,6 @@
-import { Component, OnInit, ChangeDetectionStrategy, ViewEncapsulation, OnDestroy, Inject } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ViewEncapsulation, OnDestroy, Inject, ChangeDetectorRef } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
-
-import { MessageType, LayoutUtilsService } from '../../../core/_base/crud';
 
 import { Account } from '../../api/models/accounts/account.interface';
 import { AccountsService } from '../../api/accounts.service';
@@ -21,15 +18,14 @@ export class AccountEditDialogComponent implements OnInit, OnDestroy {
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<AccountEditDialogComponent>,
     private fb: FormBuilder,
-    private accountsService: AccountsService,
-    private layoutUtilsService: LayoutUtilsService) {
+    private cdr: ChangeDetectorRef,
+    private accountsService: AccountsService) {
   }
-
-  private componentSubscriptions: Subscription;
 
   account: Account;
   form: FormGroup;
   hasFormErrors = false;
+  errorMessage = '';
   viewLoading = false;
 
   ngOnInit() {
@@ -38,30 +34,17 @@ export class AccountEditDialogComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.componentSubscriptions) {
-      this.componentSubscriptions.unsubscribe();
-    }
   }
 
   createForm() {
     this.form = this.fb.group({
-      name: [this.account.name, Validators.required],
+      name: [this.account.name, Validators.compose([
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(36)]
+      )],
       isDisabled: [this.account.isDisabled, Validators.required]
     });
-  }
-
-  getTitle(): string {
-    if (this.account.id) {
-      return 'Edit account';
-    }
-
-    return 'New account';
-  }
-
-  isControlInvalid(controlName: string): boolean {
-    const control = this.form.controls[controlName];
-    const result = control.invalid && control.touched;
-    return result;
   }
 
   onSubmit() {
@@ -72,8 +55,6 @@ export class AccountEditDialogComponent implements OnInit, OnDestroy {
       Object.keys(controls).forEach(controlName =>
         controls[controlName].markAsTouched()
       );
-
-      this.hasFormErrors = true;
       return;
     }
 
@@ -97,7 +78,9 @@ export class AccountEditDialogComponent implements OnInit, OnDestroy {
         },
         error => {
           this.viewLoading = false;
-          this.layoutUtilsService.showActionNotification('An error occurred while adding account.', MessageType.Update, 3000, true, false);
+          this.hasFormErrors = true;
+          this.errorMessage = 'An error occurred while adding account.';
+          this.cdr.markForCheck();
         }
       );
   }
@@ -112,12 +95,24 @@ export class AccountEditDialogComponent implements OnInit, OnDestroy {
         },
         error => {
           this.viewLoading = false;
-          this.layoutUtilsService.showActionNotification('An error occurred while updating account.', MessageType.Update, 3000, true, false);
+          this.hasFormErrors = true;
+          this.errorMessage = 'An error occurred while updating account.';
+          this.cdr.markForCheck();
         }
       );
   }
 
+  isControlHasError(controlName: string, validationType: string): boolean {
+    const control = this.form.controls[controlName];
+    if (!control) {
+      return false;
+    }
+    const result = control.hasError(validationType) && (control.dirty || control.touched);
+    return result;
+  }
+
   onAlertClose($event) {
     this.hasFormErrors = false;
+    this.errorMessage = '';
   }
 }

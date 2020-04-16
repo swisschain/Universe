@@ -12,15 +12,15 @@
             <div class="row align-items-center">
                 <div class="col-md-3 kt-margin-bottom-10-mobile">
                     <mat-form-field class="mat-form-field-fluid">
-                        <input type="text" [formControl]="searchByIdInput" matInput placeholder="Asset id"
-                            [matAutocomplete]="searchByIdAutocomplete">
-                        <mat-autocomplete #searchByIdAutocomplete="matAutocomplete">
-                            <mat-option *ngFor="let item of filteredAssetIds | async" [value]="item">
+                        <input type="text" [formControl]="searchBySymbolInput" matInput placeholder="Asset symbol"
+                            [matAutocomplete]="searchBySymbolAutocomplete">
+                        <mat-autocomplete #searchBySymbolAutocomplete="matAutocomplete">
+                            <mat-option *ngFor="let item of filteredAssetSymbols | async" [value]="item">
                                 {{item}}
                             </mat-option>
                         </mat-autocomplete>
                         <mat-hint align="start">
-                            <strong>Search</strong> by id
+                            <strong>Search</strong> by symbol
                         </mat-hint>
                     </mat-form-field>
                 </div>
@@ -44,14 +44,9 @@
 
     <div class="mat-table__wrapper">
         <mat-table class="lmat-elevation-z8" #table [dataSource]="dataSource">
-            <ng-container matColumnDef="assetId">
-                <mat-header-cell *matHeaderCellDef>Id</mat-header-cell>
-                <mat-cell *matCellDef="let item">{{item.id}}</mat-cell>
-            </ng-container>
-
-            <ng-container matColumnDef="name">
-                <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
-                <mat-cell *matCellDef="let item">{{item.name}}</mat-cell>
+            <ng-container matColumnDef="symbol">
+                <mat-header-cell *matHeaderCellDef>Symbol</mat-header-cell>
+                <mat-cell *matCellDef="let item">{{item.symbol}}</mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="description">

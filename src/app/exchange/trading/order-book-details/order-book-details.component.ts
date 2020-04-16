@@ -27,7 +27,7 @@ export class OrderBookDetailsComponent implements OnInit, OnDestroy {
 
   private subscriptions: Subscription[] = [];
 
-  assetPairId: string;
+  symbol: string;
   dataSource: LimitOrdersDataSource;
   displayedColumns = ['buyPrice', 'volume', 'sellPrice', 'walletId', 'limitOrderId', 'actions'];
 
@@ -35,7 +35,7 @@ export class OrderBookDetailsComponent implements OnInit, OnDestroy {
     this.dataSource = new LimitOrdersDataSource(this.orderBooksService);
 
     const routeSubscription = this.route.params.subscribe(params => {
-      this.assetPairId = params['assetPairId'];
+      this.symbol = params['symbol'];
       this.load();
     });
 
@@ -47,13 +47,13 @@ export class OrderBookDetailsComponent implements OnInit, OnDestroy {
   }
 
   load() {
-    this.dataSource.load(this.assetPairId);
+    this.dataSource.load(this.symbol);
   }
 
   create() {
     const message = 'Limit order created';
     const messageType = MessageType.Create;
-    const dialogRef = this.dialog.open(LimitOrderEditDialogComponent, { data: { assetPairId: this.assetPairId } });
+    const dialogRef = this.dialog.open(LimitOrderEditDialogComponent, { data: { assetPairId: this.symbol } });
 
     dialogRef.afterClosed()
       .subscribe(res => {

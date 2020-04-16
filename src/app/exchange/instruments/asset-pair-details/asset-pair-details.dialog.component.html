@@ -11,21 +11,17 @@
                     <h3 class="kt-form__heading-title">Info:</h3>
                 </div>
                 <div class="form-group kt-form__group row">
-                    <label class="col-lg-2 col-form-label">Id:</label>
-                    <label class="col-lg-6 col-form-label">{{assetPair.id}}</label>
-                </div>
-                <div class="form-group kt-form__group row">
-                    <label class="col-lg-2 col-form-label">Name:</label>
-                    <label class="col-lg-2 col-form-label">{{assetPair.name}}</label>
+                    <label class="col-lg-2 col-form-label">Symbol:</label>
+                    <label class="col-lg-2 col-form-label">{{assetPair.symbol}}</label>
                     <label class="col-lg-2 col-form-label">Status:</label>
                     <label class="col-lg-2 col-form-label"
                         [ngStyle]="{'color': assetPair.isDisabled === false ? 'red' : 'green'}">{{assetPair.isDisabled ? 'active' : 'disable'}}</label>
                 </div>
                 <div class="form-group kt-form__group row">
-                    <label class="col-lg-2 col-form-label">Base Asset Id:</label>
-                    <label class="col-lg-2 col-form-label">{{assetPair.baseAssetId}}</label>
-                    <label class="col-lg-3 col-form-label">Quoting Asset Id:</label>
-                    <label class="col-lg-2 col-form-label">{{assetPair.quotingAssetId}}</label>
+                    <label class="col-lg-2 col-form-label">Base Asset:</label>
+                    <label class="col-lg-2 col-form-label">{{assetPair.baseAsset}}</label>
+                    <label class="col-lg-3 col-form-label">Quoting Asset:</label>
+                    <label class="col-lg-2 col-form-label">{{assetPair.quotingAsset}}</label>
                 </div>
                 <div class="kt-form__heading">
                     <h3 class="kt-form__heading-title">Properties:</h3>

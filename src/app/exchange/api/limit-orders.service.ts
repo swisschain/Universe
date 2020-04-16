@@ -10,13 +10,13 @@ const API_URL = 'exchange/api/operations/trading/limit-order';
 export class LimitOrdersService {
     constructor(private http: HttpClient) { }
 
-    create(assetPairId: string, walletId: string, type: LimitOrderType, price: number, volume: number, cancelPrevious: boolean) {
+    create(symbol: string, walletId: string, type: LimitOrderType, price: number, volume: number, cancelPrevious: boolean) {
         return this.http.post<LimitOrderCreateResult>(`${API_URL}`, {
-            assetPairId: assetPairId,
+            symbol: symbol,
             walletId: walletId,
-            type: type,
+            type: 'limit',
             price: price,
-            volume: volume,
+            volume: type === LimitOrderType.Sell ? -volume : volume,
             cancelPrevious: cancelPrevious
         });
     }

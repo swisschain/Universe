@@ -6,9 +6,10 @@
             </h3>
         </ng-container>
         <ng-container ktPortletTools>
-            <button (click)="load()" mat-raised-button matTooltip="Refresh" color="primary" type="button">
-                <span>Refresh</span>
-            </button>
+            <a (click)="load()" href="javascript:;" class="btn btn-secondary kt-margin-r-10" mat-raised-button matTooltip="Refresh order book list">
+                <i class="la la-refresh"></i>
+                <span class="kt-hidden-mobile">Refresh</span>
+            </a>
         </ng-container>
     </kt-portlet-header>
 
@@ -16,9 +17,9 @@
         <div class="mat-table__wrapper">
             <mat-table #table [dataSource]="dataSource">
 
-                <ng-container matColumnDef="assetPairId">
+                <ng-container matColumnDef="symbol">
                     <mat-header-cell *matHeaderCellDef>Asset Pair</mat-header-cell>
-                    <mat-cell *matCellDef="let item">{{item.assetPairId}}</mat-cell>
+                    <mat-cell *matCellDef="let item">{{item.symbol}}</mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="ask">
@@ -60,7 +61,7 @@
                     <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
                     <mat-cell *matCellDef="let item">
                         <button mat-icon-button color="primary" matTooltip="Order book details" type="button"
-                        [routerLink]="['./',item.assetPairId]">
+                        [routerLink]="['./',item.symbol]">
                             <mat-icon>more_horiz</mat-icon>
                         </button>&nbsp;
                     </mat-cell>

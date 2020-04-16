@@ -1,7 +1,7 @@
 <div class="kt-portlet" [ngClass]="{ 'kt-portlet--body-progress kt-portlet--body-progress-overlay' : viewLoading }">
     <div class="kt-portlet__head kt-portlet__head__custom">
         <div class="kt-portlet__head-label">
-            <h3 class="kt-portlet__head-title">{{asset.symbol ? 'Edit' : 'New'}} Asset</h3>
+            <h3 class="kt-portlet__head-title">Create Market Order</h3>
         </div>
     </div>
     <form class="kt-form" [formGroup]="form">
@@ -17,62 +17,57 @@
             </kt-alert>
 
             <div class="form-group kt-form__group row">
-                <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                <div class="col-lg-6 kt-margin-bottom-20-mobile">
                     <mat-form-field class="mat-form-field-fluid">
-                        <input matInput placeholder="Enter symbol" formControlName="symbol" maxlength="36"/>
-                        <mat-error *ngIf="isControlHasError('symbol','required')">
+                        <mat-select placeholder="Asset pair" formControlName="assetPair">
+                            <mat-option>None</mat-option>
+                            <mat-option *ngFor="let assetPair of assetPairs" [value]="assetPair">{{assetPair}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="isControlHasError('assetPair','required')">
                             <strong>Required field</strong>
                         </mat-error>
-                        <mat-error *ngIf="isControlHasError('symbol','minlength')">
-                            <strong>Minimum field length: 3</strong>
-                        </mat-error>
-                        <mat-error *ngIf="isControlHasError('symbol','maxlength')">
-                            <strong>Maximum field length: 36</strong>
-                        </mat-error>
                         <mat-hint align="start">Please enter
-                            <strong>symbol</strong>
+                            <strong>asset pair</strong>
                         </mat-hint>
                     </mat-form-field>
                 </div>
-                <div class="col-lg-2 kt-margin-bottom-20-mobile">
+                <div class="col-lg-6 kt-margin-bottom-20-mobile">
                     <mat-form-field class="mat-form-field-fluid">
-                        <input matInput type="number" placeholder="Enter accuracy" formControlName="accuracy" min="0" max="8" step="1"/>
-                        <mat-error *ngIf="isControlHasError('accuracy','required')">
+                        <mat-select placeholder="Order side" formControlName="type">
+                            <mat-option>None</mat-option>
+                            <mat-option *ngFor="let type of types" [value]="type">{{type}}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="isControlHasError('type','required')">
                             <strong>Required field</strong>
                         </mat-error>
-                        <mat-error *ngIf="isControlHasError('accuracy','min')">
-                            <strong>Minimum field value: 0</strong>
-                        </mat-error>
-                        <mat-error *ngIf="isControlHasError('accuracy','max')">
-                            <strong>Maximum field value: 8</strong>
-                        </mat-error>
                         <mat-hint align="start">Please enter
-                            <strong>accuracy</strong>
-                        </mat-hint>
-                    </mat-form-field>
-                </div>
-            </div>
-            <div class="kt-separator kt-separator--dashed"></div>
-            
-            <div class="form-group kt-form__group row">
-                <div class="col-lg-8 kt-margin-bottom-20-mobile">
-                    <mat-form-field class="mat-form-field-fluid">
-                        <input matInput placeholder="Enter Description" formControlName="description" maxlength="500" />
-                        <mat-error *ngIf="isControlHasError('description','maxlength')">
-                            <strong>Maximum field length: 500</strong>
-                        </mat-error>
-                        <mat-hint align="start">Please enter
-                            <strong>description</strong>
+                            <strong>Order side</strong>
                         </mat-hint>
                     </mat-form-field>
                 </div>
             </div>
 
             <div class="kt-separator kt-separator--dashed"></div>
-            
+
             <div class="form-group kt-form__group row">
-                <div class="col-lg-4 kt-margin-bottom-20-mobile">
-                    <mat-checkbox formControlName="isDisabled">Disabled</mat-checkbox>
+                <div class="col-lg-6 kt-margin-bottom-20-mobile">
+                    <mat-form-field class="mat-form-field-fluid">
+                        <input matInput type="number" placeholder="Enter volume" formControlName="volume" min="0"
+                            max="100000" step="0.1" />
+                        <mat-error *ngIf="isControlHasError('volume','required')">
+                            <strong>Required field</strong>
+                        </mat-error>
+                        <mat-error *ngIf="isControlHasError('volume','min')">
+                            <strong>Minimum field value: 0</strong>
+                        </mat-error>
+                        <mat-error *ngIf="isControlHasError('volume','max')">
+                            <strong>Maximum field value: 100000</strong>
+                        </mat-error>
+                        <mat-hint align="start">Please enter
+                            <strong>volume</strong>
+                        </mat-hint>
+                    </mat-form-field>
                 </div>
             </div>
         </div>
@@ -81,12 +76,12 @@
                 <div class="row text-right">
                     <div class="col-lg-12">
                         <button type="button" mat-raised-button [mat-dialog-close]="data.animal" cdkFocusInitial
-                            matTooltip="Cancel changes">
+                            matTooltip="Cancel">
                             Cancel
                         </button>&nbsp;
                         <button type="button" mat-raised-button color="primary" (click)="onSubmit()"
-                            [disabled]="viewLoading" matTooltip="Save changes">
-                            Save
+                            [disabled]="viewLoading" matTooltip="Create market order">
+                            Create
                         </button>
                     </div>
                 </div>

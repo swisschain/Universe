@@ -31,7 +31,7 @@ const routes: Routes = [
         component: OrderBookListComponent
     },
     {
-        path: 'trading/order-books/:assetPairId',
+        path: 'trading/order-books/:symbol',
         component: OrderBookDetailsComponent
     },
     {

@@ -21,47 +21,47 @@ import { AssetDetailsDialogComponent } from '../asset-details/asset-details.dial
 })
 export class AssetListComponent implements OnInit, OnDestroy {
 
-  private subscriptions: Subscription[] = [];
-
   constructor(
     public dialog: MatDialog,
     public snackBar: MatSnackBar,
     private layoutUtilsService: LayoutUtilsService,
     private assetsService: AssetsService) { }
 
-  searchByIdInput = new FormControl();
+  private subscriptions: Subscription[] = [];
+
+  searchBySymbolInput = new FormControl();
 
   dataSource: AssetsDataSource;
-  displayedColumns = ['assetId', 'name', 'description', 'accuracy', 'isDisabled', 'created', 'modified', 'actions'];
+  displayedColumns = ['symbol', 'description', 'accuracy', 'isDisabled', 'created', 'modified', 'actions'];
 
-  assetIds: string[] = [];
-  filteredAssetIds: Observable<string[]>;
+  assetSymbols: string[] = [];
+  filteredAssetSymbols: Observable<string[]>;
 
-  assetId = '';
+  assetSymbol = '';
   status = '';
 
   ngOnInit() {
 
     this.dataSource = new AssetsDataSource(this.assetsService);
 
-    const searchByIdSubscription = this.searchByIdInput.valueChanges
+    const searchByIdSubscription = this.searchBySymbolInput.valueChanges
       .pipe(
         debounceTime(500),
         distinctUntilChanged()
       )
       .subscribe(value => {
-        this.assetId = value;
+        this.assetSymbol = value;
         this.load();
       });
 
     this.subscriptions.push(searchByIdSubscription);
 
-    this.filteredAssetIds = this.searchByIdInput.valueChanges
+    this.filteredAssetSymbols = this.searchBySymbolInput.valueChanges
       .pipe(
         startWith(''),
         map(value => {
           const filterValue = value.toLowerCase();
-          return this.assetIds.filter(assetId => assetId.toLowerCase().includes(filterValue));
+          return this.assetSymbols.filter(assetSymbol => assetSymbol.toLowerCase().includes(filterValue));
         })
       );
 
@@ -74,14 +74,14 @@ export class AssetListComponent implements OnInit, OnDestroy {
   }
 
   load() {
-    const status = this.status === 'enabled' ? true : this.status === 'disabled' ? false : null;
-    this.dataSource.load(this.assetId, status);
+    const isDisabled = this.status === 'enabled' ? false : this.status === 'disabled' ? true : null;
+    this.dataSource.load(this.assetSymbol, isDisabled);
   }
 
   loadAssets() {
     this.assetsService.getAll()
       .subscribe(assets => {
-        this.assetIds = assets.map(item => item.id);
+        this.assetSymbols = assets.map(item => item.symbol);
       });
   }
 
@@ -91,8 +91,7 @@ export class AssetListComponent implements OnInit, OnDestroy {
 
   add() {
     const asset: Asset = {
-      id: null,
-      name: null,
+      symbol: null,
       description: null,
       accuracy: 0,
       isDisabled: false,
@@ -104,8 +103,8 @@ export class AssetListComponent implements OnInit, OnDestroy {
   }
 
   edit(asset: Asset) {
-    const saveMessage = asset.id ? 'Asset update' : 'Asset added';
-    const messageType = asset.id ? MessageType.Update : MessageType.Create;
+    const saveMessage = asset.symbol ? 'Asset update' : 'Asset added';
+    const messageType = asset.symbol ? MessageType.Update : MessageType.Create;
     const dialogRef = this.dialog.open(AssetEditDialogComponent, { data: { asset } });
 
     dialogRef.afterClosed().subscribe(res => {
@@ -126,7 +125,7 @@ export class AssetListComponent implements OnInit, OnDestroy {
           return;
         }
 
-        this.assetsService.delete(asset.id)
+        this.assetsService.delete(asset.symbol)
           .subscribe(
             response => {
               this.layoutUtilsService.showActionNotification('Asset has been deleted.', MessageType.Delete, 3000, true, false);

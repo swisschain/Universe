@@ -12,21 +12,20 @@ import { PagedResponse } from '../api/models/pagination/paged-response.interface
 export class OrderBooksDataSource implements DataSource<OrderBookRowItem> {
 
     constructor(private orderBooksService: OrderBooksService) {
-        const hasItemsSubscription = this.paginatorTotal$.pipe(
+        const hasItemsSubscription = this.itemsSubject.asObservable().pipe(
             distinctUntilChanged(),
             skip(1)
-        ).subscribe(res => this.hasItems = res > 0);
+        ).subscribe(result => this.hasItems = result && result.length > 0);
         this.subscriptions.push(hasItemsSubscription);
     }
 
     private itemsSubject = new BehaviorSubject<OrderBookRowItem[]>([]);
     private loadingSubject = new BehaviorSubject<boolean>(false);
-    private paginatorTotalSubject = new BehaviorSubject<number>(0);
     private subscriptions: Subscription[] = [];
 
     hasItems = true;
-    paginatorTotal$ = this.paginatorTotalSubject.asObservable();
     loading$ = this.loadingSubject.asObservable();
+    isPreloadTextViewed$ = this.loadingSubject.asObservable();
 
     connect(collectionViewer: CollectionViewer): Observable<OrderBookRowItem[]> {
         return this.itemsSubject.asObservable();
@@ -35,8 +34,7 @@ export class OrderBooksDataSource implements DataSource<OrderBookRowItem> {
     disconnect(collectionViewer: CollectionViewer): void {
         this.itemsSubject.complete();
         this.loadingSubject.complete();
-        this.paginatorTotalSubject.complete();
-        this.subscriptions.forEach(sb => sb.unsubscribe());
+        this.subscriptions.forEach(subscription => subscription.unsubscribe());
     }
 
     load() {
@@ -47,12 +45,11 @@ export class OrderBooksDataSource implements DataSource<OrderBookRowItem> {
                 finalize(() => this.loadingSubject.next(false))
             )
             .subscribe((orderBooks: PagedResponse<OrderBook>) => {
-                this.paginatorTotalSubject.next(orderBooks.items.length);
                 this.itemsSubject.next(orderBooks.items.map(orderBook => {
                     const ask = this.getPrice(orderBook, LimitOrderType.Sell);
                     const bid = this.getPrice(orderBook, LimitOrderType.Buy);
                     return {
-                        assetPairId: orderBook.assetPairId,
+                        symbol: orderBook.symbol,
                         ask: ask,
                         bid: bid,
                         mid: ask && bid ? (ask + bid) / 2 : null,

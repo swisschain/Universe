@@ -59,8 +59,8 @@ export class AccountListComponent implements OnInit, OnDestroy {
   }
 
   load() {
-    const status = this.status === 'enabled' ? true : this.status === 'disabled' ? false : null;
-    this.dataSource.load(this.name, status);
+    const isDisabled = this.status === 'enabled' ? false : this.status === 'disabled' ? true : null;
+    this.dataSource.load(this.name, isDisabled);
   }
 
   add() {

@@ -1,13 +1,11 @@
 import { Component, OnInit, ChangeDetectionStrategy, ViewEncapsulation, OnDestroy, Inject, ChangeDetectorRef } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
 
 import { Asset } from '../../api/models/assets/asset.interface';
 import { AssetPair } from '../../api/models/asset-pairs/asset-pair.interface';
 import { AssetsService } from '../../api/assets.service';
 import { AssetPairsService } from '../../api/asset-pairs.service';
-import { MessageType, LayoutUtilsService } from '../../../core/_base/crud';
 
 @Component({
   selector: 'kt-asset-pair-edit',
@@ -22,18 +20,16 @@ export class AssetPairEditDialogComponent implements OnInit, OnDestroy {
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<AssetPairEditDialogComponent>,
     private fb: FormBuilder,
-    private cd: ChangeDetectorRef,
+    private cdr: ChangeDetectorRef,
     private assetsService: AssetsService,
-    private assetPairsService: AssetPairsService,
-    private layoutUtilsService: LayoutUtilsService) {
+    private assetPairsService: AssetPairsService) {
   }
-
-  private subscriptions: Subscription;
 
   assetPair: AssetPair;
   assets: Asset[];
   form: FormGroup;
   hasFormErrors = false;
+  errorMessage = '';
   viewLoading = false;
 
   ngOnInit() {
@@ -43,44 +39,50 @@ export class AssetPairEditDialogComponent implements OnInit, OnDestroy {
       .subscribe(assets => {
         this.assets = assets
         this.viewLoading = false;
-        this.cd.markForCheck();
+        this.cdr.markForCheck();
       });
-      this.createForm();
+    this.createForm();
   }
 
   ngOnDestroy() {
-    if (this.subscriptions) {
-      this.subscriptions.unsubscribe();
-    }
   }
 
   createForm() {
     this.form = this.fb.group({
-      id: [{ value: this.assetPair.id, disabled: this.assetPair.id ? true : false }, Validators.required],
-      name: [this.assetPair.name, Validators.required],
-      baseAssetId: [this.assetPair.baseAssetId, Validators.required],
-      quotingAssetId: [this.assetPair.quotingAssetId, Validators.required],
-      accuracy: [this.assetPair.accuracy, Validators.required],
-      minVolume: [this.assetPair.minVolume, Validators.required],
-      maxVolume: [this.assetPair.maxVolume, Validators.required],
-      maxOppositeVolume: [this.assetPair.maxOppositeVolume, Validators.required],
-      marketOrderPriceThreshold: [this.assetPair.marketOrderPriceThreshold, Validators.required],
+      symbol: [{ value: this.assetPair.symbol, disabled: this.assetPair.symbol ? true : false }, Validators.compose([
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(36)]
+      )],
+      baseAsset: [{ value: this.assetPair.baseAsset, disabled: this.assetPair.symbol ? true : false }, Validators.required],
+      quotingAsset: [{ value: this.assetPair.quotingAsset, disabled: this.assetPair.symbol ? true : false }, Validators.required],
+      accuracy: [this.assetPair.accuracy, Validators.compose([
+        Validators.required,
+        Validators.min(0),
+        Validators.max(8)]
+      )],
+      minVolume: [this.assetPair.minVolume, Validators.compose([
+        Validators.required,
+        Validators.min(0),
+        Validators.max(10000)]
+      )],
+      maxVolume: [this.assetPair.maxVolume, Validators.compose([
+        Validators.required,
+        Validators.min(0),
+        Validators.max(10000)]
+      )],
+      maxOppositeVolume: [this.assetPair.maxOppositeVolume, Validators.compose([
+        Validators.required,
+        Validators.min(0),
+        Validators.max(10000)]
+      )],
+      marketOrderPriceThreshold: [this.assetPair.marketOrderPriceThreshold, Validators.compose([
+        Validators.required,
+        Validators.min(0),
+        Validators.max(10000)]
+      )],
       isDisabled: [this.assetPair.isDisabled, Validators.required]
     });
-  }
-
-  getTitle(): string {
-    if (this.assetPair.id) {
-      return 'Edit asset pair';
-    }
-
-    return 'New asset pair';
-  }
-
-  isControlInvalid(controlName: string): boolean {
-    const control = this.form.controls[controlName];
-    const result = control.invalid && control.touched;
-    return result;
   }
 
   onSubmit() {
@@ -91,13 +93,11 @@ export class AssetPairEditDialogComponent implements OnInit, OnDestroy {
       Object.keys(controls).forEach(controlName =>
         controls[controlName].markAsTouched()
       );
-
-      this.hasFormErrors = true;
       return;
     }
 
     const assetPair = this.prepare();
-    if (this.assetPair.id) {
+    if (this.assetPair.symbol) {
       this.update(assetPair);
     } else {
       this.create(assetPair);
@@ -108,10 +108,9 @@ export class AssetPairEditDialogComponent implements OnInit, OnDestroy {
     const controls = this.form.controls;
 
     const assetPair: AssetPair = {
-      id: controls.id.value,
-      name: controls.name.value,
-      baseAssetId: controls.baseAssetId.value,
-      quotingAssetId: controls.quotingAssetId.value,
+      symbol: controls.symbol.value,
+      baseAsset: controls.baseAsset.value,
+      quotingAsset: controls.quotingAsset.value,
       accuracy: controls.accuracy.value,
       minVolume: controls.minVolume.value,
       maxVolume: controls.maxVolume.value,
@@ -135,7 +134,9 @@ export class AssetPairEditDialogComponent implements OnInit, OnDestroy {
         },
         error => {
           this.viewLoading = false;
-          this.layoutUtilsService.showActionNotification('An error occurred while adding asset pair.', MessageType.Update, 3000, true, false);
+          this.hasFormErrors = true;
+          this.errorMessage = 'An error occurred while creating asset pair.';
+          this.cdr.markForCheck();
         }
       );
   }
@@ -150,12 +151,24 @@ export class AssetPairEditDialogComponent implements OnInit, OnDestroy {
         },
         error => {
           this.viewLoading = false;
-          this.layoutUtilsService.showActionNotification('An error occurred while updating asset pair.', MessageType.Update, 3000, true, false);
+          this.hasFormErrors = true;
+          this.errorMessage = 'An error occurred while updating asset pair.';
+          this.cdr.markForCheck();
         }
       );
   }
 
+  isControlHasError(controlName: string, validationType: string): boolean {
+    const control = this.form.controls[controlName];
+    if (!control) {
+      return false;
+    }
+    const result = control.hasError(validationType) && (control.dirty || control.touched);
+    return result;
+  }
+
   onAlertClose($event) {
     this.hasFormErrors = false;
+    this.errorMessage = '';
   }
 }

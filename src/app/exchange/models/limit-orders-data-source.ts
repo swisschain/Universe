@@ -10,22 +10,21 @@ import { PagedResponse } from '../api/models/pagination/paged-response.interface
 
 export class LimitOrdersDataSource implements DataSource<LimitOrder> {
 
-    private itemsSubject = new BehaviorSubject<LimitOrder[]>([]);
-    private loadingSubject = new BehaviorSubject<boolean>(false);
-    private paginatorTotalSubject = new BehaviorSubject<number>(0);
-    private subscriptions: Subscription[] = [];
-
     constructor(private orderBooksService: OrderBooksService) {
-        const hasItemsSubscription = this.paginatorTotal$.pipe(
+        const hasItemsSubscription = this.itemsSubject.asObservable().pipe(
             distinctUntilChanged(),
             skip(1)
-        ).subscribe(res => this.hasItems = res > 0);
+        ).subscribe(result => this.hasItems = result && result.length > 0);
         this.subscriptions.push(hasItemsSubscription);
     }
 
+    private itemsSubject = new BehaviorSubject<LimitOrder[]>([]);
+    private loadingSubject = new BehaviorSubject<boolean>(false);
+    private subscriptions: Subscription[] = [];
+
     hasItems = true;
-    paginatorTotal$ = this.paginatorTotalSubject.asObservable();
     loading$ = this.loadingSubject.asObservable();
+    isPreloadTextViewed$ = this.loadingSubject.asObservable();
 
     connect(collectionViewer: CollectionViewer): Observable<LimitOrder[]> {
         return this.itemsSubject.asObservable();
@@ -34,19 +33,17 @@ export class LimitOrdersDataSource implements DataSource<LimitOrder> {
     disconnect(collectionViewer: CollectionViewer): void {
         this.itemsSubject.complete();
         this.loadingSubject.complete();
-        this.paginatorTotalSubject.complete();
-        this.subscriptions.forEach(sb => sb.unsubscribe());
+        this.subscriptions.forEach(subscription => subscription.unsubscribe());
     }
 
     load(assetPairId: string) {
         this.loadingSubject.next(true);
-        this.orderBooksService.getByAssetPairId(assetPairId)
+        this.orderBooksService.getByAssetPair(assetPairId)
             .pipe(
                 catchError(() => of([])),
                 finalize(() => this.loadingSubject.next(false))
             )
             .subscribe((response: OrderBook) => {
-                this.paginatorTotalSubject.next(response.limitOrders.length);
                 this.itemsSubject.next(response.limitOrders.sort((left, right) => (left.price > right.price ? -1 : 1)))
             });
     }

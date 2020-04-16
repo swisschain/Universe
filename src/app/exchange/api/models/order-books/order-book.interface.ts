@@ -1,7 +1,7 @@
 import { LimitOrder } from './limit-order.interface';
 
 export interface OrderBook {
-    assetPairId: string;
+    symbol: string;
     limitOrders: LimitOrder[];
     timestamp: Date;
 }

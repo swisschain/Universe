@@ -19,22 +19,21 @@ export class AssetsService {
             );
     }
 
-    get(assetId: string, isEnabled: boolean) {
+    get(symbol: string, IsDisabled: boolean) {
         const params = new HttpParams()
-            .set('assetId', assetId)
-            .set('isEnabled', isEnabled === true ? 'true' : isEnabled === false ? 'false' : '');
+            .set('symbol', symbol)
+            .set('IsDisabled', IsDisabled === true ? 'true' : IsDisabled === false ? 'false' : '');
 
         return this.http.get<PagedResponse<Asset>>(`${API_URL}`, { params: params });
     }
 
-    getById(assetId: string) {
-        return this.http.get<Asset>(`${API_URL}/${assetId}`);
+    getBySymbol(symbol: string) {
+        return this.http.get<Asset>(`${API_URL}/${symbol}`);
     }
 
     add(asset: Asset) {
         return this.http.post(`${API_URL}`, {
-            id: asset.id,
-            name: asset.name,
+            symbol: asset.symbol,
             description: asset.description,
             accuracy: asset.accuracy,
             isDisabled: asset.isDisabled
@@ -43,15 +42,14 @@ export class AssetsService {
 
     update(asset: Asset) {
         return this.http.put(`${API_URL}`, {
-            id: asset.id,
-            name: asset.name,
+            symbol: asset.symbol,
             description: asset.description,
             accuracy: asset.accuracy,
             isDisabled: asset.isDisabled
         });
     }
 
-    delete(assetId: string) {
-        return this.http.delete(`${API_URL}/${assetId}`);
+    delete(symbol: string) {
+        return this.http.delete(`${API_URL}/${symbol}`);
     }
 }

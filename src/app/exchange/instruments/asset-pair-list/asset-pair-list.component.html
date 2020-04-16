@@ -12,43 +12,43 @@
             <div class="row align-items-center">
                 <div class="col-md-3 kt-margin-bottom-10-mobile">
                     <mat-form-field class="mat-form-field-fluid">
-                        <input type="text" [formControl]="searchByIdInput" matInput placeholder="Asset pair id"
-                            [matAutocomplete]="searchByIdAutocomplete">
-                        <mat-autocomplete #searchByIdAutocomplete="matAutocomplete">
-                            <mat-option *ngFor="let item of filteredAssetPairIds | async" [value]="item">
+                        <input type="text" [formControl]="searchBySymbolInput" matInput placeholder="Asset pair symbol"
+                            [matAutocomplete]="searchBySymbolAutocomplete">
+                        <mat-autocomplete #searchBySymbolAutocomplete="matAutocomplete">
+                            <mat-option *ngFor="let item of filteredAssetPairSymbols | async" [value]="item">
                                 {{item}}
                             </mat-option>
                         </mat-autocomplete>
                         <mat-hint align="start">
-                            <strong>Search</strong> by id
+                            <strong>Search</strong> by symbol
                         </mat-hint>
                     </mat-form-field>
                 </div>
                 <div class="col-md-3 kt-margin-bottom-10-mobile">
                     <mat-form-field class="mat-form-field-fluid">
-                        <input type="text" [formControl]="searchByBaseAssetIdInput" matInput placeholder="Asset pair id"
-                            [matAutocomplete]="searchByBaseAssetIdAutocomplete">
-                        <mat-autocomplete #searchByBaseAssetIdAutocomplete="matAutocomplete">
-                            <mat-option *ngFor="let item of filteredBaseAssetIds | async" [value]="item">
+                        <input type="text" [formControl]="searchByBaseAssetSymbolInput" matInput placeholder="Base asset symbol"
+                            [matAutocomplete]="searchByBaseAssetSymbolAutocomplete">
+                        <mat-autocomplete #searchByBaseAssetSymbolAutocomplete="matAutocomplete">
+                            <mat-option *ngFor="let item of filteredBaseAssetSymbols | async" [value]="item">
                                 {{item}}
                             </mat-option>
                         </mat-autocomplete>
                         <mat-hint align="start">
-                            <strong>Search</strong> by base asset id
+                            <strong>Search</strong> by base asset symbol
                         </mat-hint>
                     </mat-form-field>
                 </div>
                 <div class="col-md-3 kt-margin-bottom-10-mobile">
                     <mat-form-field class="mat-form-field-fluid">
-                        <input type="text" [formControl]="searchByQuotingAssetIdInput" matInput placeholder="Asset pair id"
-                            [matAutocomplete]="searchByQuotingAssetIdAutocomplete">
-                        <mat-autocomplete #searchByQuotingAssetIdAutocomplete="matAutocomplete">
-                            <mat-option *ngFor="let item of filteredQuotingAssetIds | async" [value]="item">
+                        <input type="text" [formControl]="searchByQuotingAssetSymbolInput" matInput
+                            placeholder="Quoting asset symbol" [matAutocomplete]="searchByQuotingAssetSymbolAutocomplete">
+                        <mat-autocomplete #searchByQuotingAssetSymbolAutocomplete="matAutocomplete">
+                            <mat-option *ngFor="let item of filteredQuotingAssetSymbols | async" [value]="item">
                                 {{item}}
                             </mat-option>
                         </mat-autocomplete>
                         <mat-hint align="start">
-                            <strong>Search</strong> by quoting asset id
+                            <strong>Search</strong> by quoting asset symbol
                         </mat-hint>
                     </mat-form-field>
                 </div>
@@ -72,24 +72,19 @@
 
     <div class="mat-table__wrapper">
         <mat-table class="lmat-elevation-z8" #table [dataSource]="dataSource">
-            <ng-container matColumnDef="assetPairId">
-                <mat-header-cell *matHeaderCellDef>Id</mat-header-cell>
-                <mat-cell *matCellDef="let item">{{item.id}}</mat-cell>
+            <ng-container matColumnDef="symbol">
+                <mat-header-cell *matHeaderCellDef>Symbol</mat-header-cell>
+                <mat-cell *matCellDef="let item">{{item.symbol}}</mat-cell>
             </ng-container>
 
-            <ng-container matColumnDef="name">
-                <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
-                <mat-cell *matCellDef="let item">{{item.name}}</mat-cell>
+            <ng-container matColumnDef="baseAsset">
+                <mat-header-cell *matHeaderCellDef>Base Asset</mat-header-cell>
+                <mat-cell *matCellDef="let item">{{item.baseAsset}}</mat-cell>
             </ng-container>
 
-            <ng-container matColumnDef="baseAssetId">
-                <mat-header-cell *matHeaderCellDef>Base Asset Id</mat-header-cell>
-                <mat-cell *matCellDef="let item">{{item.baseAssetId}}</mat-cell>
-            </ng-container>
-
-            <ng-container matColumnDef="quotingAssetId">
-                <mat-header-cell *matHeaderCellDef>Quoting Asset Id</mat-header-cell>
-                <mat-cell *matCellDef="let item">{{item.quotingAssetId}}</mat-cell>
+            <ng-container matColumnDef="quotingAsset">
+                <mat-header-cell *matHeaderCellDef>Quoting Asset</mat-header-cell>
+                <mat-cell *matCellDef="let item">{{item.quotingAsset}}</mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="accuracy">

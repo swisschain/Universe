@@ -1,7 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { Subscription } from 'rxjs';
-import { LayoutUtilsService } from '../../../core/_base/crud';
 
 import { OrderBooksService } from '../../api/order-books.service';
 import { OrderBooksDataSource } from '../../models/order-books-data-source';
@@ -17,13 +16,12 @@ export class OrderBookListComponent implements OnInit, OnDestroy {
   constructor(
     public dialog: MatDialog,
     public snackBar: MatSnackBar,
-    private layoutUtilsService: LayoutUtilsService,
     private orderBooksService: OrderBooksService) { }
 
   private subscriptions: Subscription[] = [];
 
   dataSource: OrderBooksDataSource;
-  displayedColumns = ['assetPairId', 'ask', 'bid', 'mid', 'spread', 'sellOrdersCount', 'buyOrdersCount', 'timestamp', 'actions'];
+  displayedColumns = ['symbol', 'ask', 'bid', 'mid', 'spread', 'sellOrdersCount', 'buyOrdersCount', 'timestamp', 'actions'];
 
   ngOnInit() {
     this.dataSource = new OrderBooksDataSource(this.orderBooksService);
@@ -31,7 +29,7 @@ export class OrderBookListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscriptions.forEach(el => el.unsubscribe());
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
   load() {

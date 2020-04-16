@@ -17,7 +17,9 @@
             <mat-table class="lmat-elevation-z8" #table [dataSource]="dataSource">
                 <ng-container matColumnDef="name">
                     <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
-                    <mat-cell *matCellDef="let item">{{item.name}}</mat-cell>
+                    <mat-cell *matCellDef="let item">
+                        <a href="javascript:;" (click)="activate(item)">{{item.name}}</a>
+                    </mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="description">

@@ -2,26 +2,26 @@ import { Component, OnInit, ChangeDetectionStrategy, ViewEncapsulation, OnDestro
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { LimitOrdersService } from '../../api/limit-orders.service';
+import { MarketOrdersService } from '../../api/market-orders.service';
 import { LimitOrderType } from '../../api/models/order-books/limit-order-type.enum';
 import { LimitOrderStatus } from '../../api/models/orders/limit-order-status.enum';
 import { AssetPairsService } from '../../api/asset-pairs.service';
 
 @Component({
-  selector: 'kt-limit-order-edit-dialog',
-  templateUrl: './limit-order-edit.dialog.component.html',
-  styleUrls: ['./limit-order-edit.dialog.component.scss'],
+  selector: 'kt-market-order-edit-dialog',
+  templateUrl: './market-order-edit.dialog.component.html',
+  styleUrls: ['./market-order-edit.dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None
 })
-export class LimitOrderEditDialogComponent implements OnInit, OnDestroy {
+export class MarketOrderEditDialogComponent implements OnInit, OnDestroy {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
-    public dialogRef: MatDialogRef<LimitOrderEditDialogComponent>,
+    public dialogRef: MatDialogRef<MarketOrderEditDialogComponent>,
     private fb: FormBuilder,
     private cdr: ChangeDetectorRef,
-    private limitOrdersService: LimitOrdersService,
+    private marketOrdersService: MarketOrdersService,
     private assetPairsService: AssetPairsService) {
   }
 
@@ -53,17 +53,11 @@ export class LimitOrderEditDialogComponent implements OnInit, OnDestroy {
     this.form = this.fb.group({
       assetPair: [null, Validators.required],
       type: [null, Validators.required],
-      price: [null, Validators.compose([
-        Validators.required,
-        Validators.min(0),
-        Validators.max(10000)]
-      )],
       volume: [null, Validators.compose([
         Validators.required,
         Validators.min(0),
         Validators.max(10000)]
-      )],
-      cancelPrevious: [false, Validators.required]
+      )]
     });
   }
 
@@ -78,29 +72,29 @@ export class LimitOrderEditDialogComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.create(controls.assetPair.value, controls.type.value, controls.price.value, controls.volume.value, controls.cancelPrevious.value);
+    this.create(controls.assetPair.value, controls.type.value, controls.volume.value);
   }
 
-  create(assetPair: string, type: LimitOrderType, price: number, volume: number, cancelPrevious: boolean) {
+  create(assetPair: string, type: LimitOrderType, volume: number) {
     this.viewLoading = true;
-    this.limitOrdersService.create(assetPair, this.walletId, type, price, volume, cancelPrevious)
+    this.marketOrdersService.create(assetPair, type, this.walletId, volume)
       .subscribe(
         response => {
           this.viewLoading = false;
 
           if (response.status !== LimitOrderStatus.Ok) {
             this.hasFormErrors = true;
-            this.errorMessage = `Can not create limit order: ${response.reason}`;
+            this.errorMessage = `Can not create market order: ${response.reason}`;
             this.cdr.markForCheck();
           }
           else {
-            this.dialogRef.close({ limitOrderId: response.id, isEdit: true });
+            this.dialogRef.close({ marketOrderId: response.id, isEdit: true });
           }
         },
         error => {
           this.viewLoading = false;
           this.hasFormErrors = true;
-          this.errorMessage = 'An error occurred while creating limit order.';
+          this.errorMessage = 'An error occurred while creating market order.';
           this.cdr.markForCheck();
         }
       );

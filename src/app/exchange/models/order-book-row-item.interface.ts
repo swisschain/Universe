@@ -1,5 +1,5 @@
 export interface OrderBookRowItem {
-    assetPairId: string;
+    symbol: string;
     ask: number;
     bid: number;
     mid: number;

@@ -1,0 +1,23 @@
+export interface Order {
+    id: string,
+    externalId: string,
+    walletId: string,
+    assetPairId: string,
+    orderType: string,
+    side: string,
+    volume: string,
+    remainingVolume: string,
+    price: string,
+    status: string,
+    rejectReason: string,
+    statusDate: Date,
+    createdAt: Date,
+    registeredAt: Date,
+    lastMatchTime: Date,
+    lowerLimitPrice: string,
+    lowerPrice: string,
+    upperLimitPrice: string,
+    upperPrice: string,
+    timeInForce: string,
+    expiryTime: string
+}

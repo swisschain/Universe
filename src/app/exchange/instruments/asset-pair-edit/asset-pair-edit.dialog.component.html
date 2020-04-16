@@ -1,7 +1,7 @@
 <div class="kt-portlet" [ngClass]="{ 'kt-portlet--body-progress kt-portlet--body-progress-overlay' : viewLoading }">
     <div class="kt-portlet__head kt-portlet__head__custom">
         <div class="kt-portlet__head-label">
-            <h3 class="kt-portlet__head-title">{{getTitle()}}</h3>
+            <h3 class="kt-portlet__head-title">{{assetPair.symbol ? 'Edit' : 'New'}} Asset Pair</h3>
         </div>
     </div>
     <form class="kt-form" [formGroup]="form">
@@ -13,29 +13,24 @@
 
             <kt-alert *ngIf="hasFormErrors" type="warn" [duration]="30000" [showCloseButton]="true"
                 (close)="onAlertClose($event)">
-                Oh snap! Change a few things up and try submitting again.
+                {{errorMessage}}
             </kt-alert>
 
             <div class="form-group kt-form__group row">
                 <div class="col-lg-4 kt-margin-bottom-20-mobile">
                     <mat-form-field class="mat-form-field-fluid">
-                        <input matInput placeholder="Enter id" formControlName="id" />
-                        <mat-error>Id is
-                            <strong>required</strong>
+                        <input matInput placeholder="Enter symbol" formControlName="symbol" />
+                        <mat-error *ngIf="isControlHasError('symbol','required')">
+                            <strong>Required field</strong>
+                        </mat-error>
+                        <mat-error *ngIf="isControlHasError('symbol','minlength')">
+                            <strong>Minimum field length: 3</strong>
+                        </mat-error>
+                        <mat-error *ngIf="isControlHasError('symbol','maxlength')">
+                            <strong>Maximum field length: 36</strong>
                         </mat-error>
                         <mat-hint align="start">Please enter
-                            <strong>id</strong>
-                        </mat-hint>
-                    </mat-form-field>
-                </div>
-                <div class="col-lg-4 kt-margin-bottom-20-mobile">
-                    <mat-form-field class="mat-form-field-fluid">
-                        <input matInput placeholder="Enter name" formControlName="name" />
-                        <mat-error>Name is
-                            <strong>required</strong>
-                        </mat-error>
-                        <mat-hint align="start">Please enter
-                            <strong>name</strong>
+                            <strong>symbol</strong>
                         </mat-hint>
                     </mat-form-field>
                 </div>
@@ -44,12 +39,13 @@
             <div class="form-group kt-form__group row">
                 <div class="col-lg-4 kt-margin-bottom-20-mobile">
                     <mat-form-field class="mat-form-field-fluid">
-                        <mat-select placeholder="Base asset" formControlName="baseAssetId">
+                        <mat-select placeholder="Base asset" formControlName="baseAsset">
                             <mat-option>None</mat-option>
-                            <mat-option *ngFor="let asset of assets" [value]="asset.id">{{asset.id}}</mat-option>
+                            <mat-option *ngFor="let asset of assets" [value]="asset.symbol">{{asset.symbol}}
+                            </mat-option>
                         </mat-select>
-                        <mat-error>Base asset is
-                            <strong>required</strong>
+                        <mat-error *ngIf="isControlHasError('baseAsset','required')">
+                            <strong>Required field</strong>
                         </mat-error>
                         <mat-hint align="start">Please enter
                             <strong>base asset</strong>
@@ -58,12 +54,13 @@
                 </div>
                 <div class="col-lg-4 kt-margin-bottom-20-mobile">
                     <mat-form-field class="mat-form-field-fluid">
-                        <mat-select placeholder="Quoting asset" formControlName="quotingAssetId">
+                        <mat-select placeholder="Quoting asset" formControlName="quotingAsset">
                             <mat-option>None</mat-option>
-                            <mat-option *ngFor="let asset of assets" [value]="asset.id">{{asset.id}}</mat-option>
+                            <mat-option *ngFor="let asset of assets" [value]="asset.symbol">{{asset.symbol}}
+                            </mat-option>
                         </mat-select>
-                        <mat-error>Quoting asset is
-                            <strong>required</strong>
+                        <mat-error *ngIf="isControlHasError('quotingAsset','required')">
+                            <strong>Required field</strong>
                         </mat-error>
                         <mat-hint align="start">Please enter
                             <strong>quoting asset</strong>
@@ -77,9 +74,16 @@
             <div class="form-group kt-form__group row">
                 <div class="col-lg-4 kt-margin-bottom-20-mobile">
                     <mat-form-field class="mat-form-field-fluid">
-                        <input matInput type="number" placeholder="Enter accuracy" formControlName="accuracy" />
-                        <mat-error>Accuracy is
-                            <strong>required</strong>
+                        <input matInput type="number" placeholder="Enter accuracy" formControlName="accuracy" min="0"
+                            max="8" step="1" />
+                        <mat-error *ngIf="isControlHasError('accuracy','required')">
+                            <strong>Required field</strong>
+                        </mat-error>
+                        <mat-error *ngIf="isControlHasError('accuracy','min')">
+                            <strong>Minimum field value: 0</strong>
+                        </mat-error>
+                        <mat-error *ngIf="isControlHasError('accuracy','max')">
+                            <strong>Maximum field value: 8</strong>
                         </mat-error>
                         <mat-hint align="start">Please enter
                             <strong>accuracy</strong>
@@ -88,9 +92,16 @@
                 </div>
                 <div class="col-lg-4 kt-margin-bottom-20-mobile">
                     <mat-form-field class="mat-form-field-fluid">
-                        <input matInput type="number" placeholder="Enter Min Volume" formControlName="minVolume" />
-                        <mat-error>Min volume is
-                            <strong>required</strong>
+                        <input matInput type="number" placeholder="Enter Min Volume" formControlName="minVolume" min="0"
+                            max="10000" step="0.1" />
+                        <mat-error *ngIf="isControlHasError('minVolume','required')">
+                            <strong>Required field</strong>
+                        </mat-error>
+                        <mat-error *ngIf="isControlHasError('minVolume','min')">
+                            <strong>Minimum field value: 0</strong>
+                        </mat-error>
+                        <mat-error *ngIf="isControlHasError('minVolume','max')">
+                            <strong>Maximum field value: 10000</strong>
                         </mat-error>
                         <mat-hint align="start">Please enter
                             <strong>min volume</strong>
@@ -99,9 +110,16 @@
                 </div>
                 <div class="col-lg-4 kt-margin-bottom-20-mobile">
                     <mat-form-field class="mat-form-field-fluid">
-                        <input matInput type="number" placeholder="Enter Max Volume" formControlName="maxVolume" />
-                        <mat-error>Max volume is
-                            <strong>required</strong>
+                        <input matInput type="number" placeholder="Enter Max Volume" formControlName="maxVolume" min="0"
+                            max="100000" step="0.1" />
+                        <mat-error *ngIf="isControlHasError('maxVolume','required')">
+                            <strong>Required field</strong>
+                        </mat-error>
+                        <mat-error *ngIf="isControlHasError('maxVolume','min')">
+                            <strong>Minimum field value: 0</strong>
+                        </mat-error>
+                        <mat-error *ngIf="isControlHasError('maxVolume','max')">
+                            <strong>Maximum field value: 100000</strong>
                         </mat-error>
                         <mat-hint align="start">Please enter
                             <strong>max volume</strong>
@@ -116,9 +134,15 @@
                 <div class="col-lg-4 kt-margin-bottom-20-mobile">
                     <mat-form-field class="mat-form-field-fluid">
                         <input matInput type="number" placeholder="Enter max opposite volume"
-                            formControlName="maxOppositeVolume" />
-                        <mat-error>Max opposite volume is
-                            <strong>required</strong>
+                            formControlName="maxOppositeVolume" min="0" max="100000" step="0.1" />
+                        <mat-error *ngIf="isControlHasError('maxOppositeVolume','required')">
+                            <strong>Required field</strong>
+                        </mat-error>
+                        <mat-error *ngIf="isControlHasError('maxOppositeVolume','min')">
+                            <strong>Minimum field value: 0</strong>
+                        </mat-error>
+                        <mat-error *ngIf="isControlHasError('maxOppositeVolume','max')">
+                            <strong>Maximum field value: 100000</strong>
                         </mat-error>
                         <mat-hint align="start">Please enter
                             <strong>max opposite volume</strong>
@@ -128,10 +152,16 @@
                 <div class="col-lg-4 kt-margin-bottom-20-mobile">
                     <mat-form-field class="mat-form-field-fluid">
                         <input matInput type="number" placeholder="Enter market order price threshold"
-                            formControlName="marketOrderPriceThreshold" />
-                        <mat-error>Market order price threshold is
-                            <strong>required</strong>
-                        </mat-error>
+                            formControlName="marketOrderPriceThreshold" min="0" max="100000" step="0.1"/>
+                            <mat-error *ngIf="isControlHasError('marketOrderPriceThreshold','required')">
+                                <strong>Required field</strong>
+                            </mat-error>
+                            <mat-error *ngIf="isControlHasError('marketOrderPriceThreshold','min')">
+                                <strong>Minimum field value: 0</strong>
+                            </mat-error>
+                            <mat-error *ngIf="isControlHasError('marketOrderPriceThreshold','max')">
+                                <strong>Maximum field value: 100000</strong>
+                            </mat-error>
                         <mat-hint align="start">Please enter
                             <strong>Market order price threshold volume</strong>
                         </mat-hint>

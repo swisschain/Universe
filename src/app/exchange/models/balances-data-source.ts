@@ -3,17 +3,12 @@ import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
 import { CollectionViewer } from '@angular/cdk/collections';
 import { catchError, finalize, distinctUntilChanged, skip } from 'rxjs/operators';
 
-import { Account } from '../api/models/accounts/account.interface'
-import { AccountsService } from '../api/accounts.service';
-import { PagedResponse } from '../api/models/pagination/paged-response.interface';
+import { Balance } from '../api/models/balances/balance.interface'
+import { AccountDataService } from '../api/account-data.service';
 
-export class AccountsDataSource implements DataSource<Account> {
+export class BalancesDataSource implements DataSource<Balance> {
 
-    private itemsSubject = new BehaviorSubject<Account[]>([]);
-    private loadingSubject = new BehaviorSubject<boolean>(false);
-    private subscriptions: Subscription[] = [];
-
-    constructor(private accountsService: AccountsService) {
+    constructor(private accountDataService: AccountDataService) {
         const hasItemsSubscription = this.itemsSubject.asObservable().pipe(
             distinctUntilChanged(),
             skip(1)
@@ -21,11 +16,15 @@ export class AccountsDataSource implements DataSource<Account> {
         this.subscriptions.push(hasItemsSubscription);
     }
 
+    private itemsSubject = new BehaviorSubject<Balance[]>([]);
+    private loadingSubject = new BehaviorSubject<boolean>(false);
+    private subscriptions: Subscription[] = [];
+
     hasItems = true;
     loading$ = this.loadingSubject.asObservable();
     isPreloadTextViewed$ = this.loadingSubject.asObservable();
 
-    connect(collectionViewer: CollectionViewer): Observable<Account[]> {
+    connect(collectionViewer: CollectionViewer): Observable<Balance[]> {
         return this.itemsSubject.asObservable();
     }
 
@@ -35,15 +34,15 @@ export class AccountsDataSource implements DataSource<Account> {
         this.subscriptions.forEach(subscription => subscription.unsubscribe());
     }
 
-    load(name: string, isDisabled: boolean) {
+    load(walletId: string) {
         this.loadingSubject.next(true);
-        this.accountsService.get(name, isDisabled)
+        this.accountDataService.getBalances(walletId)
             .pipe(
                 catchError(() => of([])),
                 finalize(() => this.loadingSubject.next(false))
             )
-            .subscribe((response: PagedResponse<Account>) => {
-                this.itemsSubject.next(response.items)
+            .subscribe((response: Balance[]) => {
+                this.itemsSubject.next(response)
             });
     }
 }

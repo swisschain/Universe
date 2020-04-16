@@ -9,10 +9,6 @@ import { PagedResponse } from '../api/models/pagination/paged-response.interface
 
 export class AssetPairsDataSource implements DataSource<AssetPair> {
 
-    private itemsSubject = new BehaviorSubject<AssetPair[]>([]);
-    private loadingSubject = new BehaviorSubject<boolean>(false);
-    private subscriptions: Subscription[] = [];
-
     constructor(private assetsService: AssetPairsService) {
         const hasItemsSubscription = this.itemsSubject.asObservable().pipe(
             distinctUntilChanged(),
@@ -21,8 +17,13 @@ export class AssetPairsDataSource implements DataSource<AssetPair> {
         this.subscriptions.push(hasItemsSubscription);
     }
 
+    private itemsSubject = new BehaviorSubject<AssetPair[]>([]);
+    private loadingSubject = new BehaviorSubject<boolean>(false);
+    private subscriptions: Subscription[] = [];
+
     hasItems = true;
     loading$ = this.loadingSubject.asObservable();
+    isPreloadTextViewed$ = this.loadingSubject.asObservable();
 
     connect(collectionViewer: CollectionViewer): Observable<AssetPair[]> {
         return this.itemsSubject.asObservable();
@@ -34,9 +35,9 @@ export class AssetPairsDataSource implements DataSource<AssetPair> {
         this.subscriptions.forEach(sb => sb.unsubscribe());
     }
 
-    load(assetPairId: string, baseAssetId: string, quotingAssetId: string, isEnabled: boolean) {
+    load(symbol: string, baseAsset: string, quotingAsset: string, IsDisabled: boolean) {
         this.loadingSubject.next(true);
-        this.assetsService.get(assetPairId, baseAssetId, quotingAssetId, isEnabled)
+        this.assetsService.get(symbol, baseAsset, quotingAsset, IsDisabled)
             .pipe(
                 catchError(() => of([])),
                 finalize(() => this.loadingSubject.next(false))

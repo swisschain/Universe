@@ -3,17 +3,17 @@ import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
 import { CollectionViewer } from '@angular/cdk/collections';
 import { catchError, finalize, distinctUntilChanged, skip } from 'rxjs/operators';
 
-import { Account } from '../api/models/accounts/account.interface'
-import { AccountsService } from '../api/accounts.service';
+import { Order } from '../api/models/orders/order.interface'
+import { AccountDataService } from '../api/account-data.service';
 import { PagedResponse } from '../api/models/pagination/paged-response.interface';
 
-export class AccountsDataSource implements DataSource<Account> {
+export class AccountOrdersDataSource implements DataSource<Order> {
 
-    private itemsSubject = new BehaviorSubject<Account[]>([]);
+    private itemsSubject = new BehaviorSubject<Order[]>([]);
     private loadingSubject = new BehaviorSubject<boolean>(false);
     private subscriptions: Subscription[] = [];
 
-    constructor(private accountsService: AccountsService) {
+    constructor(private accountDataService: AccountDataService) {
         const hasItemsSubscription = this.itemsSubject.asObservable().pipe(
             distinctUntilChanged(),
             skip(1)
@@ -25,7 +25,7 @@ export class AccountsDataSource implements DataSource<Account> {
     loading$ = this.loadingSubject.asObservable();
     isPreloadTextViewed$ = this.loadingSubject.asObservable();
 
-    connect(collectionViewer: CollectionViewer): Observable<Account[]> {
+    connect(collectionViewer: CollectionViewer): Observable<Order[]> {
         return this.itemsSubject.asObservable();
     }
 
@@ -35,14 +35,14 @@ export class AccountsDataSource implements DataSource<Account> {
         this.subscriptions.forEach(subscription => subscription.unsubscribe());
     }
 
-    load(name: string, isDisabled: boolean) {
+    load(walletId: string, assetPair: string, orderType: string, side: string, status: string) {
         this.loadingSubject.next(true);
-        this.accountsService.get(name, isDisabled)
+        this.accountDataService.getOrders(walletId, assetPair, orderType, side, status)
             .pipe(
                 catchError(() => of([])),
                 finalize(() => this.loadingSubject.next(false))
             )
-            .subscribe((response: PagedResponse<Account>) => {
+            .subscribe((response: PagedResponse<Order>) => {
                 this.itemsSubject.next(response.items)
             });
     }

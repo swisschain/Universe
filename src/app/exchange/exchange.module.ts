@@ -50,13 +50,6 @@ import { AssetPairDetailsDialogComponent } from './instruments/asset-pair-detail
 import { LimitOrderEditDialogComponent } from './trading/limit-order-edit/limit-order-edit.dialog.component';
 import { OrderBookListComponent } from './trading/order-book-list/order-book-list.component';
 import { OrderBookDetailsComponent } from './trading/order-book-details/order-book-details.component';
-
-import { WorkingOnItComponent } from './shared/working-on-it/working-on-it.component';
-
-import { AccountsService } from './api/accounts.service';
-import { AssetPairsService } from './api/asset-pairs.service';
-import { OrderBooksService } from './api/order-books.service';
-import { LimitOrdersService } from './api/limit-orders.service';
 import { AccountListComponent } from './accounts/account-list/account-list.component';
 import { AccountDetailsComponent } from './accounts/account-details/account-details.component';
 import { AccountEditDialogComponent } from './accounts/account-edit/account-edit.dialog.component';
@@ -64,6 +57,18 @@ import { AccountBalanceListComponent } from './accounts/account-balance-list/acc
 import { AccountBalanceHistoryListComponent } from './accounts/account-balance-history-list/account-balance-history-list.component';
 import { AccountOrderListComponent } from './accounts/account-order-list/account-order-list.component';
 import { AccountTradeListComponent } from './accounts/account-trade-list/account-trade-list.component';
+import { MarketOrderEditDialogComponent } from './trading/market-order-edit/market-order-edit.dialog.component';
+import { CashOperationsDialogComponent } from './accounts/cash-operations/cash-operations.dialog.component';
+
+import { WorkingOnItComponent } from './shared/working-on-it/working-on-it.component';
+
+import { AccountsService } from './api/accounts.service';
+import { AssetPairsService } from './api/asset-pairs.service';
+import { OrderBooksService } from './api/order-books.service';
+import { LimitOrdersService } from './api/limit-orders.service';
+import { MarketOrdersService } from './api/market-orders.service';
+import { AccountDataService } from './api/account-data.service';
+import { OperationsService } from './api/operations.service';
 
 @NgModule({
 	declarations: [
@@ -85,7 +90,9 @@ import { AccountTradeListComponent } from './accounts/account-trade-list/account
 		AccountBalanceListComponent,
 		AccountBalanceHistoryListComponent,
 		AccountOrderListComponent,
-		AccountTradeListComponent
+		AccountTradeListComponent,
+		MarketOrderEditDialogComponent,
+		CashOperationsDialogComponent
 	],
 	imports: [
 		CommonModule,
@@ -140,7 +147,10 @@ import { AccountTradeListComponent } from './accounts/account-trade-list/account
 		AssetsService,
 		AssetPairsService,
 		OrderBooksService,
-		LimitOrdersService
+		LimitOrdersService,
+		MarketOrdersService,
+		AccountDataService,
+		OperationsService
 	],
 	entryComponents: [
 		ActionNotificationComponent,
@@ -153,7 +163,9 @@ import { AccountTradeListComponent } from './accounts/account-trade-list/account
 		AssetPairEditDialogComponent,
 		AssetPairDetailsDialogComponent,
 		LimitOrderEditDialogComponent,
-		AccountEditDialogComponent
+		AccountEditDialogComponent,
+		MarketOrderEditDialogComponent,
+		CashOperationsDialogComponent
 	]
 })
 export class ExchangeModule { }

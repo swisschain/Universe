@@ -1,1 +1,156 @@
-<p>account-order-list works!</p>
+<kt-portlet-header [class]="'kt-portlet__head--lg'" [viewLoading$]="dataSource.loading$">
+    <ng-container ktPortletTools>
+        <a (click)="load()" href="javascript:;" class="btn btn-secondary kt-margin-r-10" mat-raised-button matTooltip="Refresh balances">
+            <i class="la la-refresh"></i>
+            <span class="kt-hidden-mobile">Refresh</span>
+        </a>
+        <a (click)="createLimitOrder()" href="javascript:;" class="btn btn-primary kt-margin-r-10" color="primary" mat-raised-button matTooltip="Create limit order">
+            <i class="la la-plus"></i>
+            <span class="kt-hidden-mobile">Limit Order</span>
+        </a>
+        <a (click)="createMarketOrder()" href="javascript:;" class="btn btn-primary kt-margin-r-10" color="primary" mat-raised-button matTooltip="Create market order">
+            <i class="la la-plus"></i>
+            <span class="kt-hidden-mobile">Market Order</span>
+        </a>
+    </ng-container>
+</kt-portlet-header>
+
+<kt-portlet-body>
+    <div class="kt-form kt-margin-b-30">
+        <div class="kt-form__filtration">
+            <div class="row align-items-center">
+                <div class="col-md-3 kt-margin-bottom-10-mobile">
+                    <mat-form-field class="mat-form-field-fluid">
+                        <input type="text" [formControl]="searchByAssetPairInput" matInput placeholder="Asset pair"
+                            [matAutocomplete]="searchByAssetPairAutocomplete">
+                        <mat-autocomplete #searchByAssetPairAutocomplete="matAutocomplete">
+                            <mat-option *ngFor="let item of filteredAssetPairs | async" [value]="item">
+                                {{item}}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <mat-hint align="start">
+                            <strong>Search</strong> by asset pair
+                        </mat-hint>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-3 kt-margin-bottom-10-mobile">
+                    <div class="kt-form__control">
+                        <mat-form-field class="mat-form-field-fluid">
+                            <mat-select [(value)]="type" (selectionChange)="load()">
+                                <mat-option value="">All</mat-option>
+                                <mat-option value="market">Market</mat-option>
+                                <mat-option value="limit">Limit</mat-option>
+                                <mat-option value="stopLimit">Stop Limit</mat-option>
+                            </mat-select>
+                            <mat-hint align="start">
+                                <strong>Filter</strong> by type
+                            </mat-hint>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col-md-3 kt-margin-bottom-10-mobile">
+                    <div class="kt-form__control">
+                        <mat-form-field class="mat-form-field-fluid">
+                            <mat-select [(value)]="side" (selectionChange)="load()">
+                                <mat-option value="">All</mat-option>
+                                <mat-option value="sell">Sell</mat-option>
+                                <mat-option value="buy">Buy</mat-option>
+                            </mat-select>
+                            <mat-hint align="start">
+                                <strong>Filter</strong> by side
+                            </mat-hint>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col-md-3 kt-margin-bottom-10-mobile">
+                    <div class="kt-form__control">
+                        <mat-form-field class="mat-form-field-fluid">
+                            <mat-select [(value)]="status" (selectionChange)="load()">
+                                <mat-option value="">All</mat-option>
+                                <mat-option value="placed">Placed</mat-option>
+                                <mat-option value="partiallyMatched">Partially matched</mat-option>
+                                <mat-option value="matched">Matched</mat-option>
+                                <mat-option value="pending">Pending</mat-option>
+                                <mat-option value="cancelled">Cancelled</mat-option>
+                                <mat-option value="replaced">Replaced</mat-option>
+                                <mat-option value="rejected">Rejected</mat-option>
+                                <mat-option value="executed">Executed</mat-option>
+                            </mat-select>
+                            <mat-hint align="start">
+                                <strong>Filter</strong> by status
+                            </mat-hint>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mat-table__wrapper">
+        <mat-table class="lmat-elevation-z8" #table [dataSource]="dataSource">
+            <ng-container matColumnDef="createdAt">
+                <mat-header-cell *matHeaderCellDef>Date</mat-header-cell>
+                <mat-cell *matCellDef="let item">{{account.createdAt | date:'short'}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="assetPair">
+                <mat-header-cell *matHeaderCellDef>Asset Pair</mat-header-cell>
+                <mat-cell *matCellDef="let item">{{item.assetPairId}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="type">
+                <mat-header-cell *matHeaderCellDef>Type</mat-header-cell>
+                <mat-cell *matCellDef="let item">{{item.orderType}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="side">
+                <mat-header-cell *matHeaderCellDef>Side</mat-header-cell>
+                <mat-cell *matCellDef="let item">{{item.side}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="price">
+                <mat-header-cell *matHeaderCellDef>Price</mat-header-cell>
+                <mat-cell *matCellDef="let item">{{item.price | number:'1.1-8'}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="volume">
+                <mat-header-cell *matHeaderCellDef>Volume</mat-header-cell>
+                <mat-cell *matCellDef="let item">{{item.volume | number:'1.1-8'}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="remainingVolume">
+                <mat-header-cell *matHeaderCellDef>Remaining Volume</mat-header-cell>
+                <mat-cell *matCellDef="let item">{{item.remainingVolume | number:'1.1-8'}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="status">
+                <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+                <mat-cell *matCellDef="let item">{{item.status}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+                <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+                <mat-cell *matCellDef="let item">
+                    <button mat-icon-button color="primary" matTooltip="Details" (click)="details(item)">
+                        <mat-icon>more_horiz</mat-icon>
+                    </button>&nbsp;
+                    <button mat-icon-button color="warn" matTooltip="Cancel" type="button" *ngIf="canCancel(item)"
+                        (click)="cancel(item)">
+                        <mat-icon>remove</mat-icon>
+                    </button>&nbsp;
+                    <button mat-icon-button color="warn" matTooltip="Trades" type="button"
+                        (click)="trades(item)">
+                        <mat-icon>swap_horiz</mat-icon>
+                    </button>
+                </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+            <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+        </mat-table>
+        <!-- Message for empty data  -->
+        <div class="mat-table__message" *ngIf="!dataSource.hasItems">No records found</div>
+        <div class="mat-table__message" *ngIf="dataSource.isPreloadTextViewed$ | async">Please wait....</div>
+    </div>
+</kt-portlet-body>

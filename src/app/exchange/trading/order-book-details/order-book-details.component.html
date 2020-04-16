@@ -2,21 +2,21 @@
     <kt-portlet-header [class]="'kt-portlet__head--lg'" [viewLoading$]="dataSource.loading$">
         <ng-container ktPortletTitle>
             <h3 class="kt-portlet__head-title">
-                <span>Order Book: {{assetPairId}}</span>
+                <span>Order Book: {{symbol}}</span>
             </h3>
         </ng-container>
 
         <ng-container ktPortletTools>
-            <a [routerLink]="['../']" class="btn btn-secondary kt-margin-r-10" mat-raised-button matTooltip="Back to the order books list">
-				<i class="la la-arrow-left"></i>
-				<span class="kt-hidden-mobile">Back</span>
-			</a>
-            <button (click)="create()" mat-raised-button matTooltip="Create limit order" color="info" type="button">
-                <span>Create</span>
-            </button>&nbsp;
-            <button (click)="load()" mat-raised-button matTooltip="Refresh" color="primary" type="button">
-                <span>Refresh</span>
-            </button>
+            <a [routerLink]="['../']" class="btn btn-secondary kt-margin-r-10" mat-raised-button
+                matTooltip="Back to the order books list">
+                <i class="la la-arrow-left"></i>
+                <span class="kt-hidden-mobile">Back</span>
+            </a>
+            <a (click)="load()" href="javascript:;" class="btn btn-secondary kt-margin-r-10" mat-raised-button
+                matTooltip="Refresh order book">
+                <i class="la la-refresh"></i>
+                <span class="kt-hidden-mobile">Refresh</span>
+            </a>
         </ng-container>
     </kt-portlet-header>
 
@@ -67,7 +67,8 @@
 
                 <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
 
-                <mat-row *matRowDef="let row; columns: displayedColumns" [ngClass]="{'mat-row-buy': row.type === 'Buy', 'mat-row-sell': row.type === 'Sell'}"></mat-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns"
+                    [ngClass]="{'mat-row-buy': row.type === 'Buy', 'mat-row-sell': row.type === 'Sell'}"></mat-row>
             </mat-table>
             <!-- Message for empty data  -->
             <div class="mat-table__message" *ngIf="!dataSource.hasItems">No records found</div>
