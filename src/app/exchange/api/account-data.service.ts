@@ -6,6 +6,8 @@ import { map } from 'rxjs/operators';
 import { BalanceResponse } from './models/balances/balance-response.interface';
 import { PagedResponse } from './models/pagination/paged-response.interface';
 import { Order } from './models/orders/order.interface';
+import { Trade } from './models/trades/trade.interface';
+import { BalanceHistory } from './models/balances/balance-history.interface';
 
 const API_URL = 'exchange/api/account-data';
 
@@ -18,6 +20,14 @@ export class AccountDataService {
             .pipe(
                 map(result => result.list)
             );
+    }
+
+    getBalanceHistory(walletId: string, asset: string) {
+        const params = new HttpParams()
+            .set('walletId', walletId)
+            .set('assetId', asset);
+
+        return this.http.get<PagedResponse<BalanceHistory>>(`${API_URL}/balance-update`, { params: params });
     }
 
     getOrders(walletId: string, assetPair: string, orderType: string, side: string, status: string) {
@@ -33,5 +43,18 @@ export class AccountDataService {
 
     getOrderById(orderId: string) {
         return this.http.get<Order>(`${API_URL}/order/${orderId}`);
+    }
+
+    getTrades(walletId: string, baseAsset: string, quotingAsset: string) {
+        const params = new HttpParams()
+            .set('walletId', walletId)
+            .set('baseAssetId', baseAsset)
+            .set('quotingAssetId', quotingAsset);
+
+        return this.http.get<PagedResponse<Trade>>(`${API_URL}/trade`, { params: params });
+    }
+
+    getTradeById(tradeId: string) {
+        return this.http.get<Trade>(`${API_URL}/trade/${tradeId}`);
     }
 }

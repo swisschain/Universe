@@ -37,7 +37,7 @@
         <mat-table class="lmat-elevation-z8" #table [dataSource]="dataSource">
             <ng-container matColumnDef="symbol">
                 <mat-header-cell *matHeaderCellDef>Asset</mat-header-cell>
-                <mat-cell *matCellDef="let item">{{item.symbol}}</mat-cell>
+                <mat-cell *matCellDef="let item">{{item.asset}}</mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="available">
@@ -58,15 +58,15 @@
             <ng-container matColumnDef="actions">
                 <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
                 <mat-cell *matCellDef="let balance">
-                    <button mat-icon-button color="primary" matTooltip="Cash-In" (click)="cashIn(balance.symbol)">
+                    <button mat-icon-button color="primary" matTooltip="Cash-In" (click)="cashIn(balance.asset)">
                         <mat-icon>add</mat-icon>
                     </button>&nbsp;
                     <button mat-icon-button color="warn" matTooltip="Cash-Out" type="button"
-                        (click)="cashOut(balance.symbol)">
+                        (click)="cashOut(balance.asset)">
                         <mat-icon>remove</mat-icon>
                     </button>&nbsp;
                     <button mat-icon-button color="warn" matTooltip="History" type="button"
-                        (click)="history(balance.symbol)">
+                        (click)="history(balance.asset)">
                         <mat-icon>hourglass_empty</mat-icon>
                     </button>
                 </mat-cell>

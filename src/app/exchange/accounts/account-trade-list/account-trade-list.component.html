@@ -1,1 +1,87 @@
-<p>account-trade-list works!</p>
+<kt-portlet-header [class]="'kt-portlet__head--lg'" [viewLoading$]="dataSource.loading$">
+    <ng-container ktPortletTools>
+        <a (click)="load()" href="javascript:;" class="btn btn-secondary kt-margin-r-10" mat-raised-button
+            matTooltip="Refresh trades">
+            <i class="la la-refresh"></i>
+            <span class="kt-hidden-mobile">Refresh</span>
+        </a>
+    </ng-container>
+</kt-portlet-header>
+
+<kt-portlet-body>
+    <div class="kt-form kt-margin-b-30">
+        <div class="kt-form__filtration">
+            <div class="row align-items-center">
+                <div class="col-md-3 kt-margin-bottom-10-mobile">
+                    <mat-form-field class="mat-form-field-fluid">
+                        <input type="text" [formControl]="searchByBaseAssetInput" matInput placeholder="Base asset"
+                            [matAutocomplete]="searchByBaseAssetAutocomplete">
+                        <mat-autocomplete #searchByBaseAssetAutocomplete="matAutocomplete">
+                            <mat-option *ngFor="let item of filteredBaseAssets | async" [value]="item">
+                                {{item}}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <mat-hint align="start">
+                            <strong>Search</strong> by base asset
+                        </mat-hint>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-3 kt-margin-bottom-10-mobile">
+                    <mat-form-field class="mat-form-field-fluid">
+                        <input type="text" [formControl]="searchByQuotingAssetInput" matInput
+                            placeholder="Quoting asset" [matAutocomplete]="searchByQuotingAssetAutocomplete">
+                        <mat-autocomplete #searchByQuotingAssetAutocomplete="matAutocomplete">
+                            <mat-option *ngFor="let item of filteredQuotingAssets | async" [value]="item">
+                                {{item}}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <mat-hint align="start">
+                            <strong>Search</strong> by quoting asset
+                        </mat-hint>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mat-table__wrapper">
+        <mat-table class="lmat-elevation-z8" #table [dataSource]="dataSource">
+            <ng-container matColumnDef="date">
+                <mat-header-cell *matHeaderCellDef>Date</mat-header-cell>
+                <mat-cell *matCellDef="let item">{{account.timestamp | date:'short'}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="baseAsset">
+                <mat-header-cell *matHeaderCellDef>Base Asset</mat-header-cell>
+                <mat-cell *matCellDef="let item">{{item.baseAssetId}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="quotingAsset">
+                <mat-header-cell *matHeaderCellDef>Quoting Asset</mat-header-cell>
+                <mat-cell *matCellDef="let item">{{item.quotingAssetId}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="price">
+                <mat-header-cell *matHeaderCellDef>Price</mat-header-cell>
+                <mat-cell *matCellDef="let item">{{item.price | number:'1.1-8'}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="baseVolume">
+                <mat-header-cell *matHeaderCellDef>Base Volume</mat-header-cell>
+                <mat-cell *matCellDef="let item">{{item.baseVolume | number:'1.1-8'}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="quotingVolume">
+                <mat-header-cell *matHeaderCellDef>Quoting Volume</mat-header-cell>
+                <mat-cell *matCellDef="let item">{{item.quotingVolume | number:'1.1-8'}}</mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+            <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+        </mat-table>
+        <!-- Message for empty data  -->
+        <div class="mat-table__message" *ngIf="!dataSource.hasItems">No records found</div>
+        <div class="mat-table__message" *ngIf="dataSource.isPreloadTextViewed$ | async">Please wait....</div>
+    </div>
+</kt-portlet-body>

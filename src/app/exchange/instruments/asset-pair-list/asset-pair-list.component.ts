@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { debounceTime, distinctUntilChanged, map, startWith } from 'rxjs/operators';
 import { Subscription, Observable } from 'rxjs';
@@ -20,7 +20,7 @@ import { AssetPairDetailsDialogComponent } from '../asset-pair-details/asset-pai
   styleUrls: ['./asset-pair-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AssetPairListComponent implements OnInit {
+export class AssetPairListComponent implements OnInit, OnDestroy {
 
   constructor(
     public dialog: MatDialog,

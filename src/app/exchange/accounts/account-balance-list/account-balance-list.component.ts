@@ -111,7 +111,8 @@ export class AccountBalanceListComponent implements OnInit, OnDestroy {
         asset,
         operationType,
         walletId: this.accountId
-      }
+      },
+      width: '600px'
     });
 
     dialogRef.afterClosed()
