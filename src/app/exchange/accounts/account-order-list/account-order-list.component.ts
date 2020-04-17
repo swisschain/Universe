@@ -110,7 +110,7 @@ export class AccountOrderListComponent implements OnInit, OnDestroy {
           return;
         }
 
-        this.limitOrdersService.cancel(order.id)
+        this.limitOrdersService.cancel(order.externalId)
           .subscribe(
             response => {
               this.layoutUtilsService.showActionNotification('Limit order has been cancelled.', MessageType.Delete, 3000, true, false);
@@ -160,6 +160,5 @@ export class AccountOrderListComponent implements OnInit, OnDestroy {
   }
 
   trades(order: Order) {
-
   }
 }

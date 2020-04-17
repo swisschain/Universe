@@ -54,6 +54,7 @@ export class WithdrawalListComponent implements OnInit, OnDestroy {
   brokerAccounts: BrokerAccount[];
   blockchains: Blockchain[];
   assets: Asset[];
+  filteredAssets: Asset[];
   states = [WithdrawalState.Processing, WithdrawalState.Executing, WithdrawalState.Sent, WithdrawalState.Completed, WithdrawalState.Failed];
 
   dataSource: WithdrawalDataSource;
@@ -169,6 +170,12 @@ export class WithdrawalListComponent implements OnInit, OnDestroy {
       .subscribe(result => {
         this.assets = result.items;
       });
+  }
+
+  onBlockchainChanged() {
+    this.selectedAssetId = '';
+    this.filteredAssets = this.assets.filter(asset => asset.blockchainId === this.selectedBlockchainId);
+    this.load();
   }
 
   getBrokerAccountName(brokerAccountId: number) {

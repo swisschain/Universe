@@ -40,8 +40,8 @@ export class AssetPairsService {
             accuracy: assetPair.accuracy,
             minVolume: assetPair.minVolume,
             maxVolume: assetPair.maxVolume,
-            maxOppositeVolume: assetPair.maxVolume,
-            marketOrderPriceThreshold: assetPair.maxVolume,
+            maxOppositeVolume: assetPair.maxOppositeVolume,
+            marketOrderPriceThreshold: assetPair.marketOrderPriceThreshold,
             isDisabled: assetPair.isDisabled
         });
     }
@@ -54,8 +54,8 @@ export class AssetPairsService {
             accuracy: assetPair.accuracy,
             minVolume: assetPair.minVolume,
             maxVolume: assetPair.maxVolume,
-            maxOppositeVolume: assetPair.maxVolume,
-            marketOrderPriceThreshold: assetPair.maxVolume,
+            maxOppositeVolume: assetPair.maxOppositeVolume,
+            marketOrderPriceThreshold: assetPair.marketOrderPriceThreshold,
             isDisabled: assetPair.isDisabled
         });
     }

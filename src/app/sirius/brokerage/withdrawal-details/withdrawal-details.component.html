@@ -2,7 +2,7 @@
     <kt-portlet-header [class]="'kt-portlet__head--lg'">
         <ng-container ktPortletTitle>
             <h3 class="kt-portlet__head-title">
-                <span>Deposit: {{depositId}}</span>
+                <span>Withdrawal: {{withdrawalId}}</span>
             </h3>
         </ng-container>
         <ng-container ktPortletTools>
@@ -71,24 +71,26 @@
                                     <strong>{{fee.amount | number:'1.1-8'}}</strong></label>
                             </div>
                         </div>
-                        <div class="kt-form__heading">
-                            <h4 class="kt-form__heading-title">Transaction:</h4>
-                        </div>
-                        <div class="form-group kt-form__group row">
-                            <label class="col-lg-3 col-form-label">Id:
-                                <strong>{{withdrawal?.transactionInfo.transactionId}}</strong></label>
-                            <label class="col-lg-3 col-form-label">Block:
-                                <strong>{{withdrawal?.transactionInfo.transactionBlock}}</strong></label>
-                        </div>
-                        <div class="form-group kt-form__group row">
-                            <label class="col-lg-3 col-form-label">Confirmations:
-                                <strong>{{withdrawal?.transactionInfo.confirmationsCount}}</strong></label>
-                            <label class="col-lg-3 col-form-label">Required confirmations:
-                                <strong>{{withdrawal?.transactionInfo.requiredConfirmationsCount}}</strong></label>
-                        </div>
-                        <div class="form-group kt-form__group row">
-                            <label class="col-lg-3 col-form-label">Date:
-                                <strong>{{withdrawal?.transactionInfo.date | date:'short'}}</strong></label>
+                        <div *ngIf="withdrawal?.transactionInfo">
+                            <div class="kt-form__heading">
+                                <h4 class="kt-form__heading-title">Transaction:</h4>
+                            </div>
+                            <div class="form-group kt-form__group row">
+                                <label class="col-lg-3 col-form-label">Id:
+                                    <strong>{{withdrawal?.transactionInfo.transactionId}}</strong></label>
+                                <label class="col-lg-3 col-form-label">Block:
+                                    <strong>{{withdrawal?.transactionInfo.transactionBlock}}</strong></label>
+                            </div>
+                            <div class="form-group kt-form__group row">
+                                <label class="col-lg-3 col-form-label">Confirmations:
+                                    <strong>{{withdrawal?.transactionInfo.confirmationsCount}}</strong></label>
+                                <label class="col-lg-3 col-form-label">Required confirmations:
+                                    <strong>{{withdrawal?.transactionInfo.requiredConfirmationsCount}}</strong></label>
+                            </div>
+                            <div class="form-group kt-form__group row">
+                                <label class="col-lg-3 col-form-label">Date:
+                                    <strong>{{withdrawal?.transactionInfo.date | date:'short'}}</strong></label>
+                            </div>
                         </div>
                         <div class="kt-separator kt-separator--dashed"></div>
                         <div class="form-group kt-form__group row">
