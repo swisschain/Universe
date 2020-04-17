@@ -1,0 +1,151 @@
+<div class="kt-portlet" [ngClass]="{ 'kt-portlet--body-progress kt-portlet--body-progress-overlay' : viewLoading }">
+    <div class="kt-portlet__head kt-portlet__head__custom">
+        <div class="kt-portlet__head-label">
+            <h3 class="kt-portlet__head-title">Create Withdrawal</h3>
+        </div>
+    </div>
+    <form class="kt-form" [formGroup]="form">
+        <div class="kt-portlet__body">
+
+            <div class="kt-portlet__body-progress">
+                <mat-spinner [diameter]="20"></mat-spinner>
+            </div>
+
+            <kt-alert *ngIf="hasFormErrors" type="warn" [duration]="30000" [showCloseButton]="true"
+                (close)="onAlertClose($event)">
+                {{errorMessage}}
+            </kt-alert>
+
+            <div class="form-group kt-form__group row">
+                <div class="col-lg-6 kt-margin-bottom-20-mobile">
+                    <mat-form-field class="mat-form-field-fluid">
+                        <mat-select placeholder="Broker account" formControlName="brokerAccountId">
+                            <mat-option>None</mat-option>
+                            <mat-option *ngFor="let brokerAccount of brokerAccounts"
+                                [value]="brokerAccount.brokerAccountId">
+                                {{brokerAccount.name}}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="isControlHasError('brokerAccountId','required')">
+                            <strong>Required field</strong>
+                        </mat-error>
+                        <mat-hint align="start">Please enter
+                            <strong>broker account</strong>
+                        </mat-hint>
+                    </mat-form-field>
+                </div>
+                <div class="col-lg-6 kt-margin-bottom-20-mobile">
+                    <mat-form-field class="mat-form-field-fluid">
+                        <input matInput type="number" placeholder="Enter account id" formControlName="accountId" min="0"/>
+                        <mat-error *ngIf="isControlHasError('accountId','min')">
+                            <strong>Minimum field value: 0</strong>
+                        </mat-error>
+                        <mat-hint align="start">Please enter
+                            <strong>account id</strong>
+                        </mat-hint>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="form-group kt-form__group row">
+                <div class="col-lg-12 kt-margin-bottom-20-mobile">
+                    <mat-form-field class="mat-form-field-fluid">
+                        <input matInput placeholder="Enter reference id" formControlName="referenceId" maxlength="100"/>
+                        <mat-error *ngIf="isControlHasError('referenceId','maxlength')">
+                            <strong>Maximum field length: 100</strong>
+                        </mat-error>
+                        <mat-hint align="start">Please enter
+                            <strong>reference id</strong>
+                        </mat-hint>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="form-group kt-form__group row">
+                <div class="col-lg-6 kt-margin-bottom-20-mobile">
+                    <mat-form-field class="mat-form-field-fluid">
+                        <mat-select placeholder="Blockchain" formControlName="blockchainId">
+                            <mat-option>None</mat-option>
+                            <mat-option *ngFor="let blockchain of blockchains"
+                                        [value]="blockchain.blockchainId">
+                                        {{blockchain.name}}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="isControlHasError('blockchainId','required')">
+                            <strong>Required field</strong>
+                        </mat-error>
+                        <mat-hint align="start">Please enter
+                            <strong>blockchain</strong>
+                        </mat-hint>
+                    </mat-form-field>
+                </div>
+                <div class="col-lg-6 kt-margin-bottom-20-mobile">
+                    <mat-form-field class="mat-form-field-fluid">
+                        <mat-select placeholder="Asset" formControlName="assetId">
+                            <mat-option>None</mat-option>
+                            <mat-option *ngFor="let asset of filteredAssets" [value]="asset.assetId">
+                                {{asset.symbol}}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="isControlHasError('assetId','required')">
+                            <strong>Required field</strong>
+                        </mat-error>
+                        <mat-hint align="start">Please enter
+                            <strong>asset</strong>
+                        </mat-hint>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="form-group kt-form__group row">
+                <div class="col-lg-6 kt-margin-bottom-20-mobile">
+                    <mat-form-field class="mat-form-field-fluid">
+                        <input matInput type="number" placeholder="Enter amount" formControlName="amount" min="0"
+                            step="0.1" />
+                        <mat-error *ngIf="isControlHasError('amount','required')">
+                            <strong>Required field</strong>
+                        </mat-error>
+                        <mat-error *ngIf="isControlHasError('amount','min')">
+                            <strong>Minimum field value: 0</strong>
+                        </mat-error>
+                        <mat-hint align="start">Please enter
+                            <strong>amount</strong>
+                        </mat-hint>
+                    </mat-form-field>
+                </div>                
+            </div>
+
+            <div class="kt-separator kt-separator--dashed"></div>
+
+            <div class="form-group kt-form__group row">
+                <div class="col-lg-12 kt-margin-bottom-20-mobile">
+                    <mat-form-field class="mat-form-field-fluid">
+                        <input matInput placeholder="Enter address" formControlName="address" maxlength="100"/>
+                        <mat-error *ngIf="isControlHasError('address','required')">
+                            <strong>Required field</strong>
+                        </mat-error>
+                        <mat-error *ngIf="isControlHasError('address','maxlength')">
+                            <strong>Maximum field length: 100</strong>
+                        </mat-error>
+                        <mat-hint align="start">Please enter
+                            <strong>address</strong>
+                        </mat-hint>
+                    </mat-form-field>
+                </div>
+            </div>            
+        </div>
+        <div class="kt-portlet__foot kt-portlet__no-border kt-portlet__foot--fit">
+            <div class="kt-form__actions kt-form__actions--solid">
+                <div class="row text-right">
+                    <div class="col-lg-12">
+                        <button type="button" mat-raised-button [mat-dialog-close]="data.animal" cdkFocusInitial
+                            matTooltip="Cancel">
+                            Cancel
+                        </button>&nbsp;
+                        <button type="button" mat-raised-button color="primary" (click)="onSubmit()"
+                            [disabled]="viewLoading" matTooltip="Create withdrawal">
+                            Create
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

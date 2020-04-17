@@ -293,7 +293,7 @@ export class MenuConfig {
 						title: 'Withdrawal',
 						root: true,
 						icon: 'flaticon2-rocket',
-						page: '/services/sirius/brakerage/withdrawal',
+						page: '/services/sirius/brakerage/withdrawals',
 						bullet: 'dot'
 					},
 					{ section: 'Wallets' },

@@ -42,12 +42,7 @@ import { BrokerAccountListComponent } from './brokerage/broker-account-list/brok
 import { BrokerAccountEditDialogComponent } from './brokerage/broker-account-edit/broker-account-edit.dialog.component';
 import { AccountListComponent } from './brokerage/account-list/account-list.component';
 import { AccountEditDialogComponent } from './brokerage/account-edit/account-edit.dialog.component';
-
-import { AccountService } from './api/account.service';
-import { BrokerAccountService } from './api/broker-account.service';
 import { AccountDetailsComponent } from './brokerage/account-details/account-details.component';
-import { AssetsService } from './api/assets.service';
-import { BlockchainsService } from './api/blockchains.service';
 import { AccountRequisitesListComponent } from './brokerage/account-requisites-list/account-requisites-list.component';
 import { AssetsListComponent } from './shared/assets-list/assets-list.component';
 import { AssetRequisitesDialogComponent } from './shared/asset-requisites/asset-requisites.dialog.component';
@@ -56,10 +51,19 @@ import { BrokerAccountRequisitesComponent } from './brokerage/broker-account-req
 import { WorkingOnItComponent } from './shared/working-on-it/working-on-it.component';
 import { BrokerAccountBalancesComponent } from './brokerage/broker-account-balances/broker-account-balances.component';
 import { DepositListComponent } from './brokerage/deposit-list/deposit-list.component';
+import { DepositDetailsComponent } from './brokerage/deposit-details/deposit-details.component';
+import { WithdrawalListComponent } from './brokerage/withdrawal-list/withdrawal-list.component';
+import { WithdrawalEditDialogComponent } from './brokerage/withdrawal-edit/withdrawal-edit.dialog.component';
+import { WithdrawalDetailsComponent } from './brokerage/withdrawal-details/withdrawal-details.component';
+
+import { AccountService } from './api/account.service';
+import { BrokerAccountService } from './api/broker-account.service';
+import { AssetsService } from './api/assets.service';
+import { BlockchainsService } from './api/blockchains.service';
 import { DepositsService } from './api/deposits.service';
+import { WithdrawalService } from './api/withdrawal.service'
 
 import { NumberDirective } from './shared/numbers-only.directive';
-import { DepositDetailsComponent } from './brokerage/deposit-details/deposit-details.component';
 
 @NgModule({
 	declarations: [
@@ -78,7 +82,10 @@ import { DepositDetailsComponent } from './brokerage/deposit-details/deposit-det
 		BrokerAccountBalancesComponent,
 		DepositListComponent,
 		NumberDirective,
-		DepositDetailsComponent
+		DepositDetailsComponent,
+		WithdrawalListComponent,
+		WithdrawalEditDialogComponent,
+		WithdrawalDetailsComponent
 	],
 	imports: [
 		CommonModule,
@@ -133,7 +140,8 @@ import { DepositDetailsComponent } from './brokerage/deposit-details/deposit-det
 		AssetsService,
 		BlockchainsService,
 		BrokerAccountService,
-		DepositsService
+		DepositsService,
+		WithdrawalService
 	],
 	entryComponents: [
 		ActionNotificationComponent,
@@ -143,7 +151,8 @@ import { DepositDetailsComponent } from './brokerage/deposit-details/deposit-det
 
 		AccountEditDialogComponent,
 		BrokerAccountEditDialogComponent,
-		AssetRequisitesDialogComponent
+		AssetRequisitesDialogComponent,
+		WithdrawalEditDialogComponent
 	]
 })
 export class SiriusModule { }

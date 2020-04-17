@@ -10,6 +10,8 @@ import { DepositListComponent } from './brokerage/deposit-list/deposit-list.comp
 
 import { WorkingOnItComponent } from './shared/working-on-it/working-on-it.component';
 import { DepositDetailsComponent } from './brokerage/deposit-details/deposit-details.component';
+import { WithdrawalListComponent } from './brokerage/withdrawal-list/withdrawal-list.component';
+import { WithdrawalDetailsComponent } from './brokerage/withdrawal-details/withdrawal-details.component';
 
 const routes: Routes = [
     {
@@ -39,6 +41,14 @@ const routes: Routes = [
     {
         path: 'brakerage/deposits/:depositId',
         component: DepositDetailsComponent
+    },
+    {
+        path: 'brakerage/withdrawals',
+        component: WithdrawalListComponent
+    },
+    {
+        path: 'brakerage/withdrawals/:withdrawalId',
+        component: WithdrawalDetailsComponent
     },
     {
         path: '',
