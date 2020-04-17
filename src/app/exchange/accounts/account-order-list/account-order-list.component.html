@@ -90,7 +90,7 @@
         <mat-table class="lmat-elevation-z8" #table [dataSource]="dataSource">
             <ng-container matColumnDef="createdAt">
                 <mat-header-cell *matHeaderCellDef>Date</mat-header-cell>
-                <mat-cell *matCellDef="let item">{{account.createdAt | date:'short'}}</mat-cell>
+                <mat-cell *matCellDef="let item">{{item.createdAt | date:'short'}}</mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="assetPair">
@@ -134,13 +134,13 @@
                     <button mat-icon-button color="primary" matTooltip="Details" (click)="details(item)">
                         <mat-icon>more_horiz</mat-icon>
                     </button>&nbsp;
-                    <button mat-icon-button color="warn" matTooltip="Cancel" type="button" *ngIf="canCancel(item)"
-                        (click)="cancel(item)">
-                        <mat-icon>remove</mat-icon>
-                    </button>&nbsp;
                     <button mat-icon-button color="warn" matTooltip="Trades" type="button"
                         (click)="trades(item)">
                         <mat-icon>swap_horiz</mat-icon>
+                    </button>&nbsp;
+                    <button mat-icon-button color="warn" matTooltip="Cancel" type="button" *ngIf="canCancel(item)"
+                        (click)="cancel(item)">
+                        <mat-icon>remove</mat-icon>
                     </button>
                 </mat-cell>
             </ng-container>

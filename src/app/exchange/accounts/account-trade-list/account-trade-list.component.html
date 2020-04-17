@@ -48,7 +48,7 @@
         <mat-table class="lmat-elevation-z8" #table [dataSource]="dataSource">
             <ng-container matColumnDef="date">
                 <mat-header-cell *matHeaderCellDef>Date</mat-header-cell>
-                <mat-cell *matCellDef="let item">{{account.timestamp | date:'short'}}</mat-cell>
+                <mat-cell *matCellDef="let item">{{item.timestamp | date:'short'}}</mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="baseAsset">
