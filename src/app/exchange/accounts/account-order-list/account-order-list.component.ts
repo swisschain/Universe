@@ -14,6 +14,7 @@ import { LimitOrdersService } from '../../api/limit-orders.service';
 import { Order } from '../../api/models/orders/order.interface';
 import { LimitOrderEditDialogComponent } from '../../trading/limit-order-edit/limit-order-edit.dialog.component';
 import { MarketOrderEditDialogComponent } from '../../trading/market-order-edit/market-order-edit.dialog.component';
+import { OrderDetailsDialogComponent } from '../order-details/order-details.dialog.component';
 
 @Component({
   selector: 'kt-account-order-list',
@@ -155,7 +156,7 @@ export class AccountOrderListComponent implements OnInit, OnDestroy {
   }
 
   details(order: Order) {
-
+    this.dialog.open(OrderDetailsDialogComponent, { data: { order }, width: '700px' });
   }
 
   trades(order: Order) {

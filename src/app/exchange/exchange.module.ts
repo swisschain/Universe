@@ -69,6 +69,7 @@ import { LimitOrdersService } from './api/limit-orders.service';
 import { MarketOrdersService } from './api/market-orders.service';
 import { AccountDataService } from './api/account-data.service';
 import { OperationsService } from './api/operations.service';
+import { OrderDetailsDialogComponent } from './accounts/order-details/order-details.dialog.component';
 
 @NgModule({
 	declarations: [
@@ -92,7 +93,8 @@ import { OperationsService } from './api/operations.service';
 		AccountOrderListComponent,
 		AccountTradeListComponent,
 		MarketOrderEditDialogComponent,
-		CashOperationsDialogComponent
+		CashOperationsDialogComponent,
+		OrderDetailsDialogComponent
 	],
 	imports: [
 		CommonModule,
@@ -165,7 +167,8 @@ import { OperationsService } from './api/operations.service';
 		LimitOrderEditDialogComponent,
 		AccountEditDialogComponent,
 		MarketOrderEditDialogComponent,
-		CashOperationsDialogComponent
+		CashOperationsDialogComponent,
+		OrderDetailsDialogComponent
 	]
 })
 export class ExchangeModule { }

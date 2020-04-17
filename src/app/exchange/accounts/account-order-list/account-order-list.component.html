@@ -134,10 +134,6 @@
                     <button mat-icon-button color="primary" matTooltip="Details" (click)="details(item)">
                         <mat-icon>more_horiz</mat-icon>
                     </button>&nbsp;
-                    <button mat-icon-button color="warn" matTooltip="Trades" type="button"
-                        (click)="trades(item)">
-                        <mat-icon>swap_horiz</mat-icon>
-                    </button>&nbsp;
                     <button mat-icon-button color="warn" matTooltip="Cancel" type="button" *ngIf="canCancel(item)"
                         (click)="cancel(item)">
                         <mat-icon>remove</mat-icon>

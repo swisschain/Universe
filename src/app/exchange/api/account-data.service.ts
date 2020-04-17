@@ -25,7 +25,8 @@ export class AccountDataService {
     getBalanceHistory(walletId: string, asset: string) {
         const params = new HttpParams()
             .set('walletId', walletId)
-            .set('assetId', asset);
+            .set('assetId', asset)
+            .set('order', 'desc');
 
         return this.http.get<PagedResponse<BalanceHistory>>(`${API_URL}/balance-update`, { params: params });
     }
@@ -36,7 +37,8 @@ export class AccountDataService {
             .set('assetPairId', assetPair)
             .set('orderType', orderType)
             .set('side', side)
-            .set('status', status);
+            .set('status', status)
+            .set('order', 'desc');
 
         return this.http.get<PagedResponse<Order>>(`${API_URL}/order`, { params: params });
     }
@@ -49,7 +51,8 @@ export class AccountDataService {
         const params = new HttpParams()
             .set('walletId', walletId)
             .set('baseAssetId', baseAsset)
-            .set('quotingAssetId', quotingAsset);
+            .set('quotingAssetId', quotingAsset)
+            .set('order', 'desc');
 
         return this.http.get<PagedResponse<Trade>>(`${API_URL}/trade`, { params: params });
     }
