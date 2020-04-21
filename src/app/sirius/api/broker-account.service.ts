@@ -33,7 +33,14 @@ export class BrokerAccountService {
             );
     }
 
-    getRequisites(brokerAccountId: number, assetId: number) {
+    getRequisites(brokerAccountId: number, blockchainId: string) {
+        const params = new HttpParams()
+            .set('blockchainId', blockchainId);
+
+        return this.http.get<PagedResponse<BrokerAccountRequisite>>(`${API_URL}/${brokerAccountId}/requisites`, { params: params });
+    }
+
+    getRequisiteByAssetId(brokerAccountId: number, assetId: number) {
         return this.http.get<BrokerAccountRequisite>(`${API_URL}/${brokerAccountId}/requisites/by-asset-id/${assetId}`);
     }
 
@@ -47,5 +54,4 @@ export class BrokerAccountService {
         headers = headers.set('X-Request-ID', requstId);
         return this.http.post<BrokerAccount>(`${API_URL}`, { name }, { headers: headers });
     }
-
 }

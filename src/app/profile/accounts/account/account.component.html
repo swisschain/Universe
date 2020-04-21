@@ -1,1 +1,88 @@
-<p>account works!</p>
+<kt-portlet>
+	<kt-portlet-header [class]="'kt-portlet__head--lg'" [viewLoading$]="loading$">
+        <ng-container ktPortletTitle>
+            <h3 class="kt-portlet__head-title">
+                <span>Account</span>
+            </h3>
+        </ng-container>
+		<ng-container ktPortletTools>			
+			<a href="javascript:;" class="btn btn-primary kt-margin-r-10" color="primary" (click)="onSubmit()" mat-raised-button matTooltip="Save">
+				<span class="kt-hidden-mobile">Save</span>
+			</a>
+		</ng-container>
+	</kt-portlet-header>
+
+	<kt-portlet-body>
+		<mat-tab-group>
+			<mat-tab>
+				<ng-template mat-tab-label>
+					<i class="mat-tab-label-icon fa fa-user"></i>
+					Basic info
+				</ng-template>
+				<ng-template matTabContent>
+					<div *ngIf="user">
+						<form [formGroup]="form" class="kt-form kt-form--group-seperator-dashed">
+							<kt-alert *ngIf="hasFormErrors" type="warn" [showCloseButton]="true" [duration]="10000" (close)="onAlertClose($event)">
+								{{errorMessage}}
+							</kt-alert>
+							<div class="kt-form__section kt-form__section--first">
+								<div class="form-group kt-form__group row">
+									<div class="col-lg-4 kt-margin-bottom-20-mobile">
+										<mat-form-field class="mat-form-field-fluid">
+											<input matInput placeholder="Enter name" formControlName="userName"/>
+											<mat-error *ngIf="isControlHasError('userName','required')">
+                                                <strong>Required field</strong>
+                                            </mat-error>
+                                            <mat-error *ngIf="isControlHasError('userName','minlength')">
+                                                <strong>Minimum field length: 3</strong>
+                                            </mat-error>
+                                            <mat-error *ngIf="isControlHasError('userName','maxlength')">
+                                                <strong>Maximum field length: 50</strong>
+                                            </mat-error>
+											<mat-hint align="start">Please enter
+												<strong>name</strong>
+											</mat-hint>
+										</mat-form-field>
+									</div>
+									<div class="col-lg-4 kt-margin-bottom-20-mobile">
+										<mat-form-field class="mat-form-field-fluid">
+											<input type="email" matInput placeholder="Enter email" formControlName="email"/>
+											<mat-error *ngIf="isControlHasError('email','required')">
+                                                <strong>Required field</strong>
+                                            </mat-error>
+                                            <mat-error *ngIf="isControlHasError('email','email')">
+                                                <strong>Invalid email</strong>
+                                            </mat-error>
+                                            <mat-error *ngIf="isControlHasError('email','maxlength')">
+                                                <strong>Maximum field length: 320</strong>
+                                            </mat-error>
+											<mat-hint align="start">Please enter
+												<strong>email</strong>
+											</mat-hint>
+										</mat-form-field>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</ng-template>
+			</mat-tab>
+			<mat-tab *ngIf="user" [disabled]="true">
+				<ng-template mat-tab-label>
+					<i class="mat-tab-label-icon fa fa-unlock"></i>
+					Roles
+                </ng-template>
+                <ng-template matTabContent>
+                </ng-template>
+			</mat-tab>
+			<mat-tab *ngIf="user" [disabled]="true">
+				<ng-template mat-tab-label>
+					<i class="mat-tab-label-icon fa fa-exchange-alt"></i>
+					Change password
+                </ng-template>
+                <ng-template matTabContent>                    
+                </ng-template>
+			</mat-tab>
+		</mat-tab-group>
+	</kt-portlet-body>
+</kt-portlet>

@@ -1,10 +1,16 @@
-import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material';
 
 import { Asset } from '../../api/models/assets/asset.interface';
-import { AssetRequisitesDialogComponent } from '../../shared/asset-requisites/asset-requisites.dialog.component';
+import { AccountService } from '../../api/account.service';
+import { AssetsService } from '../../api/assets.service';
+import { AccountRequisitesDataSource } from '../../models/account-requisites-data-source';
+import { BlockchainsService } from '../../api/blockchains.service';
+import { Blockchain } from '../../api/models/blockchains/blockchain.interface';
+import { RequisitesDialogComponent } from '../../shared/requisites/requisites.dialog.component';
+import { AccountRequisite } from '../../api/models/account/account-requisite.interface';
 
 @Component({
   selector: 'kt-account-requisites-list',
@@ -14,26 +20,99 @@ import { AssetRequisitesDialogComponent } from '../../shared/asset-requisites/as
 })
 export class AccountRequisitesListComponent implements OnInit, OnDestroy {
 
-  private accountId: number;
-  private subscriptions: Subscription[] = [];
-
   constructor(
     public dialog: MatDialog,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute,
+    private cdr: ChangeDetectorRef,
+    private assetsService: AssetsService,
+    private blockchainsService: BlockchainsService,
+    private accountService: AccountService) { }
+
+  private accountId: number;
+  private subscriptions: Subscription[] = [];
+  private blockchainId = '';
+
+  assetId = '';
+  assets: Asset[];
+  blockchains: Blockchain[];
+  dataSource: AccountRequisitesDataSource;
+  displayedColumns = ['blockchainName', 'address', 'tag', 'tagType', 'actions'];
 
   ngOnInit() {
+    this.dataSource = new AccountRequisitesDataSource(this.accountService);
+
     const routeSubscription = this.route.params.subscribe(params => {
       this.accountId = params['accountId'];
+      this.load();
     });
 
     this.subscriptions.push(routeSubscription);
+
+    this.loadAssets();
+    this.loadBlockchains();
   }
 
   ngOnDestroy() {
-    this.subscriptions.forEach(el => el.unsubscribe());
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
-  onAssetSelected(asset: Asset) {
-    this.dialog.open(AssetRequisitesDialogComponent, { data: { accountId: this.accountId, asset }, width: '600px' });
+  load() {
+    this.dataSource.load(this.accountId, this.blockchainId);
+  }
+
+  loadAssets() {
+    this.assetsService.getAll()
+      .subscribe(response => {
+        this.assets = response.items;
+      });
+  }
+
+  loadBlockchains() {
+    this.blockchainsService.get()
+      .subscribe(result => {
+        this.blockchains = result.items;
+        this.cdr.markForCheck();
+      });
+  }
+
+  onAssetChanged() {
+    if (this.assetId) {
+      const id = Number(this.assetId);
+      const asset = this.assets.filter(asset => asset.assetId === id)[0]
+      this.blockchainId = asset.blockchainId;
+    }
+    else {
+      this.blockchainId = '';
+    }
+
+    this.load();
+  }
+
+  getBlockchainName(blockchainId: string) {
+    if (this.blockchains) {
+      const blockchain = this.blockchains.filter((blockchain) => blockchain.blockchainId === blockchainId)[0];
+
+      return blockchain ? blockchain.name : 'unknown';
+    }
+
+    return '';
+  }
+
+  formatAddress(address: string) {
+    if (address && address.length > 15)
+      return address.substr(0, 6) + '...' + address.substr(address.length - 6, address.length);
+    return address;
+  }
+
+  details(accountRequisite: AccountRequisite) {
+    const blockchain = this.blockchains.filter((blockchain) => blockchain.blockchainId === accountRequisite.blockchainId)[0];
+    this.dialog.open(RequisitesDialogComponent, {
+      data: {
+        address: accountRequisite.address,
+        tag: accountRequisite.tag,
+        tagType: accountRequisite.tagType,
+        blockchain
+      }, width: '600px'
+    });
   }
 }

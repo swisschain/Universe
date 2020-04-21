@@ -3,13 +3,13 @@ import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
 import { CollectionViewer } from '@angular/cdk/collections';
 import { catchError, finalize, distinctUntilChanged, skip } from 'rxjs/operators';
 
-import { AssetPair } from '../api/models/asset-pairs/asset-pair.interface'
-import { AssetPairsService } from '../api/asset-pairs.service';
+import { AccountRequisite } from '../api/models/account/account-requisite.interface'
+import { AccountService } from '../api/account.service';
 import { PagedResponse } from '../api/models/pagination/paged-response.interface';
 
-export class AssetPairsDataSource implements DataSource<AssetPair> {
+export class AccountRequisitesDataSource implements DataSource<AccountRequisite> {
 
-    constructor(private assetsService: AssetPairsService) {
+    constructor(private accountService: AccountService) {
         const hasItemsSubscription = this.itemsSubject.asObservable().pipe(
             distinctUntilChanged(),
             skip(1)
@@ -17,7 +17,7 @@ export class AssetPairsDataSource implements DataSource<AssetPair> {
         this.subscriptions.push(hasItemsSubscription);
     }
 
-    private itemsSubject = new BehaviorSubject<AssetPair[]>([]);
+    private itemsSubject = new BehaviorSubject<AccountRequisite[]>([]);
     private loadingSubject = new BehaviorSubject<boolean>(false);
     private subscriptions: Subscription[] = [];
 
@@ -25,7 +25,7 @@ export class AssetPairsDataSource implements DataSource<AssetPair> {
     loading$ = this.loadingSubject.asObservable();
     isPreloadTextViewed$ = this.loadingSubject.asObservable();
 
-    connect(collectionViewer: CollectionViewer): Observable<AssetPair[]> {
+    connect(collectionViewer: CollectionViewer): Observable<AccountRequisite[]> {
         return this.itemsSubject.asObservable();
     }
 
@@ -35,14 +35,14 @@ export class AssetPairsDataSource implements DataSource<AssetPair> {
         this.subscriptions.forEach(subscription => subscription.unsubscribe());
     }
 
-    load(symbol: string, baseAsset: string, quotingAsset: string, IsDisabled: boolean) {
+    load(brokerAccountId: number, blockchainId: string) {
         this.loadingSubject.next(true);
-        this.assetsService.get(symbol, baseAsset, quotingAsset, IsDisabled)
+        this.accountService.getRequisites(brokerAccountId, blockchainId)
             .pipe(
                 catchError(() => of([])),
                 finalize(() => this.loadingSubject.next(false))
             )
-            .subscribe((response: PagedResponse<AssetPair>) => {
+            .subscribe((response: PagedResponse<AccountRequisite>) => {
                 this.itemsSubject.next(response.items)
             });
     }

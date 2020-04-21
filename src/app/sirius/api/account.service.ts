@@ -33,7 +33,14 @@ export class AccountService {
             );
     }
 
-    getRequisites(accountId: number, assetId: number) {
+    getRequisites(brokerAccountId: number, blockchainId: string) {
+        const params = new HttpParams()
+            .set('blockchainId', blockchainId);
+
+        return this.http.get<PagedResponse<AccountRequisite>>(`${API_URL}/${brokerAccountId}/requisites`, { params: params });
+    }
+
+    getRequisiteByAssetId(accountId: number, assetId: number) {
         return this.http.get<AccountRequisite>(`${API_URL}/${accountId}/requisites/by-asset-id/${assetId}`);
     }
 
@@ -42,5 +49,4 @@ export class AccountService {
             .set('X-Request-ID', uuidv4());
         return this.http.post<Account>(`${API_URL}`, { brokerAccountId, referenceId }, { headers: headers });
     }
-
 }

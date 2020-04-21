@@ -64,6 +64,7 @@ import { DepositsService } from './api/deposits.service';
 import { WithdrawalService } from './api/withdrawal.service'
 
 import { NumberDirective } from './shared/numbers-only.directive';
+import { RequisitesDialogComponent } from './shared/requisites/requisites.dialog.component';
 
 @NgModule({
 	declarations: [
@@ -85,7 +86,8 @@ import { NumberDirective } from './shared/numbers-only.directive';
 		DepositDetailsComponent,
 		WithdrawalListComponent,
 		WithdrawalEditDialogComponent,
-		WithdrawalDetailsComponent
+		WithdrawalDetailsComponent,
+		RequisitesDialogComponent
 	],
 	imports: [
 		CommonModule,
@@ -152,7 +154,8 @@ import { NumberDirective } from './shared/numbers-only.directive';
 		AccountEditDialogComponent,
 		BrokerAccountEditDialogComponent,
 		AssetRequisitesDialogComponent,
-		WithdrawalEditDialogComponent
+		WithdrawalEditDialogComponent,
+		RequisitesDialogComponent
 	]
 })
 export class SiriusModule { }

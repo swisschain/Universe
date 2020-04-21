@@ -59,7 +59,7 @@ export class AssetRequisitesDialogComponent implements OnInit, OnDestroy {
     this.loaders++;
 
     if (this.accountId) {
-      this.accountsService.getRequisites(this.accountId, this.asset.assetId)
+      this.accountsService.getRequisiteByAssetId(this.accountId, this.asset.assetId)
         .subscribe(requisites => {
           this.address = requisites.address;
           this.tag = requisites.tag;
@@ -68,7 +68,7 @@ export class AssetRequisitesDialogComponent implements OnInit, OnDestroy {
           this.changeDetector.markForCheck();
         });
     } else if (this.brokerAccountId) {
-      this.brokerAccountsService.getRequisites(this.brokerAccountId, this.asset.assetId)
+      this.brokerAccountsService.getRequisiteByAssetId(this.brokerAccountId, this.asset.assetId)
         .subscribe(requisites => {
           this.address = requisites.address;
           this.releaseLoader();
