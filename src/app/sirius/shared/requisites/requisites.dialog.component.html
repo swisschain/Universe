@@ -15,12 +15,12 @@
                 </div>
                 <div class="form-group kt-form__group row">
                     <label class="col-lg-2 col-form-label">Address:</label>
-                    <div class="col-lg-7">
+                    <div class="col-lg-10">
                         <label class="col-form-label">{{address}}</label>
+                        <button mat-icon-button color="primary" matTooltip="Copy" ngxClipboard [cbContent]="address">
+                            <mat-icon>filter_none</mat-icon>
+                        </button>
                     </div>
-                    <button mat-icon-button color="primary" matTooltip="Copy" ngxClipboard [cbContent]="address">
-                        <mat-icon>filter_none</mat-icon>
-                    </button>
                 </div>
                 <div class="form-group kt-form__group row" *ngIf="tag">
                     <label class="col-lg-2 col-form-label">{{tagLabel}}:</label>
@@ -35,8 +35,10 @@
                     </div>
                 </div>
                 <div class="form-group kt-form__group row" *ngIf="address">
-                    <img src="https://chart.googleapis.com/chart?cht=qr&chl={{address}}&chs=200x200" width="200"
-                        height="200" />
+                    <img *ngIf="loading" src="/assets/media/loaders/loader-200.gif" alt="loading" />
+                    <img [hidden]="loading" (load)="loading = false"
+                        src="https://chart.googleapis.com/chart?cht=qr&chl={{address}}&chs=200x200" alt="{{address}}"
+                        width="200" height="200" />
                 </div>
             </div>
         </div>

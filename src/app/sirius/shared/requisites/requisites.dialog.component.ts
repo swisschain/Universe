@@ -13,6 +13,7 @@ export class RequisitesDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any) {
   }
 
+  loading = true;
   viewLoading = false;
 
   blockchain: Blockchain;

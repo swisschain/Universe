@@ -2,10 +2,15 @@
     <div class="kt-form__filtration">
         <div class="row align-items-center">
             <div class="col-md-2 kt-margin-bottom-10-mobile">
-                <mat-form-field class="mat-form-field-fluid">
-                    <mat-select [(value)]="assetId" (selectionChange)="onAssetChanged()">
-                        <mat-option value="">All</mat-option>
-                        <mat-option *ngFor="let asset of assets" [value]="asset.assetId">
+                <mat-form-field class="mat-form-field-fluid" floatLabel="never">
+                    <mat-select [(value)]="assetId" (selectionChange)="onAssetChanged()" #singleSelect
+                        placeholder="All">
+                        <mat-option>
+                            <ngx-mat-select-search [formControl]="assetFilterCtrl" [placeholderLabel]="'Search...'"
+                                [noEntriesFoundLabel]="'No matching assets found'"></ngx-mat-select-search>
+                        </mat-option>
+                        <mat-option>All</mat-option>
+                        <mat-option *ngFor="let asset of filteredAssets | async" [value]="asset.assetId">
                             {{asset.symbol}} ({{getBlockchainName(asset.blockchainId)}})</mat-option>
                     </mat-select>
                     <mat-hint align="start">
@@ -28,8 +33,9 @@
         <ng-container matColumnDef="address">
             <mat-header-cell *matHeaderCellDef>Address</mat-header-cell>
             <mat-cell *matCellDef="let item">
-                {{formatAddress(item.address)}}
-                <button mat-icon-button color="primary" matTooltip="Copy" ngxClipboard [cbContent]="item.address">
+                {{getAddress(item.address)}}
+                <button mat-icon-button color="primary" matTooltip="Copy" matTooltipPosition="right" ngxClipboard
+                    [cbContent]="item.address">
                     <mat-icon>filter_none</mat-icon>
                 </button>
             </mat-cell>

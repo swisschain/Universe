@@ -1,38 +1,16 @@
-import { DataSource } from '@angular/cdk/table';
-import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
-import { CollectionViewer } from '@angular/cdk/collections';
-import { catchError, finalize, distinctUntilChanged, skip } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { catchError, finalize } from 'rxjs/operators';
+
+import { BaseDataSource } from './base-data-source';
 
 import { BrokerAccountRequisite } from '../api/models/brocker-account/broker-account-requisite.interface'
 import { BrokerAccountService } from '../api/broker-account.service';
 import { PagedResponse } from '../api/models/pagination/paged-response.interface';
 
-export class BrokerAccountRequisitesDataSource implements DataSource<BrokerAccountRequisite> {
+export class BrokerAccountRequisitesDataSource extends BaseDataSource<BrokerAccountRequisite> {
 
     constructor(private brokerAccountService: BrokerAccountService) {
-        const hasItemsSubscription = this.itemsSubject.asObservable().pipe(
-            distinctUntilChanged(),
-            skip(1)
-        ).subscribe(result => this.hasItems = result && result.length > 0);
-        this.subscriptions.push(hasItemsSubscription);
-    }
-
-    private itemsSubject = new BehaviorSubject<BrokerAccountRequisite[]>([]);
-    private loadingSubject = new BehaviorSubject<boolean>(false);
-    private subscriptions: Subscription[] = [];
-
-    hasItems = true;
-    loading$ = this.loadingSubject.asObservable();
-    isPreloadTextViewed$ = this.loadingSubject.asObservable();
-
-    connect(collectionViewer: CollectionViewer): Observable<BrokerAccountRequisite[]> {
-        return this.itemsSubject.asObservable();
-    }
-
-    disconnect(collectionViewer: CollectionViewer): void {
-        this.itemsSubject.complete();
-        this.loadingSubject.complete();
-        this.subscriptions.forEach(subscription => subscription.unsubscribe());
+        super();
     }
 
     load(brokerAccountId: number, blockchainId: string) {

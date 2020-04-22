@@ -6,7 +6,7 @@ import { Subscription, Observable } from 'rxjs';
 import { FormControl } from '@angular/forms';
 
 import { AssetsService } from '../../api/assets.service';
-import { AccountTradesDataSource } from '../../models/accounts-trades-data-source';
+import { AccountTradesDataSource } from '../../models/account-trades-data-source';
 import { AccountDataService } from '../../api/account-data.service';
 
 @Component({

@@ -1,16 +1,20 @@
 import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, ChangeDetectorRef } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { MatDialog } from '@angular/material';
+import { MatDialog, } from '@angular/material';
+
+import { Subscription, ReplaySubject } from 'rxjs';
+
+import { formatAddress } from '../../shared/address-utils';
 
 import { Asset } from '../../api/models/assets/asset.interface';
-import { BrokerAccountService } from '../../api/broker-account.service';
 import { AssetsService } from '../../api/assets.service';
-import { BrokerAccountRequisitesDataSource } from '../../models/broker-account-requisites-data-source';
-import { BlockchainsService } from '../../api/blockchains.service';
-import { Blockchain } from '../../api/models/blockchains/blockchain.interface';
-import { RequisitesDialogComponent } from '../../shared/requisites/requisites.dialog.component';
 import { BrokerAccountRequisite } from '../../api/models/brocker-account/broker-account-requisite.interface';
+import { BrokerAccountService } from '../../api/broker-account.service';
+import { Blockchain } from '../../api/models/blockchains/blockchain.interface';
+import { BlockchainsService } from '../../api/blockchains.service';
+import { RequisitesDialogComponent } from '../../shared/requisites/requisites.dialog.component';
+import { BrokerAccountRequisitesDataSource } from '../../models/broker-account-requisites-data-source';
 
 @Component({
   selector: 'kt-broker-account-requisites',
@@ -32,11 +36,17 @@ export class BrokerAccountRequisitesComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];
   private blockchainId = '';
 
+  assetFilterCtrl: FormControl = new FormControl();
+
   assetId = '';
-  assets: Asset[];
-  blockchains: Blockchain[];
+
   dataSource: BrokerAccountRequisitesDataSource;
   displayedColumns = ['blockchainName', 'address', 'actions'];
+
+  assets: Asset[];
+  blockchains: Blockchain[];
+
+  filteredAssets: ReplaySubject<Asset[]> = new ReplaySubject<Asset[]>(1);
 
   ngOnInit() {
     this.dataSource = new BrokerAccountRequisitesDataSource(this.brokerAccountService);
@@ -47,6 +57,13 @@ export class BrokerAccountRequisitesComponent implements OnInit, OnDestroy {
     });
 
     this.subscriptions.push(routeSubscription);
+
+    const assetFilterCtrlSubscription = this.assetFilterCtrl.valueChanges
+      .subscribe(() => {
+        this.filterAssets();
+      });
+
+    this.subscriptions.push(assetFilterCtrlSubscription);
 
     this.loadAssets();
     this.loadBlockchains();
@@ -64,6 +81,7 @@ export class BrokerAccountRequisitesComponent implements OnInit, OnDestroy {
     this.assetsService.getAll()
       .subscribe(response => {
         this.assets = response.items;
+        this.filterAssets();
       });
   }
 
@@ -77,8 +95,8 @@ export class BrokerAccountRequisitesComponent implements OnInit, OnDestroy {
 
   onAssetChanged() {
     if (this.assetId) {
-      const id = Number(this.assetId);
-      const asset = this.assets.filter(asset => asset.assetId === id)[0]
+      const assetId = Number(this.assetId);
+      const asset = this.assets.filter(asset => asset.assetId === assetId)[0]
       this.blockchainId = asset.blockchainId;
     }
     else {
@@ -86,6 +104,25 @@ export class BrokerAccountRequisitesComponent implements OnInit, OnDestroy {
     }
 
     this.load();
+  }
+
+  filterAssets() {
+    if (!this.assets) {
+      return;
+    }
+
+    let searchValue = this.assetFilterCtrl.value;
+
+    if (!searchValue) {
+      this.filteredAssets.next(this.assets.slice());
+      return;
+    }
+
+    searchValue = searchValue.toLowerCase();
+
+    this.filteredAssets.next(
+      this.assets.filter(asset => asset.symbol.toLowerCase().includes(searchValue))
+    );
   }
 
   getBlockchainName(blockchainId: string) {
@@ -98,14 +135,12 @@ export class BrokerAccountRequisitesComponent implements OnInit, OnDestroy {
     return '';
   }
 
-  formatAddress(address: string) {
-    if (address && address.length > 15)
-      return address.substr(0, 6) + '...' + address.substr(address.length - 6, address.length);
-    return address;
+  getAddress(address: string) {
+    return formatAddress(address);
   }
 
   details(brokerAccountRequisite: BrokerAccountRequisite) {
-    const blockchain = this.blockchains.filter((blockchain) => blockchain.blockchainId === brokerAccountRequisite.blockchainId)[0];
+    const blockchain = this.blockchains.filter(blockchain => blockchain.blockchainId === brokerAccountRequisite.blockchainId)[0];
     this.dialog.open(RequisitesDialogComponent, {
       data: {
         address: brokerAccountRequisite.address,

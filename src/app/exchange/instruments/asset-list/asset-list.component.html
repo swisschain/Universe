@@ -1,8 +1,9 @@
 <kt-portlet-header [class]="'kt-portlet__head--lg'" [viewLoading$]="dataSource.loading$">
     <ng-container ktPortletTools>
-        <button (click)="add()" mat-raised-button matTooltip="Create asset" color="primary" type="button">
-            <span>Create</span>
-        </button>
+        <a (click)="add()" href="javascript:;" class="btn btn-primary kt-margin-r-10" color="primary" mat-raised-button matTooltip="Create asset">
+            <i class="la la-plus"></i>
+            <span class="kt-hidden-mobile">Create</span>
+        </a>
     </ng-container>
 </kt-portlet-header>
 

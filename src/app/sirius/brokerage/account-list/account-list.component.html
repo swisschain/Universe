@@ -7,12 +7,16 @@
         </ng-container>
 
         <ng-container ktPortletTools>
-            <button (click)="load()" mat-raised-button matTooltip="Refresh" type="button">
-                <span>Refresh</span>
-            </button>&nbsp;
-            <button (click)="add()" mat-raised-button matTooltip="Create account" color="primary" type="button">
-                <span>Create</span>
-            </button>
+            <a (click)="load()" href="javascript:;" class="btn btn-secondary kt-margin-r-10" mat-raised-button
+                matTooltip="Refresh accounts list">
+                <i class="la la-refresh"></i>
+                <span class="kt-hidden-mobile">Refresh</span>
+            </a>
+            <a (click)="add()" href="javascript:;" class="btn btn-primary kt-margin-r-10" color="primary"
+                mat-raised-button matTooltip="Create account">
+                <i class="la la-plus"></i>
+                <span class="kt-hidden-mobile">Create</span>
+            </a>
         </ng-container>
     </kt-portlet-header>
 
@@ -25,7 +29,8 @@
                             <mat-form-field class="mat-form-field-fluid">
                                 <mat-select [(value)]="brokerAccountId" (selectionChange)="load()">
                                     <mat-option value="">All</mat-option>
-                                    <mat-option *ngFor="let brokerAccount of brokerAccounts" [value]="brokerAccount.brokerAccountId">
+                                    <mat-option *ngFor="let brokerAccount of brokerAccounts"
+                                        [value]="brokerAccount.brokerAccountId">
                                         {{brokerAccount.name}}</mat-option>
                                 </mat-select>
                                 <mat-hint align="start">
@@ -81,7 +86,8 @@
                 <ng-container matColumnDef="actions">
                     <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
                     <mat-cell *matCellDef="let account">
-                        <button mat-icon-button color="primary" matTooltip="Details" type="button" [routerLink]="['./',account.accountId]">
+                        <button mat-icon-button color="primary" matTooltip="Details" type="button"
+                            [routerLink]="['./',account.accountId]">
                             <mat-icon>more_horiz</mat-icon>
                         </button>&nbsp;
                     </mat-cell>
@@ -91,7 +97,7 @@
 
                 <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
             </mat-table>
-            <!-- Message for empty data  -->
+
             <div class="mat-table__message" *ngIf="!dataSource.hasItems">No records found</div>
             <div class="mat-table__message" *ngIf="dataSource.isPreloadTextViewed$ | async">Please wait....</div>
         </div>

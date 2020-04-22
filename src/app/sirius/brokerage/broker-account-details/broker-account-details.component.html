@@ -5,16 +5,20 @@
                 <span>Broker Account Details</span>
             </h3>
         </ng-container>
+
+        <ng-container ktPortletTools>
+            <a [routerLink]="['../']" class="btn btn-secondary kt-margin-r-10" mat-raised-button
+                matTooltip="Back to the broker accounts list">
+                <i class="la la-arrow-left"></i>
+                <span class="kt-hidden-mobile">Back</span>
+            </a>
+        </ng-container>
     </kt-portlet-header>
 
     <kt-portlet-body>
         <div class="form-group kt-form__group row">
             <label class="col-lg-3 col-form-label">Id: <strong>{{brokerAccount?.brokerAccountId}}</strong></label>
             <label class="col-lg-4 col-form-label">Name: <strong>{{brokerAccount?.name}}</strong></label>
-        </div>
-        <div class="form-group kt-form__group row">
-            <label class="col-lg-3 col-form-label">Blockchains: <strong>0</strong></label>
-            <label class="col-lg-4 col-form-label">Accounts: <strong>0</strong></label>
         </div>
         <mat-tab-group>
             <mat-tab label="Balances">

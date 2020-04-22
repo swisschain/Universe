@@ -1,16 +1,20 @@
 import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, ChangeDetectorRef } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material';
 
+import { Subscription, ReplaySubject } from 'rxjs';
+
+import { formatAddress } from '../../shared/address-utils';
+
 import { Asset } from '../../api/models/assets/asset.interface';
-import { AccountService } from '../../api/account.service';
 import { AssetsService } from '../../api/assets.service';
-import { AccountRequisitesDataSource } from '../../models/account-requisites-data-source';
-import { BlockchainsService } from '../../api/blockchains.service';
-import { Blockchain } from '../../api/models/blockchains/blockchain.interface';
-import { RequisitesDialogComponent } from '../../shared/requisites/requisites.dialog.component';
 import { AccountRequisite } from '../../api/models/account/account-requisite.interface';
+import { AccountService } from '../../api/account.service';
+import { Blockchain } from '../../api/models/blockchains/blockchain.interface';
+import { BlockchainsService } from '../../api/blockchains.service';
+import { RequisitesDialogComponent } from '../../shared/requisites/requisites.dialog.component';
+import { AccountRequisitesDataSource } from '../../models/account-requisites-data-source';
 
 @Component({
   selector: 'kt-account-requisites-list',
@@ -32,11 +36,17 @@ export class AccountRequisitesListComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];
   private blockchainId = '';
 
+  assetFilterCtrl: FormControl = new FormControl();
+
   assetId = '';
-  assets: Asset[];
-  blockchains: Blockchain[];
+
   dataSource: AccountRequisitesDataSource;
   displayedColumns = ['blockchainName', 'address', 'tag', 'tagType', 'actions'];
+
+  assets: Asset[];
+  blockchains: Blockchain[];
+
+  filteredAssets: ReplaySubject<Asset[]> = new ReplaySubject<Asset[]>(1);
 
   ngOnInit() {
     this.dataSource = new AccountRequisitesDataSource(this.accountService);
@@ -47,6 +57,13 @@ export class AccountRequisitesListComponent implements OnInit, OnDestroy {
     });
 
     this.subscriptions.push(routeSubscription);
+
+    const assetFilterCtrlSubscription = this.assetFilterCtrl.valueChanges
+      .subscribe(() => {
+        this.filterAssets();
+      });
+
+    this.subscriptions.push(assetFilterCtrlSubscription);
 
     this.loadAssets();
     this.loadBlockchains();
@@ -64,6 +81,7 @@ export class AccountRequisitesListComponent implements OnInit, OnDestroy {
     this.assetsService.getAll()
       .subscribe(response => {
         this.assets = response.items;
+        this.filterAssets();
       });
   }
 
@@ -88,6 +106,25 @@ export class AccountRequisitesListComponent implements OnInit, OnDestroy {
     this.load();
   }
 
+  filterAssets() {
+    if (!this.assets) {
+      return;
+    }
+
+    let searchValue = this.assetFilterCtrl.value;
+
+    if (!searchValue) {
+      this.filteredAssets.next(this.assets.slice());
+      return;
+    }
+
+    searchValue = searchValue.toLowerCase();
+
+    this.filteredAssets.next(
+      this.assets.filter(asset => asset.symbol.toLowerCase().includes(searchValue))
+    );
+  }
+
   getBlockchainName(blockchainId: string) {
     if (this.blockchains) {
       const blockchain = this.blockchains.filter((blockchain) => blockchain.blockchainId === blockchainId)[0];
@@ -98,10 +135,8 @@ export class AccountRequisitesListComponent implements OnInit, OnDestroy {
     return '';
   }
 
-  formatAddress(address: string) {
-    if (address && address.length > 15)
-      return address.substr(0, 6) + '...' + address.substr(address.length - 6, address.length);
-    return address;
+  getAddress(address: string) {
+    return formatAddress(address);
   }
 
   details(accountRequisite: AccountRequisite) {

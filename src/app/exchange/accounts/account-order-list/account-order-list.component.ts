@@ -7,7 +7,7 @@ import { FormControl } from '@angular/forms';
 
 import { LayoutUtilsService, MessageType } from '../../../core/_base/crud';
 
-import { AccountOrdersDataSource } from '../../models/accounts-orders-data-source';
+import { AccountOrdersDataSource } from '../../models/account-orders-data-source';
 import { AccountDataService } from '../../api/account-data.service';
 import { AssetPairsService } from '../../api/asset-pairs.service';
 import { LimitOrdersService } from '../../api/limit-orders.service';

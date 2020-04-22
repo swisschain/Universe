@@ -63,7 +63,8 @@
         "uuid": "^7.0.2",
         "jwt-decode": "^2.2.0",
         "web-animations-js": "^2.3.2",
-        "zone.js": "~0.9.1"
+        "zone.js": "~0.9.1",
+        "ngx-mat-select-search": "2.1.2"
     },
     "devDependencies": {
         "@angular-devkit/build-angular": "^0.800.6",

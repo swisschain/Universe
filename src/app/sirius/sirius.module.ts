@@ -32,6 +32,8 @@ import {
 	MatTooltipModule
 } from '@angular/material';
 
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+
 import { ClipboardModule } from 'ngx-clipboard';
 
 import { AuthHeaderInterceptor } from '../core/interceptors/auth-header-interceptor';
@@ -44,8 +46,6 @@ import { AccountListComponent } from './brokerage/account-list/account-list.comp
 import { AccountEditDialogComponent } from './brokerage/account-edit/account-edit.dialog.component';
 import { AccountDetailsComponent } from './brokerage/account-details/account-details.component';
 import { AccountRequisitesListComponent } from './brokerage/account-requisites-list/account-requisites-list.component';
-import { AssetsListComponent } from './shared/assets-list/assets-list.component';
-import { AssetRequisitesDialogComponent } from './shared/asset-requisites/asset-requisites.dialog.component';
 import { BrokerAccountDetailsComponent } from './brokerage/broker-account-details/broker-account-details.component';
 import { BrokerAccountRequisitesComponent } from './brokerage/broker-account-requisites/broker-account-requisites.component';
 import { WorkingOnItComponent } from './shared/working-on-it/working-on-it.component';
@@ -55,6 +55,7 @@ import { DepositDetailsComponent } from './brokerage/deposit-details/deposit-det
 import { WithdrawalListComponent } from './brokerage/withdrawal-list/withdrawal-list.component';
 import { WithdrawalEditDialogComponent } from './brokerage/withdrawal-edit/withdrawal-edit.dialog.component';
 import { WithdrawalDetailsComponent } from './brokerage/withdrawal-details/withdrawal-details.component';
+import { RequisitesDialogComponent } from './shared/requisites/requisites.dialog.component';
 
 import { AccountService } from './api/account.service';
 import { BrokerAccountService } from './api/broker-account.service';
@@ -64,7 +65,7 @@ import { DepositsService } from './api/deposits.service';
 import { WithdrawalService } from './api/withdrawal.service'
 
 import { NumberDirective } from './shared/numbers-only.directive';
-import { RequisitesDialogComponent } from './shared/requisites/requisites.dialog.component';
+
 
 @NgModule({
 	declarations: [
@@ -75,19 +76,18 @@ import { RequisitesDialogComponent } from './shared/requisites/requisites.dialog
 		AccountEditDialogComponent,
 		AccountDetailsComponent,
 		AccountRequisitesListComponent,
-		AssetsListComponent,
-		AssetRequisitesDialogComponent,
 		BrokerAccountDetailsComponent,
 		BrokerAccountRequisitesComponent,
 		WorkingOnItComponent,
 		BrokerAccountBalancesComponent,
 		DepositListComponent,
-		NumberDirective,
 		DepositDetailsComponent,
 		WithdrawalListComponent,
 		WithdrawalEditDialogComponent,
 		WithdrawalDetailsComponent,
-		RequisitesDialogComponent
+		RequisitesDialogComponent,
+
+		NumberDirective
 	],
 	imports: [
 		CommonModule,
@@ -118,6 +118,8 @@ import { RequisitesDialogComponent } from './shared/requisites/requisites.dialog
 		MatSnackBarModule,
 		MatTabsModule,
 		MatTooltipModule,
+
+		NgxMatSelectSearchModule,
 
 		ClipboardModule
 	],
@@ -153,7 +155,6 @@ import { RequisitesDialogComponent } from './shared/requisites/requisites.dialog
 
 		AccountEditDialogComponent,
 		BrokerAccountEditDialogComponent,
-		AssetRequisitesDialogComponent,
 		WithdrawalEditDialogComponent,
 		RequisitesDialogComponent
 	]

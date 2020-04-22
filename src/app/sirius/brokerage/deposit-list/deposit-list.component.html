@@ -7,9 +7,11 @@
         </ng-container>
 
         <ng-container ktPortletTools>
-            <button (click)="load()" mat-raised-button matTooltip="Refresh" type="button">
-                <span>Refresh</span>
-            </button>
+            <a (click)="load()" href="javascript:;" class="btn btn-secondary kt-margin-r-10" mat-raised-button
+                matTooltip="Refresh deposits">
+                <i class="la la-refresh"></i>
+                <span class="kt-hidden-mobile">Refresh</span>
+            </a>
         </ng-container>
     </kt-portlet-header>
 
@@ -144,7 +146,7 @@
 
                 <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
             </mat-table>
-            <!-- Message for empty data  -->
+
             <div class="mat-table__message" *ngIf="!dataSource.hasItems">No records found</div>
             <div class="mat-table__message" *ngIf="dataSource.isPreloadTextViewed$ | async">Please wait....</div>
         </div>
