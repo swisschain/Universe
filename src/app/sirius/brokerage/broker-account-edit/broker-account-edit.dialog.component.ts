@@ -1,7 +1,9 @@
-import { Component, OnInit, ChangeDetectionStrategy, ViewEncapsulation, OnDestroy, Inject } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ViewEncapsulation, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
+
+import { v4 as uuidv4 } from 'uuid';
+
 import { MessageType, LayoutUtilsService } from '../../../core/_base/crud';
 import { BrokerAccountService } from '../../api/broker-account.service';
 
@@ -12,9 +14,7 @@ import { BrokerAccountService } from '../../api/broker-account.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None
 })
-export class BrokerAccountEditDialogComponent implements OnInit, OnDestroy {
-
-  private subscriptions: Subscription;
+export class BrokerAccountEditDialogComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -24,6 +24,8 @@ export class BrokerAccountEditDialogComponent implements OnInit, OnDestroy {
     private layoutUtilsService: LayoutUtilsService) {
   }
 
+  private requestId = uuidv4();
+
   form: FormGroup;
   hasFormErrors = false;
   viewLoading = false;
@@ -32,27 +34,21 @@ export class BrokerAccountEditDialogComponent implements OnInit, OnDestroy {
     this.createForm();
   }
 
-  ngOnDestroy() {
-    if (this.subscriptions) {
-      this.subscriptions.unsubscribe();
-    }
-  }
-
   createForm() {
     this.form = this.fb.group({
       name: ['', Validators.compose([Validators.required, Validators.maxLength(50)])]
     });
   }
 
-	isControlHasError(controlName: string, validationType: string): boolean {
-		const control = this.form.controls[controlName];
-		if (!control) {
-			return false;
-		}
+  isControlHasError(controlName: string, validationType: string): boolean {
+    const control = this.form.controls[controlName];
+    if (!control) {
+      return false;
+    }
 
-		const result = control.hasError(validationType) && (control.dirty || control.touched);
-		return result;
-	}
+    const result = control.hasError(validationType) && (control.dirty || control.touched);
+    return result;
+  }
 
   onSubmit() {
     this.hasFormErrors = false;
@@ -72,7 +68,7 @@ export class BrokerAccountEditDialogComponent implements OnInit, OnDestroy {
 
   create(name: string) {
     this.viewLoading = true;
-    this.brokerAccountService.create(name)
+    this.brokerAccountService.create(name, this.requestId)
       .subscribe(
         response => {
           this.viewLoading = false;

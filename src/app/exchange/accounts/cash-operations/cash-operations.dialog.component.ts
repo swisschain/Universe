@@ -65,7 +65,10 @@ export class CashOperationsDialogComponent implements OnInit, OnDestroy {
         Validators.required,
         Validators.min(0),
         Validators.max(10000)]
-      )]
+      )],
+      description: ['', Validators.compose([
+        Validators.maxLength(1000)]
+      )],
     });
   }
 
@@ -81,15 +84,15 @@ export class CashOperationsDialogComponent implements OnInit, OnDestroy {
     }
 
     if (this.operationType === CashOperationType.CashIn) {
-      this.cashIn(controls.asset.value, controls.amount.value);
+      this.cashIn(controls.asset.value, controls.amount.value, controls.description.value);
     } else {
-      this.cashOut(controls.asset.value, controls.amount.value);
+      this.cashOut(controls.asset.value, controls.amount.value, controls.description.value);
     }
   }
 
-  cashIn(assetId: string, amount: number) {
+  cashIn(asset: string, amount: number, description: string) {
     this.viewLoading = true;
-    this.operationsService.cashIn(this.walletId, assetId, amount)
+    this.operationsService.cashIn(this.walletId, asset, amount, description)
       .subscribe(
         response => {
           this.viewLoading = false;
@@ -104,9 +107,9 @@ export class CashOperationsDialogComponent implements OnInit, OnDestroy {
       );
   }
 
-  cashOut(assetId: string, amount: number) {
+  cashOut(asset: string, amount: number, description: string) {
     this.viewLoading = true;
-    this.operationsService.cashOut(this.walletId, assetId, amount)
+    this.operationsService.cashOut(this.walletId, asset, amount, description)
       .subscribe(
         response => {
           this.viewLoading = false;

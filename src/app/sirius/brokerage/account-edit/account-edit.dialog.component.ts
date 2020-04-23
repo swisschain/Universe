@@ -1,11 +1,14 @@
 import { Component, OnInit, ChangeDetectionStrategy, ViewEncapsulation, OnDestroy, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
+
+import { v4 as uuidv4 } from 'uuid';
+
 import { MessageType, LayoutUtilsService } from '../../../core/_base/crud';
-import { BrokerAccountService } from '../../api/broker-account.service';
-import { BrokerAccount } from '../../api/models/brocker-account/broker-account.interface';
+
 import { AccountService } from '../../api/account.service';
+import { BrokerAccount } from '../../api/models/brocker-account/broker-account.interface';
+import { BrokerAccountService } from '../../api/broker-account.service';
 
 @Component({
   selector: 'kt-account-edit-dialog',
@@ -16,8 +19,6 @@ import { AccountService } from '../../api/account.service';
 })
 export class AccountEditDialogComponent implements OnInit, OnDestroy {
 
-  private subscriptions: Subscription;
-
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<AccountEditDialogComponent>,
@@ -26,6 +27,8 @@ export class AccountEditDialogComponent implements OnInit, OnDestroy {
     private brokerAccountService: BrokerAccountService,
     private layoutUtilsService: LayoutUtilsService) {
   }
+
+  private requestId = uuidv4();
 
   form: FormGroup;
   hasFormErrors = false;
@@ -42,9 +45,6 @@ export class AccountEditDialogComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.subscriptions) {
-      this.subscriptions.unsubscribe();
-    }
   }
 
   createForm() {
@@ -72,8 +72,6 @@ export class AccountEditDialogComponent implements OnInit, OnDestroy {
       Object.keys(controls).forEach(controlName =>
         controls[controlName].markAsTouched()
       );
-
-      this.hasFormErrors = true;
       return;
     }
 
@@ -82,7 +80,7 @@ export class AccountEditDialogComponent implements OnInit, OnDestroy {
 
   create(brokerAccountId: number, referenceId: string) {
     this.viewLoading = true;
-    this.accountService.create(brokerAccountId, referenceId)
+    this.accountService.create(brokerAccountId, referenceId, this.requestId)
       .subscribe(
         response => {
           this.viewLoading = false;

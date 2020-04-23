@@ -2,11 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 
-import { v4 as uuidv4 } from 'uuid';
-
-import { PagedResponse } from './models/pagination/paged-response.interface';
-import { WithdrawalState } from './models/withdrawal/withdrawal-state.enum';
 import { Withdrawal } from './models/withdrawal/withdrawal.interface';
+import { WithdrawalState } from './models/withdrawal/withdrawal-state.enum';
+import { PagedResponse } from './models/pagination/paged-response.interface';
 
 const API_URL = 'sirius/api/withdrawals';
 
@@ -56,10 +54,9 @@ export class WithdrawalService {
             );
     }
 
-    create(brokerAccountId: number, accountId: number, referenceId: string, assetId: number, amount: number, address: string) {
-        const requstId = uuidv4();
+    create(brokerAccountId: number, accountId: number, referenceId: string, assetId: number, amount: number, address: string, requestId: string) {
         const headers = new HttpHeaders()
-            .set('X-Request-ID', requstId);
+            .set('X-Request-ID', requestId);
         return this.http.post<Withdrawal>(`${API_URL}`, {
             brokerAccountId,
             accountId,

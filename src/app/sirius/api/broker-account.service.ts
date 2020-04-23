@@ -6,10 +6,7 @@ import { BrokerBalance } from './models/brocker-account/broker-balance.interface
 import { BrokerAccountRequisite } from './models/brocker-account/broker-account-requisite.interface';
 import { PagedResponse } from './models/pagination/paged-response.interface';
 
-import { v4 as uuidv4 } from 'uuid';
-import { of } from 'rxjs';
 import { map } from 'rxjs/operators';
-
 
 const API_URL = 'sirius/api/broker-accounts';
 
@@ -48,10 +45,9 @@ export class BrokerAccountService {
         return this.http.get<PagedResponse<BrokerBalance>>(`${API_URL}/${brokerAccountId}/balances`);
     }
 
-    create(name: string) {
-        const requstId = uuidv4();
-        let headers = new HttpHeaders();
-        headers = headers.set('X-Request-ID', requstId);
+    create(name: string, requestId: string) {
+        const headers = new HttpHeaders()
+            .set('X-Request-ID', requestId);
         return this.http.post<BrokerAccount>(`${API_URL}`, { name }, { headers: headers });
     }
 }

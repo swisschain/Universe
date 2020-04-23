@@ -2,6 +2,8 @@ import { Component, OnInit, ChangeDetectionStrategy, ViewEncapsulation, OnDestro
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
+import { v4 as uuidv4 } from 'uuid';
+
 import { Subscription } from 'rxjs';
 
 import { Asset } from '../../api/models/assets/asset.interface';
@@ -33,6 +35,7 @@ export class WithdrawalEditDialogComponent implements OnInit, OnDestroy {
   }
 
   private subscriptions: Subscription[] = [];
+  private requestId = uuidv4();
 
   form: FormGroup;
   hasFormErrors = false;
@@ -134,7 +137,7 @@ export class WithdrawalEditDialogComponent implements OnInit, OnDestroy {
 
   create(brokerAccountId: number, accountId: number, referenceId: string, assetId: number, amount: number, address: string) {
     this.viewLoading = true;
-    this.withdrawalService.create(brokerAccountId, accountId, referenceId, assetId, amount, address)
+    this.withdrawalService.create(brokerAccountId, accountId, referenceId, assetId, amount, address, this.requestId)
       .subscribe(
         response => {
           this.viewLoading = false;

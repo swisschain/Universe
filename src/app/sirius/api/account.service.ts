@@ -5,8 +5,6 @@ import { Account } from './models/account/account.interface';
 import { AccountRequisite } from './models/account/account-requisite.interface';
 import { PagedResponse } from './models/pagination/paged-response.interface';
 
-import { v4 as uuidv4 } from 'uuid';
-import { of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 const API_URL = 'sirius/api/accounts';
@@ -44,9 +42,9 @@ export class AccountService {
         return this.http.get<AccountRequisite>(`${API_URL}/${accountId}/requisites/by-asset-id/${assetId}`);
     }
 
-    create(brokerAccountId: number, referenceId: string) {
+    create(brokerAccountId: number, referenceId: string, requestId: string) {
         const headers = new HttpHeaders()
-            .set('X-Request-ID', uuidv4());
+            .set('X-Request-ID', requestId);
         return this.http.post<Account>(`${API_URL}`, { brokerAccountId, referenceId }, { headers: headers });
     }
 }
