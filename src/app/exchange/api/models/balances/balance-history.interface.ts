@@ -1,10 +1,13 @@
+import { BalanceHistoryType } from './balance-history-type';
+
 export interface BalanceHistory {
     id: number;
-    walletId: string;
-    assetId: string;
+    wallet: string;
+    asset: string;
     balance: string;
     oldBalance: string;
     reserved: string;
     oldReserved: string;
+    eventType: BalanceHistoryType;
     timestamp: Date;
 }

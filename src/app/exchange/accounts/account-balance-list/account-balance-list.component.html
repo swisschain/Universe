@@ -1,14 +1,17 @@
 <kt-portlet-header [class]="'kt-portlet__head--lg'" [viewLoading$]="dataSource.loading$">
     <ng-container ktPortletTools>
-        <a (click)="load()" href="javascript:;" class="btn btn-secondary kt-margin-r-10" mat-raised-button matTooltip="Refresh balances">
+        <a (click)="load()" href="javascript:;" class="btn btn-secondary kt-margin-r-10" mat-raised-button
+            matTooltip="Refresh balances">
             <i class="la la-refresh"></i>
             <span class="kt-hidden-mobile">Refresh</span>
         </a>
-        <a (click)="cashIn()" href="javascript:;" class="btn btn-primary kt-margin-r-10" color="primary" mat-raised-button matTooltip="Cash-in amount">
+        <a (click)="cashIn()" href="javascript:;" class="btn btn-primary kt-margin-r-10" color="primary"
+            mat-raised-button matTooltip="Cash-in amount">
             <i class="la la-plus"></i>
             <span class="kt-hidden-mobile">Cash-In</span>
         </a>
-        <a (click)="transfer()" href="javascript:;" class="btn btn-primary kt-margin-r-10" color="primary" mat-raised-button matTooltip="Transfer">
+        <a (click)="transfer()" href="javascript:;" class="btn btn-primary kt-margin-r-10" color="primary"
+            mat-raised-button matTooltip="Transfer">
             <i class="la la-plus"></i>
             <span class="kt-hidden-mobile">Transfer</span>
         </a>
@@ -32,14 +35,14 @@
                             <strong>Search</strong> by asset
                         </mat-hint>
                     </mat-form-field>
-                </div>
+                </div>                
             </div>
         </div>
     </div>
 
     <div class="mat-table__wrapper">
         <mat-table class="lmat-elevation-z8" #table [dataSource]="dataSource">
-            <ng-container matColumnDef="symbol">
+            <ng-container matColumnDef="asset">
                 <mat-header-cell *matHeaderCellDef>Asset</mat-header-cell>
                 <mat-cell *matCellDef="let item">{{item.asset}}</mat-cell>
             </ng-container>
@@ -62,7 +65,8 @@
             <ng-container matColumnDef="actions">
                 <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
                 <mat-cell *matCellDef="let balance">
-                    <button mat-icon-button color="primary" matTooltip="Cash-In" (click)="cashIn(balance.asset)">
+                    <button mat-icon-button color="primary" matTooltip="Cash-In" type="button"
+                        (click)="cashIn(balance.asset)">
                         <mat-icon>add</mat-icon>
                     </button>&nbsp;
                     <button mat-icon-button color="warn" matTooltip="Cash-Out" type="button"
@@ -80,7 +84,7 @@
 
             <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
         </mat-table>
-        <!-- Message for empty data  -->
+
         <div class="mat-table__message" *ngIf="!dataSource.hasItems">No records found</div>
         <div class="mat-table__message" *ngIf="dataSource.isPreloadTextViewed$ | async">Please wait....</div>
     </div>

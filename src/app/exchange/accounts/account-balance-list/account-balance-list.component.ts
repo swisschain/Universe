@@ -13,6 +13,7 @@ import { AssetsService } from '../../api/assets.service';
 import { CashOperationType } from '../../models/cash-operation-type';
 import { CashOperationsDialogComponent } from '../cash-operations/cash-operations.dialog.component';
 import { CashTransferDialogComponent } from '../cash-transfer/cash-transfer.dialog.component';
+import { BalanceHistoryType } from '../../api/models/balances/balance-history-type';
 
 @Component({
   selector: 'kt-account-balance-list',
@@ -36,11 +37,11 @@ export class AccountBalanceListComponent implements OnInit, OnDestroy {
   searchByAssetInput = new FormControl();
 
   dataSource: BalancesDataSource;
-  displayedColumns = ['symbol', 'available', 'amount', 'reserved', 'actions'];
+  displayedColumns = ['asset', 'available', 'amount', 'reserved', 'actions'];
 
   assets: string[] = [];
   filteredAssets: Observable<string[]>;
-
+  
   asset = '';
   status = '';
 

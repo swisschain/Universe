@@ -1,13 +1,19 @@
 import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog, MatSnackBar } from '@angular/material';
+
 import { debounceTime, distinctUntilChanged, map, startWith } from 'rxjs/operators';
 import { Subscription, Observable } from 'rxjs';
-import { FormControl } from '@angular/forms';
+
+import { getBalanceHistoryTypeTitle } from '../../shared/utils'
 
 import { AssetsService } from '../../api/assets.service';
 import { AccountBalanceHistoryDataSource } from '../../models/account-balance-history-data-source';
 import { AccountDataService } from '../../api/account-data.service';
+import { BalanceHistoryType } from '../../api/models/balances/balance-history-type';
+import { BalanceHistory } from '../../api/models/balances/balance-history.interface';
+import { BalanceHistoryDetailsDialogComponent } from '../balance-history-details/balance-history-details.dialog.component';
 
 @Component({
   selector: 'kt-account-balance-history-list',
@@ -33,8 +39,10 @@ export class AccountBalanceHistoryListComponent implements OnInit, OnDestroy {
   filteredAssets: Observable<string[]>;
 
   dataSource: AccountBalanceHistoryDataSource;
-  displayedColumns = ['asset', 'balance', 'oldBalance', 'reserved', 'oldReserved', 'date'];
+  displayedColumns = ['asset', 'balance', 'oldBalance', 'reserved', 'oldReserved', 'type', 'date', 'actions'];
+  balanceHistoryTypes = [BalanceHistoryType.CashIn, BalanceHistoryType.CashOut, BalanceHistoryType.CashTransfer, BalanceHistoryType.Order, BalanceHistoryType.ReservedBalanceUpdate];
 
+  type: BalanceHistoryType = null;
   asset = '';
 
   ngOnInit() {
@@ -75,7 +83,7 @@ export class AccountBalanceHistoryListComponent implements OnInit, OnDestroy {
   }
 
   load() {
-    this.dataSource.load(this.accountId, this.asset);
+    this.dataSource.load(this.accountId, this.asset, this.type);
   }
 
   loadAssets() {
@@ -83,5 +91,13 @@ export class AccountBalanceHistoryListComponent implements OnInit, OnDestroy {
       .subscribe(assets => {
         this.assets = assets.map(item => item.symbol);
       });
+  }
+
+  getTypeTitle(balanceHistoryType: BalanceHistoryType) {
+    return getBalanceHistoryTypeTitle(balanceHistoryType);
+  }
+
+  details(balanceHistory: BalanceHistory) {
+    this.dialog.open(BalanceHistoryDetailsDialogComponent, { data: { balanceHistoryId: balanceHistory.id }, width: '700px' });
   }
 }

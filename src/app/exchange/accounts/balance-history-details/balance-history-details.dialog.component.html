@@ -1,0 +1,60 @@
+<div class="kt-portlet" [ngClass]="{ 'kt-portlet--body-progress kt-portlet--body-progress-overlay' : viewLoading }">
+    <div class="kt-portlet__head kt-portlet__head__custom">
+        <div class="kt-portlet__head-label">
+            <h3 class="kt-portlet__head-title">Balance Operation Details</h3>
+        </div>
+    </div>
+    <form class="kt-form">
+        <div class="kt-portlet__body">
+            <div class="kt-portlet__body-progress">
+                <mat-spinner [diameter]="20"></mat-spinner>
+            </div>
+            <div class="kt-form__section kt-form__section--first">
+                <div class="form-group kt-form__group row">
+                    <label class="col-lg-2 col-form-label">Asset:</label>
+                    <div class="col-lg-4">
+                        <label class="col-form-label">{{balanceHistoryDetails?.asset}}</label>
+                    </div>
+                    <label class="col-lg-2 col-form-label">Volume:</label>
+                    <div class="col-lg-4">
+                        <label class="col-form-label">{{balanceHistoryDetails?.volume | number:'1.1-8'}}</label>
+                    </div>
+                </div>
+                <div class="form-group kt-form__group row">
+                    <label class="col-lg-2 col-form-label">Type:</label>
+                    <div class="col-lg-4">
+                        <label class="col-form-label">{{getTypeTitle(balanceHistoryDetails?.type)}}</label>
+                    </div>
+                </div>
+                <div class="form-group kt-form__group row" *ngIf="balanceHistoryDetails && balanceHistoryDetails.toWallet">
+                    <label class="col-lg-2 col-form-label">Wallet:</label>
+                    <div class="col-lg-10">
+                        <label class="col-form-label">{{balanceHistoryDetails?.toWallet}}</label>
+                        <button mat-icon-button color="primary" matTooltip="Copy" ngxClipboard
+                            [cbContent]="balanceHistoryDetails.toWallet">
+                            <mat-icon>filter_none</mat-icon>
+                        </button>
+                    </div>
+                </div>
+                <div class="form-group kt-form__group row">
+                    <label class="col-lg-2 col-form-label">Description:</label>
+                    <div class="col-lg-10">
+                        <label class="col-form-label">{{balanceHistoryDetails?.description}}</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="kt-portlet__foot kt-portlet__no-border kt-portlet__foot--fit">
+            <div class="kt-form__actions kt-form__actions--solid">
+                <div class="row text-right">
+                    <div class="col-lg-12">
+                        <button type="button" mat-raised-button [mat-dialog-close]="data.animal" cdkFocusInitial
+                            matTooltip="Cancel">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

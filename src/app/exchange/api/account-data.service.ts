@@ -8,6 +8,8 @@ import { PagedResponse } from './models/pagination/paged-response.interface';
 import { Order } from './models/orders/order.interface';
 import { Trade } from './models/trades/trade.interface';
 import { BalanceHistory } from './models/balances/balance-history.interface';
+import { BalanceHistoryType } from './models/balances/balance-history-type';
+import { BalanceHistoryDetails } from './models/balances/balance-history-details.interface';
 
 const API_URL = 'exchange/api/account-data';
 
@@ -22,13 +24,18 @@ export class AccountDataService {
             );
     }
 
-    getBalanceHistory(walletId: string, asset: string) {
+    getBalanceHistory(walletId: string, asset: string, eventType: BalanceHistoryType) {
         const params = new HttpParams()
             .set('walletId', walletId)
             .set('assetId', asset)
+            .set('eventType', eventType ? eventType.toString() : '')
             .set('order', 'desc');
 
         return this.http.get<PagedResponse<BalanceHistory>>(`${API_URL}/balance-update`, { params: params });
+    }
+
+    getBalanceHistoryDetails(balanceHistoryId: string) {
+        return this.http.get<BalanceHistoryDetails>(`${API_URL}/balance-update/details/${balanceHistoryId}`);
     }
 
     getOrders(walletId: string, assetPair: string, orderType: string, side: string, status: string) {
