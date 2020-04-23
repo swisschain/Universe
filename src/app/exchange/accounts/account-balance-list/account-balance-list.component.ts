@@ -12,6 +12,7 @@ import { AccountDataService } from '../../api/account-data.service';
 import { AssetsService } from '../../api/assets.service';
 import { CashOperationType } from '../../models/cash-operation-type';
 import { CashOperationsDialogComponent } from '../cash-operations/cash-operations.dialog.component';
+import { CashTransferDialogComponent } from '../cash-transfer/cash-transfer.dialog.component';
 
 @Component({
   selector: 'kt-account-balance-list',
@@ -110,6 +111,28 @@ export class AccountBalanceListComponent implements OnInit, OnDestroy {
       data: {
         asset,
         operationType,
+        walletId: this.accountId
+      },
+      width: '600px'
+    });
+
+    dialogRef.afterClosed()
+      .subscribe(res => {
+        if (!res) {
+          return;
+        }
+
+        this.layoutUtilsService.showActionNotification(message, messageType, 1000, true, false);
+        this.load();
+      });
+  }
+
+  transfer(asset: string) {
+    const message = 'Transfer executed';
+    const messageType = MessageType.Update;
+    const dialogRef = this.dialog.open(CashTransferDialogComponent, {
+      data: {
+        asset,
         walletId: this.accountId
       },
       width: '600px'

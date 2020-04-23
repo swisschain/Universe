@@ -2,22 +2,21 @@ import { Component, OnInit, ChangeDetectionStrategy, ViewEncapsulation, Inject, 
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { CashOperationType } from '../../models/cash-operation-type';
 import { AssetsService } from '../../api/assets.service';
 import { OperationsService } from '../../api/operations.service';
 
 @Component({
-  selector: 'kt-cash-operations.dialog',
-  templateUrl: './cash-operations.dialog.component.html',
-  styleUrls: ['./cash-operations.dialog.component.scss'],
+  selector: 'kt-cash-transfer-dialog',
+  templateUrl: './cash-transfer.dialog.component.html',
+  styleUrls: ['./cash-transfer.dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None
 })
-export class CashOperationsDialogComponent implements OnInit {
+export class CashTransferDialogComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
-    public dialogRef: MatDialogRef<CashOperationsDialogComponent>,
+    public dialogRef: MatDialogRef<CashTransferDialogComponent>,
     private fb: FormBuilder,
     private cdr: ChangeDetectorRef,
     private assetsService: AssetsService,
@@ -25,7 +24,6 @@ export class CashOperationsDialogComponent implements OnInit {
   }
 
   private asset: string;
-  operationType: CashOperationType;
 
   walletId: string;
   assets: string[];
@@ -36,16 +34,17 @@ export class CashOperationsDialogComponent implements OnInit {
 
   ngOnInit() {
     this.asset = this.data.asset;
-    this.operationType = this.data.operationType;
     this.walletId = this.data.walletId;
 
     this.viewLoading = true;
+
     this.assetsService.getAll()
       .subscribe(assets => {
         this.assets = assets.map(asset => asset.symbol);
         this.viewLoading = false;
         this.cdr.markForCheck();
       });
+
     this.createForm();
   }
 
@@ -56,6 +55,14 @@ export class CashOperationsDialogComponent implements OnInit {
         Validators.required,
         Validators.min(0),
         Validators.max(10000)]
+      )],
+      fromWallet: [{ value: this.walletId, disabled: true }, Validators.compose([
+        Validators.required,
+        Validators.maxLength(36)]
+      )],
+      toWallet: ['', Validators.compose([
+        Validators.required,
+        Validators.maxLength(36)]
       )],
       description: ['', Validators.compose([
         Validators.maxLength(1000)]
@@ -74,16 +81,12 @@ export class CashOperationsDialogComponent implements OnInit {
       return;
     }
 
-    if (this.operationType === CashOperationType.CashIn) {
-      this.cashIn(controls.asset.value, controls.amount.value, controls.description.value);
-    } else {
-      this.cashOut(controls.asset.value, controls.amount.value, controls.description.value);
-    }
+    this.transfer(controls.asset.value, controls.amount.value, controls.toWallet.value, controls.description.value);
   }
 
-  cashIn(asset: string, amount: number, description: string) {
+  transfer(asset: string, amount: number, toWallet: string, description: string) {
     this.viewLoading = true;
-    this.operationsService.cashIn(this.walletId, asset, amount, description)
+    this.operationsService.transfer(asset, amount, this.walletId, toWallet, description)
       .subscribe(
         response => {
           this.viewLoading = false;
@@ -92,24 +95,7 @@ export class CashOperationsDialogComponent implements OnInit {
         error => {
           this.viewLoading = false;
           this.hasFormErrors = true;
-          this.errorMessage = 'An error occurred while cash-in.';
-          this.cdr.markForCheck();
-        }
-      );
-  }
-
-  cashOut(asset: string, amount: number, description: string) {
-    this.viewLoading = true;
-    this.operationsService.cashOut(this.walletId, asset, amount, description)
-      .subscribe(
-        response => {
-          this.viewLoading = false;
-          this.dialogRef.close({ isEdit: true });
-        },
-        error => {
-          this.viewLoading = false;
-          this.hasFormErrors = true;
-          this.errorMessage = 'An error occurred while cash-out.';
+          this.errorMessage = 'An error occurred while transfer.';
           this.cdr.markForCheck();
         }
       );

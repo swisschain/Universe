@@ -24,4 +24,14 @@ export class OperationsService {
             description
         });
     }
+
+    transfer(asset: string, volume: number, fromWallet: string, toWallet: string, description: string) {
+        return this.http.post(`${API_URL}/cash-management/transfer`, {
+            fromWallet,
+            toWallet,
+            asset,
+            volume,
+            description
+        });
+    }
 }

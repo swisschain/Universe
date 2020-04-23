@@ -8,6 +8,10 @@
             <i class="la la-plus"></i>
             <span class="kt-hidden-mobile">Cash-In</span>
         </a>
+        <a (click)="transfer()" href="javascript:;" class="btn btn-primary kt-margin-r-10" color="primary" mat-raised-button matTooltip="Transfer">
+            <i class="la la-plus"></i>
+            <span class="kt-hidden-mobile">Transfer</span>
+        </a>
     </ng-container>
 </kt-portlet-header>
 
@@ -64,6 +68,10 @@
                     <button mat-icon-button color="warn" matTooltip="Cash-Out" type="button"
                         (click)="cashOut(balance.asset)">
                         <mat-icon>remove</mat-icon>
+                    </button>
+                    <button mat-icon-button color="warn" matTooltip="Transfer" type="button"
+                        (click)="transfer(balance.asset)">
+                        <mat-icon>import_export</mat-icon>
                     </button>
                 </mat-cell>
             </ng-container>
