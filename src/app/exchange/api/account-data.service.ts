@@ -24,10 +24,10 @@ export class AccountDataService {
             );
     }
 
-    getBalanceHistory(walletId: string, asset: string, eventType: BalanceHistoryType) {
+    getBalanceHistory(wallet: string, asset: string, eventType: BalanceHistoryType) {
         const params = new HttpParams()
-            .set('walletId', walletId)
-            .set('assetId', asset)
+            .set('wallet', wallet)
+            .set('asset', asset)
             .set('eventType', eventType ? eventType.toString() : '')
             .set('order', 'desc');
 

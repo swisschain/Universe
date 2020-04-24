@@ -5,5 +5,6 @@ export interface BalanceHistoryDetails {
     volume: number;
     type: BalanceHistoryType;
     toWallet: string;
+    fromWallet: string;
     description: string;
 }

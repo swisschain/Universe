@@ -26,9 +26,19 @@
                         <label class="col-form-label">{{getTypeTitle(balanceHistoryDetails?.type)}}</label>
                     </div>
                 </div>
+                <div class="form-group kt-form__group row" *ngIf="balanceHistoryDetails && balanceHistoryDetails.fromWallet">
+                    <label class="col-lg-3 col-form-label">Source wallet:</label>
+                    <div class="col-lg-9">
+                        <label class="col-form-label">{{balanceHistoryDetails?.fromWallet}}</label>
+                        <button mat-icon-button color="primary" matTooltip="Copy" ngxClipboard
+                            [cbContent]="balanceHistoryDetails.fromWallet">
+                            <mat-icon>filter_none</mat-icon>
+                        </button>
+                    </div>
+                </div>
                 <div class="form-group kt-form__group row" *ngIf="balanceHistoryDetails && balanceHistoryDetails.toWallet">
-                    <label class="col-lg-2 col-form-label">Wallet:</label>
-                    <div class="col-lg-10">
+                    <label class="col-lg-3 col-form-label">Destination wallet:</label>
+                    <div class="col-lg-9">
                         <label class="col-form-label">{{balanceHistoryDetails?.toWallet}}</label>
                         <button mat-icon-button color="primary" matTooltip="Copy" ngxClipboard
                             [cbContent]="balanceHistoryDetails.toWallet">

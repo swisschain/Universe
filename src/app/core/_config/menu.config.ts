@@ -267,33 +267,33 @@ export class MenuConfig {
 						translate: 'MENU.DASHBOARD',
 						bullet: 'dot'
 					},
-					{ section: 'Brakerage' },
+					{ section: 'Brokerage' },
 					{
 						title: 'Broker Accounts',
 						root: true,
 						icon: 'flaticon-users',
-						page: '/services/sirius/brakerage/broker-accounts',
+						page: '/services/sirius/brokerage/broker-accounts',
 						bullet: 'dot'
 					},
 					{
 						title: 'Accounts',
 						root: true,
 						icon: 'flaticon2-group',
-						page: '/services/sirius/brakerage/accounts',
+						page: '/services/sirius/brokerage/accounts',
 						bullet: 'dot'
 					},
 					{
 						title: 'Deposits',
 						root: true,
 						icon: 'flaticon-coins',
-						page: '/services/sirius/brakerage/deposits',
+						page: '/services/sirius/brokerage/deposits',
 						bullet: 'dot'
 					},
 					{
 						title: 'Withdrawal',
 						root: true,
 						icon: 'flaticon2-list',
-						page: '/services/sirius/brakerage/withdrawals',
+						page: '/services/sirius/brokerage/withdrawals',
 						bullet: 'dot'
 					},
 					{ section: 'Wallets' },

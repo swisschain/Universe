@@ -19,35 +19,35 @@ const routes: Routes = [
         component: DashboardComponent
     },
     {
-        path: 'brakerage/broker-accounts',
+        path: 'brokerage/broker-accounts',
         component: BrokerAccountListComponent
     },
     {
-        path: 'brakerage/broker-accounts/:brokerAccountId',
+        path: 'brokerage/broker-accounts/:brokerAccountId',
         component: BrokerAccountDetailsComponent
     },
     {
-        path: 'brakerage/accounts',
+        path: 'brokerage/accounts',
         component: AccountListComponent
     },
     {
-        path: 'brakerage/accounts/:accountId',
+        path: 'brokerage/accounts/:accountId',
         component: AccountDetailsComponent
     },
     {
-        path: 'brakerage/deposits',
+        path: 'brokerage/deposits',
         component: DepositListComponent
     },
     {
-        path: 'brakerage/deposits/:depositId',
+        path: 'brokerage/deposits/:depositId',
         component: DepositDetailsComponent
     },
     {
-        path: 'brakerage/withdrawals',
+        path: 'brokerage/withdrawals',
         component: WithdrawalListComponent
     },
     {
-        path: 'brakerage/withdrawals/:withdrawalId',
+        path: 'brokerage/withdrawals/:withdrawalId',
         component: WithdrawalDetailsComponent
     },
     {
