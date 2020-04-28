@@ -1,10 +1,10 @@
-import { Component, OnInit, ChangeDetectionStrategy, ViewEncapsulation, OnDestroy, Inject } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ViewEncapsulation, Inject, ChangeDetectorRef } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { v4 as uuidv4 } from 'uuid';
 
-import { MessageType, LayoutUtilsService } from '../../../core/_base/crud';
+import { markFormGroupTouched, isFormGroupControlHasError, setFormError, getCommonError } from '../../shared/validation-utils'
 
 import { AccountService } from '../../api/account.service';
 import { BrokerAccount } from '../../api/models/brocker-account/broker-account.interface';
@@ -17,34 +17,36 @@ import { BrokerAccountService } from '../../api/broker-account.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None
 })
-export class AccountEditDialogComponent implements OnInit, OnDestroy {
+export class AccountEditDialogComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<AccountEditDialogComponent>,
     private fb: FormBuilder,
+    private cdr: ChangeDetectorRef,
     private accountService: AccountService,
-    private brokerAccountService: BrokerAccountService,
-    private layoutUtilsService: LayoutUtilsService) {
+    private brokerAccountService: BrokerAccountService) {
   }
 
   private requestId = uuidv4();
 
   form: FormGroup;
   hasFormErrors = false;
+  errorMessage = '';
   viewLoading = false;
+
   brokerAccounts: BrokerAccount[];
 
   ngOnInit() {
+    this.viewLoading = true;
     this.brokerAccountService.get()
       .subscribe(response => {
         this.brokerAccounts = response.items;
+        this.viewLoading = false;
+        this.cdr.markForCheck();
       });
 
     this.createForm();
-  }
-
-  ngOnDestroy() {
   }
 
   createForm() {
@@ -54,24 +56,12 @@ export class AccountEditDialogComponent implements OnInit, OnDestroy {
     });
   }
 
-  isControlHasError(controlName: string, validationType: string): boolean {
-    const control = this.form.controls[controlName];
-    if (!control) {
-      return false;
-    }
-
-    const result = control.hasError(validationType) && (control.dirty || control.touched);
-    return result;
-  }
-
   onSubmit() {
     this.hasFormErrors = false;
     const controls = this.form.controls;
 
     if (this.form.invalid) {
-      Object.keys(controls).forEach(controlName =>
-        controls[controlName].markAsTouched()
-      );
+      markFormGroupTouched(this.form);
       return;
     }
 
@@ -86,10 +76,25 @@ export class AccountEditDialogComponent implements OnInit, OnDestroy {
           this.viewLoading = false;
           this.dialogRef.close({ account: response });
         },
-        error => {
+        errorResponse => {
+          const errorMessage = getCommonError(errorResponse);
+          if (errorMessage) {
+            this.hasFormErrors = true;
+            this.errorMessage = errorMessage;
+          }
+          setFormError(this.form, errorResponse);
           this.viewLoading = false;
-          this.layoutUtilsService.showActionNotification('An error occurred while creating account.', MessageType.Update, 3000, true, false);
+          this.cdr.markForCheck();
         }
       );
+  }
+  
+  isFormControlHasError(controlName: string, validationType: string): boolean {
+    return isFormGroupControlHasError(this.form, controlName, validationType);
+  }
+
+  onAlertClose($event) {
+    this.hasFormErrors = false;
+    this.errorMessage = '';
   }
 }

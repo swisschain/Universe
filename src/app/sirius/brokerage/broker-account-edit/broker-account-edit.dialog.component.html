@@ -17,11 +17,14 @@
                 <div class="col-lg-12 kt-margin-bottom-20-mobile">
                     <mat-form-field class="mat-form-field-fluid">
                         <input matInput placeholder="Enter Name" formControlName="name" />
-                        <mat-error *ngIf="isControlHasError('name','required')">
+                        <mat-error *ngIf="isFormControlHasError('name','required')">
                             <strong>Required field</strong>
                         </mat-error>
-                        <mat-error *ngIf="isControlHasError('name','maxlength')">
+                        <mat-error *ngIf="isFormControlHasError('name','maxlength')">
                             <strong>Maximum field length: 50</strong>
+                        </mat-error>
+                        <mat-error *ngIf="isFormControlHasError('name','serverError')">
+                            <strong>{{form.get('name').errors?.serverError}}</strong>
                         </mat-error>
                         <mat-hint align="start">Please enter
                             <strong>Name</strong>

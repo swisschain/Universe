@@ -4,7 +4,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { v4 as uuidv4 } from 'uuid';
 
-import { Subscription } from 'rxjs';
+import { markFormGroupTouched, isFormGroupControlHasError, setFormError, getCommonError } from '../../shared/validation-utils'
+
+import { Subscription, forkJoin } from 'rxjs';
 
 import { Asset } from '../../api/models/assets/asset.interface';
 import { AssetsService } from '../../api/assets.service';
@@ -38,6 +40,7 @@ export class WithdrawalEditDialogComponent implements OnInit, OnDestroy {
   private requestId = uuidv4();
 
   form: FormGroup;
+  destinationRequisitesForm: FormGroup;
   hasFormErrors = false;
   errorMessage = '';
   viewLoading = false;
@@ -58,37 +61,32 @@ export class WithdrawalEditDialogComponent implements OnInit, OnDestroy {
 
     this.subscriptions.push(blockchainIdSubscription);
 
-    this.loadBrokerAccounts();
-    this.loadBlockchains();
-    this.loadAssets();
+    this.viewLoading = true;
+    forkJoin([
+      this.brokerAccountService.get(),
+      this.blockchainsService.get(),
+      this.assetsService.getAll()
+    ]).subscribe(result => {
+      this.brokerAccounts = result[0].items;
+      this.blockchains = result[1].items;
+      this.assets = result[2].items;
+      this.viewLoading = false;
+      this.cdr.markForCheck();
+    });
   }
 
   ngOnDestroy() {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
-  loadBrokerAccounts() {
-    this.brokerAccountService.get()
-      .subscribe(result => {
-        this.brokerAccounts = result.items;
-      });
-  }
-
-  loadBlockchains() {
-    this.blockchainsService.get()
-      .subscribe(result => {
-        this.blockchains = result.items;
-      });
-  }
-
-  loadAssets() {
-    this.assetsService.getAll()
-      .subscribe(result => {
-        this.assets = result.items;
-      });
-  }
-
   createForm() {
+    this.destinationRequisitesForm = this.fb.group({
+      address: ['', Validators.compose([
+        Validators.required,
+        Validators.maxLength(100)]
+      )]
+    });
+
     this.form = this.fb.group({
       brokerAccountId: [null, Validators.compose([
         Validators.required]
@@ -109,10 +107,7 @@ export class WithdrawalEditDialogComponent implements OnInit, OnDestroy {
         Validators.required,
         Validators.min(0)]
       )],
-      address: ['', Validators.compose([
-        Validators.required,
-        Validators.maxLength(100)]
-      )]
+      destinationRequisites: this.destinationRequisitesForm
     });
   }
 
@@ -121,9 +116,7 @@ export class WithdrawalEditDialogComponent implements OnInit, OnDestroy {
     const controls = this.form.controls;
 
     if (this.form.invalid) {
-      Object.keys(controls).forEach(controlName =>
-        controls[controlName].markAsTouched()
-      );
+      markFormGroupTouched(this.form);
       return;
     }
 
@@ -132,7 +125,7 @@ export class WithdrawalEditDialogComponent implements OnInit, OnDestroy {
       controls.referenceId.value,
       controls.assetId.value,
       controls.amount.value,
-      controls.address.value);
+      this.destinationRequisitesForm.controls.address.value);
   }
 
   create(brokerAccountId: number, accountId: number, referenceId: string, assetId: number, amount: number, address: string) {
@@ -143,22 +136,25 @@ export class WithdrawalEditDialogComponent implements OnInit, OnDestroy {
           this.viewLoading = false;
           this.dialogRef.close({ withdrawal: response, isEdit: true });
         },
-        error => {
+        errorResponse => {
+          const errorMessage = getCommonError(errorResponse);
+          if (errorMessage) {
+            this.hasFormErrors = true;
+            this.errorMessage = errorMessage;
+          }
+          setFormError(this.form, errorResponse);
           this.viewLoading = false;
-          this.hasFormErrors = true;
-          this.errorMessage = 'An error occurred while creating withdrawal.';
           this.cdr.markForCheck();
         }
       );
   }
 
-  isControlHasError(controlName: string, validationType: string): boolean {
-    const control = this.form.controls[controlName];
-    if (!control) {
-      return false;
-    }
-    const result = control.hasError(validationType) && (control.dirty || control.touched);
-    return result;
+  isFormControlHasError(controlName: string, validationType: string): boolean {
+    return isFormGroupControlHasError(this.form, controlName, validationType);
+  }
+
+  isDestinationRequisitesFormControlHasError(controlName: string, validationType: string): boolean {
+    return isFormGroupControlHasError(this.destinationRequisitesForm, controlName, validationType);
   }
 
   onAlertClose($event) {
