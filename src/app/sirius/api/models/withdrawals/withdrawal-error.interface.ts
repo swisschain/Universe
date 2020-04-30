@@ -1,4 +1,4 @@
-import { WithdrawalErrorCode } from './withdrawal-error-code.interface';
+import { WithdrawalErrorCode } from './';
 
 export interface WithdrawalError {
     message: string;

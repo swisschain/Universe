@@ -6,9 +6,9 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { markFormGroupTouched, isFormGroupControlHasError, setFormError, getCommonError } from '../../shared/validation-utils'
 
-import { AccountService } from '../../api/account.service';
-import { BrokerAccount } from '../../api/models/brocker-account/broker-account.interface';
-import { BrokerAccountService } from '../../api/broker-account.service';
+import { BrokerAccount } from '../../api/models/brocker-accounts';
+
+import { AccountService, BrokerAccountService } from '../../api/services';
 
 @Component({
   selector: 'kt-account-edit-dialog',
@@ -88,7 +88,7 @@ export class AccountEditDialogComponent implements OnInit {
         }
       );
   }
-  
+
   isFormControlHasError(controlName: string, validationType: string): boolean {
     return isFormGroupControlHasError(this.form, controlName, validationType);
   }

@@ -7,14 +7,14 @@ import { Subscription, ReplaySubject } from 'rxjs';
 
 import { formatAddress } from '../../shared/address-utils';
 
-import { Asset } from '../../api/models/assets/asset.interface';
-import { AssetsService } from '../../api/assets.service';
-import { AccountRequisite } from '../../api/models/account/account-requisite.interface';
-import { AccountService } from '../../api/account.service';
-import { Blockchain } from '../../api/models/blockchains/blockchain.interface';
-import { BlockchainsService } from '../../api/blockchains.service';
+import { Asset } from '../../api/models/assets';
+import { AccountRequisite } from '../../api/models/accounts';
+import { Blockchain } from '../../api/models/blockchains';
+import { AssetsService, AccountService, BlockchainsService } from '../../api/services';
+
+import { AccountRequisitesDataSource } from '../../data-sources';
+
 import { RequisitesDialogComponent } from '../../shared/requisites/requisites.dialog.component';
-import { AccountRequisitesDataSource } from '../../models/account-requisites-data-source';
 
 @Component({
   selector: 'kt-account-requisites-list',
@@ -96,7 +96,7 @@ export class AccountRequisitesListComponent implements OnInit, OnDestroy {
   onAssetChanged() {
     if (this.assetId) {
       const id = Number(this.assetId);
-      const asset = this.assets.filter(asset => asset.assetId === id)[0]
+      const asset = this.assets.filter(asset => asset.id === id)[0]
       this.blockchainId = asset.blockchainId;
     }
     else {
@@ -127,7 +127,7 @@ export class AccountRequisitesListComponent implements OnInit, OnDestroy {
 
   getBlockchainName(blockchainId: string) {
     if (this.blockchains) {
-      const blockchain = this.blockchains.filter((blockchain) => blockchain.blockchainId === blockchainId)[0];
+      const blockchain = this.blockchains.filter((blockchain) => blockchain.id === blockchainId)[0];
 
       return blockchain ? blockchain.name : 'unknown';
     }
@@ -140,7 +140,7 @@ export class AccountRequisitesListComponent implements OnInit, OnDestroy {
   }
 
   details(accountRequisite: AccountRequisite) {
-    const blockchain = this.blockchains.filter((blockchain) => blockchain.blockchainId === accountRequisite.blockchainId)[0];
+    const blockchain = this.blockchains.filter((blockchain) => blockchain.id === accountRequisite.blockchainId)[0];
     this.dialog.open(RequisitesDialogComponent, {
       data: {
         address: accountRequisite.address,

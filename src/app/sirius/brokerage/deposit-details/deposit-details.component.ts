@@ -2,17 +2,13 @@ import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 
-import { BrokerAccountService } from '../../api/broker-account.service';
-import { AssetsService } from '../../api/assets.service';
-import { BlockchainsService } from '../../api/blockchains.service';
-import { DepositsDataSource } from '../../models/deposits-data-source';
-import { DepositsService } from '../../api/deposits.service';
-import { BrokerAccount } from '../../api/models/brocker-account/broker-account.interface';
-import { Blockchain } from '../../api/models/blockchains/blockchain.interface';
-import { Asset } from '../../api/models/assets/asset.interface';
-import { Deposit } from '../../api/models/deposits/deposit.interface';
-import { AccountService } from '../../api/account.service';
-import { Account } from '../../api/models/account/account.interface';
+import { AssetsService, AccountService, BrokerAccountService, BlockchainsService, DepositsService } from '../../api/services';
+
+import { Asset } from '../../api/models/assets';
+import { Account } from '../../api/models/accounts';
+import { Blockchain } from '../../api/models/blockchains';
+import { BrokerAccount } from '../../api/models/brocker-accounts';
+import { Deposit } from '../../api/models/deposits';
 
 @Component({
   selector: 'kt-deposit-details',
@@ -46,7 +42,7 @@ export class DepositDetailsComponent implements OnInit, OnDestroy {
       this.depositId = params['depositId'];
       this.load();
     });
-    
+
     this.subscriptions.push(routeSubscription);
 
     this.loadAssets();
@@ -102,7 +98,7 @@ export class DepositDetailsComponent implements OnInit, OnDestroy {
 
   getAssetSymbol(assetId: number) {
     if (this.assets) {
-      var asset = this.assets.filter((asset) => asset.assetId == assetId)[0];
+      var asset = this.assets.filter((asset) => asset.id == assetId)[0];
 
       return asset ? asset.symbol : 'unknown';
     }

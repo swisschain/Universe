@@ -57,12 +57,7 @@ import { WithdrawalEditDialogComponent } from './brokerage/withdrawal-edit/withd
 import { WithdrawalDetailsComponent } from './brokerage/withdrawal-details/withdrawal-details.component';
 import { RequisitesDialogComponent } from './shared/requisites/requisites.dialog.component';
 
-import { AccountService } from './api/account.service';
-import { BrokerAccountService } from './api/broker-account.service';
-import { AssetsService } from './api/assets.service';
-import { BlockchainsService } from './api/blockchains.service';
-import { DepositsService } from './api/deposits.service';
-import { WithdrawalService } from './api/withdrawal.service'
+import { AccountService, AssetsService, BlockchainsService, BrokerAccountService, DepositsService, WithdrawalService } from './api/services';
 
 import { NumberDirective } from './shared/numbers-only.directive';
 

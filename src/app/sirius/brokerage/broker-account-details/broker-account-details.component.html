@@ -1,11 +1,10 @@
 <kt-portlet>
-    <kt-portlet-header [class]="'kt-portlet__head--lg'">
+    <kt-portlet-header>
         <ng-container ktPortletTitle>
             <h3 class="kt-portlet__head-title">
                 <span>Broker Account Details</span>
             </h3>
         </ng-container>
-
         <ng-container ktPortletTools>
             <a [routerLink]="['../']" class="btn btn-secondary kt-margin-r-10" mat-raised-button
                 matTooltip="Back to the broker accounts list">
@@ -14,11 +13,16 @@
             </a>
         </ng-container>
     </kt-portlet-header>
-
     <kt-portlet-body>
         <div class="form-group kt-form__group row">
-            <label class="col-lg-3 col-form-label">Id: <strong>{{brokerAccount?.brokerAccountId}}</strong></label>
+            <label class="col-lg-3 col-form-label">Id: <strong>{{brokerAccount?.id}}</strong></label>
             <label class="col-lg-4 col-form-label">Name: <strong>{{brokerAccount?.name}}</strong></label>
+        </div>
+        <div class="form-group kt-form__group row">
+            <label class="col-lg-3 col-form-label">State: <strong>{{brokerAccount?.state}}</strong></label>
+            <label class="col-lg-3 col-form-label">Accounts: <strong>{{brokerAccount?.accountCount}}</strong></label>
+            <label class="col-lg-4 col-form-label">Blockchains:
+                <strong>{{brokerAccount?.blockchainsCount}}</strong></label>
         </div>
         <mat-tab-group>
             <mat-tab label="Balances">
@@ -31,7 +35,7 @@
                     Movements
                 </ng-template>
             </mat-tab>
-            <mat-tab label="Requisites">
+            <mat-tab label="Requisites" disabled="true">
                 <ng-template matTabContent>
                     <kt-broker-account-requisites></kt-broker-account-requisites>
                 </ng-template>

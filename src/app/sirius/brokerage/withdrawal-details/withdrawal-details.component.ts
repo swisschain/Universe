@@ -2,16 +2,13 @@ import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 
-import { BrokerAccountService } from '../../api/broker-account.service';
-import { AssetsService } from '../../api/assets.service';
-import { BlockchainsService } from '../../api/blockchains.service';
-import { WithdrawalService } from '../../api/withdrawal.service';
-import { BrokerAccount } from '../../api/models/brocker-account/broker-account.interface';
-import { Blockchain } from '../../api/models/blockchains/blockchain.interface';
-import { Asset } from '../../api/models/assets/asset.interface';
-import { Withdrawal } from '../../api/models/withdrawal/withdrawal.interface';
-import { AccountService } from '../../api/account.service';
-import { Account } from '../../api/models/account/account.interface';
+import { Asset } from '../../api/models/assets';
+import { Account } from '../../api/models/accounts';
+import { Blockchain } from '../../api/models/blockchains';
+import { BrokerAccount } from '../../api/models/brocker-accounts';
+import { Withdrawal } from '../../api/models/withdrawals';
+
+import { AccountService, AssetsService, BlockchainsService, BrokerAccountService, WithdrawalService } from '../../api/services';
 
 @Component({
   selector: 'kt-withdrawal-details',
@@ -100,7 +97,7 @@ export class WithdrawalDetailsComponent implements OnInit, OnDestroy {
 
   getAssetSymbol(assetId: number) {
     if (this.assets) {
-      var asset = this.assets.filter((asset) => asset.assetId == assetId)[0];
+      var asset = this.assets.filter((asset) => asset.id == assetId)[0];
 
       return asset ? asset.symbol : 'unknown';
     }

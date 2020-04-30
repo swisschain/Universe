@@ -1,5 +1,5 @@
 export interface Asset {
-    assetId: number;
+    id: number;
     blockchainId: string;
     symbol: string;
     address: string;

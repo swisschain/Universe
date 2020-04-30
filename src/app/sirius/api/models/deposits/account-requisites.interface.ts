@@ -1,5 +1,5 @@
 export interface AccountRequisites {
-    accountRequisitesId: number;
+    id: number;
     address: string;
     tag: string;
     tagType: string;

@@ -1,7 +1,8 @@
 export interface BrokerAccountRequisite {
-    brokerAccountRequisitesId: number;
+    id: number;
     brokerAccountId: number;
     address: string;
     blockchainId: string;
-    creationDateTime: Date;
+    createdAt: Date;
+
 }

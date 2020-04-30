@@ -29,7 +29,7 @@
                         </div>
                         <div class="form-group kt-form__group row">
                             <label class="col-lg-2 col-form-label">Id:
-                                <strong>{{brokerAccount?.brokerAccountId}}</strong></label>
+                                <strong>{{brokerAccount?.id}}</strong></label>
                             <label class="col-lg-4 col-form-label">Name:
                                 <strong>{{brokerAccount?.name}}</strong></label>
                         </div>
@@ -39,7 +39,7 @@
                             </div>
                             <div class="form-group kt-form__group row">
                                 <label class="col-lg-2 col-form-label">Id:
-                                    <strong>{{account?.accountId}}</strong></label>
+                                    <strong>{{account?.id}}</strong></label>
                                 <label class="col-lg-4 col-form-label">Reference Id:
                                     <strong>{{account?.referenceId}}</strong></label>
                             </div>
@@ -48,7 +48,7 @@
                             <h4 class="kt-form__heading-title">Asset:</h4>
                         </div>
                         <div class="form-group kt-form__group row">
-                            <label class="col-lg-2 col-form-label">Id: <strong>{{asset?.assetId}}</strong></label>
+                            <label class="col-lg-2 col-form-label">Id: <strong>{{asset?.id}}</strong></label>
                             <label class="col-lg-4 col-form-label">Symbol: <strong>{{asset?.symbol}}</strong></label>
                         </div>
                         <div class="kt-form__heading">
@@ -56,7 +56,7 @@
                         </div>
                         <div class="form-group kt-form__group row">
                             <label class="col-lg-3 col-form-label">Id:
-                                <strong>{{blockchain?.blockchainId}}</strong></label>
+                                <strong>{{blockchain?.id}}</strong></label>
                             <label class="col-lg-4 col-form-label">Name: <strong>{{blockchain?.name}}</strong></label>
                         </div>
                         <div *ngIf="deposit && deposit.fees.lenght > 0">
@@ -92,18 +92,10 @@
                         </div>
                         <div class="kt-separator kt-separator--dashed"></div>
                         <div class="form-group kt-form__group row">
-                            <label class="col-lg-3 col-form-label">Detected:
-                                <strong>{{deposit?.detectedDateTime | date:'short'}}</strong></label>
-                            <label class="col-lg-3 col-form-label">Confirmed:
-                                <strong>{{deposit?.confirmedDateTime | date:'short'}}</strong></label>
-                            <label class="col-lg-3 col-form-label">Completed:
-                                <strong>{{deposit?.completedDateTime | date:'short'}}</strong></label>
-                        </div>
-                        <div class="form-group kt-form__group row">
-                            <label class="col-lg-3 col-form-label">Cancelled:
-                                <strong>{{deposit?.cancelledDateTime | date:'short'}}</strong></label>
-                            <label class="col-lg-3 col-form-label">Failed:
-                                <strong>{{deposit?.failedDateTime | date:'short'}}</strong></label>
+                            <label class="col-lg-3 col-form-label">Created:
+                                <strong>{{deposit?.createdAt | date:'short'}}</strong></label>
+                            <label class="col-lg-3 col-form-label">Modified:
+                                <strong>{{deposit?.updatedAt | date:'short'}}</strong></label>
                         </div>
                     </div>
                     <div>&nbsp;</div>
@@ -116,29 +108,29 @@
                     </div>
                     <div class="form-group kt-form__group row">
                         <label class="col-lg-2 col-form-label">Id:
-                            <strong>{{deposit?.brokerAccountRequisites.id}}</strong></label>
+                            <strong>{{deposit?.brokerAccountDetails.id}}</strong></label>
                     </div>
                     <div class="form-group kt-form__group row">
                         <label class="col-lg-6 col-form-label">Address:
-                            <strong>{{deposit?.brokerAccountRequisites.address}}</strong></label>
+                            <strong>{{deposit?.brokerAccountDetails.address}}</strong></label>
                     </div>
-                    <div *ngIf="deposit.accountRequisites">
+                    <div *ngIf="deposit.accountDetails">
                         <div class="kt-form__heading">
                             <h4 class="kt-form__heading-title">Account Requisites:</h4>
                         </div>
                         <div class="form-group kt-form__group row">
                             <label class="col-lg-2 col-form-label">Id:
-                                <strong>{{deposit?.accountRequisites.id}}</strong></label>
+                                <strong>{{deposit?.accountDetails.id}}</strong></label>
                         </div>
                         <div class="form-group kt-form__group row">
                             <label class="col-lg-6 col-form-label">Address:
-                                <strong>{{deposit?.accountRequisites.address}}</strong></label>
+                                <strong>{{deposit?.accountDetails.address}}</strong></label>
                         </div>
                         <div class="form-group kt-form__group row">
                             <label class="col-lg-2 col-form-label">Tag:
-                                <strong>{{deposit?.accountRequisites.tag}}</strong></label>
+                                <strong>{{deposit?.accountDetails.tag}}</strong></label>
                             <label class="col-lg-2 col-form-label">Tag Type:
-                                <strong>{{deposit?.accountRequisites.tagType}}</strong></label>
+                                <strong>{{deposit?.accountDetails.tagType}}</strong></label>
                         </div>
                     </div>
                     <div>&nbsp;</div>

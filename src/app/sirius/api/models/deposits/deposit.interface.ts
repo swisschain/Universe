@@ -1,17 +1,12 @@
-import { BrokerAccountRequisites } from './broker-account-requisites.interface';
-import { AccountRequisites } from './account-requisites.interface';
-import { Fee } from './fee.interface';
-import { TransactionInfo } from './transaction-info.interface';
-import { DepositState } from './deposit-state.enum';
-import { Source } from './source.interface';
+import { BrokerAccountRequisites, AccountRequisites, Fee, TransactionInfo, DepositState, Source } from './';
 
 export interface Deposit {
-    depositId: number;
+    id: number;
     brokerAccountId: number;
-    brokerAccountRequisites: BrokerAccountRequisites;
+    brokerAccountDetails: BrokerAccountRequisites;
     accountId: number;
     referenceId: string;
-    accountRequisites: AccountRequisites;
+    accountDetails: AccountRequisites;
     assetId: number;
     blockchainId: string;
     fees: Fee[];
@@ -19,9 +14,6 @@ export interface Deposit {
     state: DepositState,
     sources: Source[],
     amount: number;
-    detectedDateTime: Date;
-    confirmedDateTime: Date;
-    completedDateTime: Date;
-    failedDateTime: Date;
-    cancelledDateTime: Date;
+    createdAt: Date;
+    updatedAt: Date;
 }

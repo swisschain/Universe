@@ -1,14 +1,12 @@
-import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
-import { MatPaginator, MatSort, MatDialog, MatSnackBar } from '@angular/material';
-import { debounceTime, distinctUntilChanged, tap, skip, delay, take, catchError, finalize } from 'rxjs/operators';
-import { fromEvent, merge, Subscription, of } from 'rxjs';
-import { LayoutUtilsService, MessageType } from '../../../core/_base/crud';
-
-import { BrokerAccountService } from '../../api/broker-account.service';
-import { BrokerAccountBalancesDataSource } from '../../models/broker-account-balances-data-source';
-import { Asset } from '../../api/models/assets/asset.interface';
-import { AssetsService } from '../../api/assets.service';
+import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { MatDialog, MatSnackBar } from '@angular/material';
+import { Subscription } from 'rxjs';
+
+import { Asset } from '../../api/models/assets';
+
+import { AssetsService, BrokerAccountService } from '../../api/services';
+import { BrokerAccountBalancesDataSource } from '../../data-sources';
 
 @Component({
   selector: 'kt-broker-account-balances',
@@ -31,7 +29,7 @@ export class BrokerAccountBalancesComponent implements OnInit, OnDestroy {
   private assets: Asset[];
 
   dataSource: BrokerAccountBalancesDataSource;
-  displayedColumns = ['assetId', 'pendingBalance', 'ownedBalance', 'availableBalance', 'reservedBalance', 'pendingBalanceUpdateDateTime', 'ownedBalanceUpdateDateTime', 'availableBalanceUpdateDateTime', 'reservedBalanceUpdateDateTime'];
+  displayedColumns = ['assetId', 'pendingBalance', 'ownedBalance', 'availableBalance', 'reservedBalance', 'createdAt', 'updatedAt'];
 
   ngOnInit() {
     this.dataSource = new BrokerAccountBalancesDataSource(this.brokerAccountService);
@@ -65,7 +63,7 @@ export class BrokerAccountBalancesComponent implements OnInit, OnDestroy {
 
   getAssetName(assetId: number) {
     if (this.assets) {
-      var asset = this.assets.filter((asset) => asset.assetId == assetId)[0];
+      var asset = this.assets.filter((asset) => asset.id == assetId)[0];
 
       return asset ? asset.symbol : 'unknown';
     }

@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { markFormGroupTouched, isFormGroupControlHasError, setFormError, getCommonError } from '../../shared/validation-utils'
 
-import { BrokerAccountService } from '../../api/broker-account.service';
+import { BrokerAccountService } from '../../api/services';
 
 @Component({
   selector: 'kt-broker-account-edit-dialog',

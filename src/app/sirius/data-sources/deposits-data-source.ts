@@ -3,9 +3,9 @@ import { catchError, finalize } from 'rxjs/operators';
 
 import { BaseDataSource } from './base-data-source';
 
-import { Deposit } from '../api/models/deposits/deposit.interface';
-import { DepositState } from '../api/models/deposits/deposit-state.enum';
-import { DepositsService } from '../api/deposits.service';
+import { Deposit } from '../api/models/deposits';
+import { DepositState } from '../api/models/deposits';
+import { DepositsService } from '../api/services';
 import { PagedResponse } from '../api/models/pagination/paged-response.interface';
 
 export class DepositsDataSource extends BaseDataSource<Deposit> {

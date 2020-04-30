@@ -4,9 +4,8 @@ import { catchError, finalize } from 'rxjs/operators';
 import { BaseDataSource } from './base-data-source';
 
 import { PagedResponse } from '../api/models/pagination/paged-response.interface';
-import { Withdrawal } from '../api/models/withdrawal/withdrawal.interface';
-import { WithdrawalService } from '../api/withdrawal.service';
-import { WithdrawalState } from '../api/models/withdrawal/withdrawal-state.enum';
+import { Withdrawal, WithdrawalState } from '../api/models/withdrawals';
+import { WithdrawalService } from '../api/services';
 
 export class WithdrawalDataSource extends BaseDataSource<Withdrawal> {
 

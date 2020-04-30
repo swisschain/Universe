@@ -36,28 +36,17 @@
                 <mat-cell *matCellDef="let item">{{item.reservedBalance | number:'1.1-8'}}</mat-cell>
             </ng-container>
 
-            <ng-container matColumnDef="pendingBalanceUpdateDateTime">
-                <mat-header-cell *matHeaderCellDef>Pending Balance Updated</mat-header-cell>
-                <mat-cell *matCellDef="let item">{{item.pendingBalanceUpdateDateTime | date:'short'}}</mat-cell>
+            <ng-container matColumnDef="createdAt">
+                <mat-header-cell *matHeaderCellDef>Created</mat-header-cell>
+                <mat-cell *matCellDef="let item">{{item.createdAt | date:'short'}}</mat-cell>
             </ng-container>
 
-            <ng-container matColumnDef="ownedBalanceUpdateDateTime">
-                <mat-header-cell *matHeaderCellDef>Owned Balance Updated</mat-header-cell>
-                <mat-cell *matCellDef="let item">{{item.ownedBalanceUpdateDateTime | date:'short'}}</mat-cell>
-            </ng-container>
-
-            <ng-container matColumnDef="availableBalanceUpdateDateTime">
-                <mat-header-cell *matHeaderCellDef>Available Balance Updated</mat-header-cell>
-                <mat-cell *matCellDef="let item">{{item.availableBalanceUpdateDateTime | date:'short'}}</mat-cell>
-            </ng-container>
-
-            <ng-container matColumnDef="reservedBalanceUpdateDateTime">
-                <mat-header-cell *matHeaderCellDef>Reserved Balance Updated</mat-header-cell>
-                <mat-cell *matCellDef="let item">{{item.reservedBalanceUpdateDateTime | date:'short'}}</mat-cell>
+            <ng-container matColumnDef="updatedAt">
+                <mat-header-cell *matHeaderCellDef>Modified</mat-header-cell>
+                <mat-cell *matCellDef="let item">{{item.updatedAt | date:'short'}}</mat-cell>
             </ng-container>
 
             <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-
             <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
         </mat-table>
 

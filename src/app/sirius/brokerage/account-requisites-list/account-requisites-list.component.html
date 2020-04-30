@@ -10,7 +10,7 @@
                                 [noEntriesFoundLabel]="'No matching assets found'"></ngx-mat-select-search>
                         </mat-option>
                         <mat-option>All</mat-option>
-                        <mat-option *ngFor="let asset of filteredAssets | async" [value]="asset.assetId">
+                        <mat-option *ngFor="let asset of filteredAssets | async" [value]="asset.id">
                             {{asset.symbol}} ({{getBlockchainName(asset.blockchainId)}})</mat-option>
                     </mat-select>
                     <mat-hint align="start">
@@ -61,7 +61,6 @@
         </ng-container>
 
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-
         <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
     </mat-table>
 

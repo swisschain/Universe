@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 
-import { BrokerAccount } from './models/brocker-account/broker-account.interface';
-import { BrokerBalance } from './models/brocker-account/broker-balance.interface';
-import { BrokerAccountRequisite } from './models/brocker-account/broker-account-requisite.interface';
-import { PagedResponse } from './models/pagination/paged-response.interface';
-
 import { map } from 'rxjs/operators';
+
+import { BrokerAccount, BrokerBalance, BrokerAccountRequisite } from '../models/brocker-accounts';
+import { PagedResponse } from '../models/pagination/paged-response.interface';
 
 const API_URL = 'sirius/api/broker-accounts';
 
@@ -20,7 +18,7 @@ export class BrokerAccountService {
 
     getById(brokerAccountId: number) {
         const params = new HttpParams()
-            .set('brokerAccountId', brokerAccountId.toString());
+            .set('id', brokerAccountId.toString());
 
         return this.http.get<PagedResponse<BrokerAccount>>(`${API_URL}`, { params: params })
             .pipe(
@@ -34,11 +32,11 @@ export class BrokerAccountService {
         const params = new HttpParams()
             .set('blockchainId', blockchainId);
 
-        return this.http.get<PagedResponse<BrokerAccountRequisite>>(`${API_URL}/${brokerAccountId}/requisites`, { params: params });
+        return this.http.get<PagedResponse<BrokerAccountRequisite>>(`${API_URL}/${brokerAccountId}/details`, { params: params });
     }
 
     getRequisiteByAssetId(brokerAccountId: number, assetId: number) {
-        return this.http.get<BrokerAccountRequisite>(`${API_URL}/${brokerAccountId}/requisites/by-asset-id/${assetId}`);
+        return this.http.get<BrokerAccountRequisite>(`${API_URL}/${brokerAccountId}/details/by-asset-id/${assetId}`);
     }
 
     getBalances(brokerAccountId: number) {

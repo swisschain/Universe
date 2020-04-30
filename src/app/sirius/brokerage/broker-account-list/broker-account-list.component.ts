@@ -1,11 +1,10 @@
-import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, ViewChild, ElementRef } from '@angular/core';
-import { MatPaginator, MatSort, MatDialog, MatSnackBar } from '@angular/material';
-import { debounceTime, distinctUntilChanged, tap, skip, delay, take, catchError, finalize } from 'rxjs/operators';
-import { fromEvent, merge, Subscription, of } from 'rxjs';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { MatDialog, MatSnackBar } from '@angular/material';
+
 import { LayoutUtilsService, MessageType } from '../../../core/_base/crud';
 
-import { BrokerAccountService } from '../../api/broker-account.service';
-import { BrokerAccountsDataSource } from '../../models/broker-accounts-data-source';
+import { BrokerAccountService } from '../../api/services';
+import { BrokerAccountsDataSource } from '../../data-sources';
 import { BrokerAccountEditDialogComponent } from '../broker-account-edit/broker-account-edit.dialog.component';
 
 @Component({
@@ -14,9 +13,7 @@ import { BrokerAccountEditDialogComponent } from '../broker-account-edit/broker-
   styleUrls: ['./broker-account-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BrokerAccountListComponent implements OnInit, OnDestroy {
-
-  private subscriptions: Subscription[] = [];
+export class BrokerAccountListComponent implements OnInit {
 
   constructor(
     public dialog: MatDialog,
@@ -25,34 +22,28 @@ export class BrokerAccountListComponent implements OnInit, OnDestroy {
     private brokerAccountService: BrokerAccountService) { }
 
   dataSource: BrokerAccountsDataSource;
-  displayedColumns = ['brokerAccountId', 'name', 'blockchains', 'accounts', 'state', 'created', 'activated', 'actions'];
+  displayedColumns = ['brokerAccountId', 'name', 'blockchainsCount', 'accountCount', 'state', 'createdAt', 'updatedAt', 'actions'];
 
   ngOnInit() {
     this.dataSource = new BrokerAccountsDataSource(this.brokerAccountService);
     this.load();
   }
 
-  ngOnDestroy() {
-    this.subscriptions.forEach(el => el.unsubscribe());
-  }
-
   load() {
     this.dataSource.load();
   }
 
-  add(){
+  add() {
     const saveMessage = 'Brocker account added';
-    
-		const messageType = MessageType.Create;
-		const dialogRef = this.dialog.open(BrokerAccountEditDialogComponent, { data: { }, width: '400px' });
-    
-    dialogRef.afterClosed().subscribe(res => {
-			if (!res) {
-				return;
-			}
+    const messageType = MessageType.Create;
+    const dialogRef = this.dialog.open(BrokerAccountEditDialogComponent, { data: {}, width: '400px' });
 
-			this.layoutUtilsService.showActionNotification(saveMessage, messageType, 1000, true, false);
-			this.load();
-		});
+    dialogRef.afterClosed().subscribe(res => {
+      if (!res) {
+        return;
+      }
+      this.layoutUtilsService.showActionNotification(saveMessage, messageType, 1000, true, false);
+      this.load();
+    });
   }
 }

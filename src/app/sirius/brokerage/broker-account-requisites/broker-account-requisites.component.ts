@@ -7,14 +7,14 @@ import { Subscription, ReplaySubject } from 'rxjs';
 
 import { formatAddress } from '../../shared/address-utils';
 
-import { Asset } from '../../api/models/assets/asset.interface';
-import { AssetsService } from '../../api/assets.service';
-import { BrokerAccountRequisite } from '../../api/models/brocker-account/broker-account-requisite.interface';
-import { BrokerAccountService } from '../../api/broker-account.service';
-import { Blockchain } from '../../api/models/blockchains/blockchain.interface';
-import { BlockchainsService } from '../../api/blockchains.service';
+import { Asset } from '../../api/models/assets';
+import { BrokerAccountRequisite } from '../../api/models/brocker-accounts';
+import { Blockchain } from '../../api/models/blockchains';
+import { AssetsService, BrokerAccountService, BlockchainsService } from '../../api/services';
+
+import { BrokerAccountRequisitesDataSource } from '../../data-sources';
+
 import { RequisitesDialogComponent } from '../../shared/requisites/requisites.dialog.component';
-import { BrokerAccountRequisitesDataSource } from '../../models/broker-account-requisites-data-source';
 
 @Component({
   selector: 'kt-broker-account-requisites',
@@ -96,7 +96,7 @@ export class BrokerAccountRequisitesComponent implements OnInit, OnDestroy {
   onAssetChanged() {
     if (this.assetId) {
       const assetId = Number(this.assetId);
-      const asset = this.assets.filter(asset => asset.assetId === assetId)[0]
+      const asset = this.assets.filter(asset => asset.id === assetId)[0]
       this.blockchainId = asset.blockchainId;
     }
     else {
@@ -127,7 +127,7 @@ export class BrokerAccountRequisitesComponent implements OnInit, OnDestroy {
 
   getBlockchainName(blockchainId: string) {
     if (this.blockchains) {
-      const blockchain = this.blockchains.filter((blockchain) => blockchain.blockchainId === blockchainId)[0];
+      const blockchain = this.blockchains.filter((blockchain) => blockchain.id === blockchainId)[0];
 
       return blockchain ? blockchain.name : 'unknown';
     }
@@ -140,7 +140,7 @@ export class BrokerAccountRequisitesComponent implements OnInit, OnDestroy {
   }
 
   details(brokerAccountRequisite: BrokerAccountRequisite) {
-    const blockchain = this.blockchains.filter(blockchain => blockchain.blockchainId === brokerAccountRequisite.blockchainId)[0];
+    const blockchain = this.blockchains.filter(blockchain => blockchain.id === brokerAccountRequisite.blockchainId)[0];
     this.dialog.open(RequisitesDialogComponent, {
       data: {
         address: brokerAccountRequisite.address,

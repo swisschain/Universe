@@ -1,14 +1,15 @@
 import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, ViewChild, ElementRef } from '@angular/core';
-import { MatPaginator, MatSort, MatDialog, MatSnackBar } from '@angular/material';
-import { debounceTime, distinctUntilChanged, tap, skip, delay, take, catchError, finalize, map } from 'rxjs/operators';
-import { fromEvent, merge, Subscription, of } from 'rxjs';
+import { MatDialog, MatSnackBar } from '@angular/material';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { fromEvent, Subscription } from 'rxjs';
 
 import { LayoutUtilsService, MessageType } from '../../../core/_base/crud';
 
-import { AccountsDataSource } from '../../models/accounts-data-source';
-import { AccountService } from '../../api/account.service';
-import { BrokerAccount } from '../../api/models/brocker-account/broker-account.interface';
-import { BrokerAccountService } from '../../api/broker-account.service';
+import { BrokerAccount } from '../../api/models/brocker-accounts';
+import { AccountService, BrokerAccountService } from '../../api/services';
+
+import { AccountsDataSource } from '../../data-sources';
+
 import { AccountEditDialogComponent } from '../account-edit/account-edit.dialog.component';
 
 @Component({
@@ -31,7 +32,7 @@ export class AccountListComponent implements OnInit, OnDestroy {
     private brokerAccountService: BrokerAccountService) { }
 
   dataSource: AccountsDataSource;
-  displayedColumns = ['accountId', 'referenceId', 'brokerAccountId', 'state', 'created', 'activated', 'actions'];
+  displayedColumns = ['accountId', 'referenceId', 'brokerAccountId', 'state', 'createdAt', 'updatedAt', 'actions'];
 
   reference = '';
   brokerAccountId: number = null;
@@ -69,7 +70,7 @@ export class AccountListComponent implements OnInit, OnDestroy {
   }
 
   getBrokerName(brokerAccountId: number) {
-    var brokerAccount = this.brokerAccounts.filter((brokerAccount) => brokerAccount.brokerAccountId == brokerAccountId)[0];
+    var brokerAccount = this.brokerAccounts.filter((brokerAccount) => brokerAccount.id == brokerAccountId)[0];
     return brokerAccount ? brokerAccount.name : 'unknown';
   }
 

@@ -1,8 +1,8 @@
-import { Protocol } from './protocol.interface';
+import { Protocol, NetworkType } from './';
 
 export interface Blockchain {
-    blockchainId: string;
+    id: string;
     name: string;
-    networkType: string;
+    networkType: NetworkType;
     protocol: Protocol;
 }

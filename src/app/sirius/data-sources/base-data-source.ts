@@ -1,5 +1,5 @@
 import { DataSource } from '@angular/cdk/table';
-import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { CollectionViewer } from '@angular/cdk/collections';
 import { distinctUntilChanged, skip } from 'rxjs/operators';
 

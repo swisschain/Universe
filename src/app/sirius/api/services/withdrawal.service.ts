@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
+
 import { map } from 'rxjs/operators';
 
-import { Withdrawal } from './models/withdrawal/withdrawal.interface';
-import { WithdrawalState } from './models/withdrawal/withdrawal-state.enum';
-import { PagedResponse } from './models/pagination/paged-response.interface';
+import { Withdrawal, WithdrawalState } from '../models/withdrawals';
+import { PagedResponse } from '../models/pagination/paged-response.interface';
 
 const API_URL = 'sirius/api/withdrawals';
 
@@ -63,7 +63,7 @@ export class WithdrawalService {
             referenceId,
             assetId,
             amount,
-            destinationRequisites: {
+            destinationDetails: {
                 address
             }
         }, { headers: headers });

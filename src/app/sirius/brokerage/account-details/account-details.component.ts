@@ -2,10 +2,10 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 
-import { Account } from '../../api/models/account/account.interface';
-import { AccountService } from '../../api/account.service';
-import { BrokerAccount } from '../../api/models/brocker-account/broker-account.interface';
-import { BrokerAccountService } from '../../api/broker-account.service';
+import { Account } from '../../api/models/accounts';
+import { BrokerAccount } from '../../api/models/brocker-accounts';
+
+import { AccountService, BrokerAccountService } from '../../api/services';
 
 @Component({
   selector: 'kt-account-details',
@@ -14,13 +14,13 @@ import { BrokerAccountService } from '../../api/broker-account.service';
 })
 export class AccountDetailsComponent implements OnInit, OnDestroy {
 
-  private accountId: number;
-  private subscriptions: Subscription[] = [];
-
   constructor(
     private route: ActivatedRoute,
     private accountsService: AccountService,
     private brokerAccountsService: BrokerAccountService) { }
+
+  private accountId: number;
+  private subscriptions: Subscription[] = [];
 
   account: Account;
   brokerAccount: BrokerAccount;
@@ -35,7 +35,7 @@ export class AccountDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscriptions.forEach(el => el.unsubscribe());
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
   load() {

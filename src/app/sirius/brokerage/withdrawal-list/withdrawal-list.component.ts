@@ -5,15 +5,15 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { LayoutUtilsService, MessageType } from '../../../core/_base/crud';
 
-import { BrokerAccountService } from '../../api/broker-account.service';
-import { AssetsService } from '../../api/assets.service';
-import { BlockchainsService } from '../../api/blockchains.service';
-import { BrokerAccount } from '../../api/models/brocker-account/broker-account.interface';
-import { Blockchain } from '../../api/models/blockchains/blockchain.interface';
-import { Asset } from '../../api/models/assets/asset.interface';
-import { WithdrawalService } from '../../api/withdrawal.service';
-import { WithdrawalState } from '../../api/models/withdrawal/withdrawal-state.enum';
-import { WithdrawalDataSource } from '../../models/withdrawal-data-source';
+import { Asset } from '../../api/models/assets';
+import { Blockchain } from '../../api/models/blockchains';
+import { BrokerAccount } from '../../api/models/brocker-accounts';
+import { WithdrawalState } from '../../api/models/withdrawals';
+
+import { AssetsService, BlockchainsService, BrokerAccountService, WithdrawalService } from '../../api/services';
+
+import { WithdrawalDataSource } from '../../data-sources';
+
 import { WithdrawalEditDialogComponent } from '../withdrawal-edit/withdrawal-edit.dialog.component';
 
 @Component({
@@ -180,7 +180,7 @@ export class WithdrawalListComponent implements OnInit, OnDestroy {
 
   getBrokerAccountName(brokerAccountId: number) {
     if (this.brokerAccounts) {
-      var brokerAccount = this.brokerAccounts.filter((brokerAccount) => brokerAccount.brokerAccountId == brokerAccountId)[0];
+      var brokerAccount = this.brokerAccounts.filter((brokerAccount) => brokerAccount.id == brokerAccountId)[0];
 
       return brokerAccount ? brokerAccount.name : 'unknown';
     }
@@ -190,7 +190,7 @@ export class WithdrawalListComponent implements OnInit, OnDestroy {
 
   getBlockchainName(blockchainId: string) {
     if (this.blockchains) {
-      var blockchain = this.blockchains.filter((blockchain) => blockchain.blockchainId == blockchainId)[0];
+      var blockchain = this.blockchains.filter((blockchain) => blockchain.id == blockchainId)[0];
 
       return blockchain ? blockchain.name : 'unknown';
     }
@@ -200,7 +200,7 @@ export class WithdrawalListComponent implements OnInit, OnDestroy {
 
   getAssetSymbol(assetId: number) {
     if (this.assets) {
-      var asset = this.assets.filter((asset) => asset.assetId == assetId)[0];
+      var asset = this.assets.filter((asset) => asset.id == assetId)[0];
 
       return asset ? asset.symbol : 'unknown';
     }

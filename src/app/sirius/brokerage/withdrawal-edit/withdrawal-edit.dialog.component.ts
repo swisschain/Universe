@@ -8,13 +8,11 @@ import { markFormGroupTouched, isFormGroupControlHasError, setFormError, getComm
 
 import { Subscription, forkJoin } from 'rxjs';
 
-import { Asset } from '../../api/models/assets/asset.interface';
-import { AssetsService } from '../../api/assets.service';
-import { WithdrawalService } from '../../api/withdrawal.service';
-import { BrokerAccountService } from '../../api/broker-account.service';
-import { BlockchainsService } from '../../api/blockchains.service';
-import { BrokerAccount } from '../../api/models/brocker-account/broker-account.interface';
-import { Blockchain } from '../../api/models/blockchains/blockchain.interface';
+import { Asset } from '../../api/models/assets';
+import { Blockchain } from '../../api/models/blockchains';
+import { BrokerAccount } from '../../api/models/brocker-accounts';
+
+import { AssetsService, BrokerAccountService, BlockchainsService, WithdrawalService } from '../../api/services';
 
 @Component({
   selector: 'kt-withdrawal-edit-dialog',

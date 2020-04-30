@@ -22,7 +22,7 @@
                         <mat-select placeholder="Broker account" formControlName="brokerAccountId">
                             <mat-option>None</mat-option>
                             <mat-option *ngFor="let brokerAccount of brokerAccounts"
-                                [value]="brokerAccount.brokerAccountId">
+                                [value]="brokerAccount.id">
                                 {{brokerAccount.name}}</mat-option>
                         </mat-select>
                         <mat-error *ngIf="isFormControlHasError('brokerAccountId','required')">
@@ -75,7 +75,7 @@
                         <mat-select placeholder="Blockchain" formControlName="blockchainId">
                             <mat-option>None</mat-option>
                             <mat-option *ngFor="let blockchain of blockchains"
-                                        [value]="blockchain.blockchainId">
+                                        [value]="blockchain.id">
                                         {{blockchain.name}}</mat-option>
                         </mat-select>
                         <mat-error *ngIf="isFormControlHasError('blockchainId','required')">
@@ -93,7 +93,7 @@
                     <mat-form-field class="mat-form-field-fluid">
                         <mat-select placeholder="Asset" formControlName="assetId">
                             <mat-option>None</mat-option>
-                            <mat-option *ngFor="let asset of filteredAssets" [value]="asset.assetId">
+                            <mat-option *ngFor="let asset of filteredAssets" [value]="asset.id">
                                 {{asset.symbol}}</mat-option>
                         </mat-select>
                         <mat-error *ngIf="isFormControlHasError('assetId','required')">

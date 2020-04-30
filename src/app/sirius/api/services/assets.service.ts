@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 
-import { Asset } from './models/assets/asset.interface';
-import { PagedResponse } from './models/pagination/paged-response.interface';
 import { map } from 'rxjs/operators';
+
+import { Asset } from '../models/assets';
+import { PagedResponse } from '../models/pagination/paged-response.interface';
 
 const API_URL = 'sirius/api/assets';
 
@@ -24,7 +25,7 @@ export class AssetsService {
 
     getById(assetId: number) {
         const params = new HttpParams()
-            .set('assetId', assetId.toString());
+            .set('id', assetId.toString());
         return this.http.get<PagedResponse<Asset>>(`${API_URL}`, { params: params })
             .pipe(
                 map(result => {

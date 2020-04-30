@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
+
 import { map } from 'rxjs/operators';
 
-import { Deposit } from './models/deposits/deposit.interface';
-import { PagedResponse } from './models/pagination/paged-response.interface';
-import { DepositState } from './models/deposits/deposit-state.enum';
+import { Deposit, DepositState } from '../models/deposits';
+import { PagedResponse } from '../models/pagination/paged-response.interface';
 
 const API_URL = 'sirius/api/deposits';
 

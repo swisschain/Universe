@@ -5,7 +5,6 @@
                 <span>Withdrawals</span>
             </h3>
         </ng-container>
-
         <ng-container ktPortletTools>
             <a (click)="load()" href="javascript:;" class="btn btn-secondary kt-margin-r-10" mat-raised-button
                 matTooltip="Refresh withdrawal list">
@@ -60,7 +59,7 @@
                                 <mat-select [(value)]="selectedBlockchainId" (selectionChange)="onBlockchainChanged()">
                                     <mat-option value="">All</mat-option>
                                     <mat-option *ngFor="let blockchain of blockchains"
-                                        [value]="blockchain.blockchainId">
+                                        [value]="blockchain.id">
                                         {{blockchain.name}}</mat-option>
                                 </mat-select>
                                 <mat-hint align="start">
@@ -74,7 +73,7 @@
                             <mat-form-field class="mat-form-field-fluid">
                                 <mat-select [(value)]="selectedAssetId" (selectionChange)="load()">
                                     <mat-option value="">All</mat-option>
-                                    <mat-option *ngFor="let asset of filteredAssets" [value]="asset.assetId">
+                                    <mat-option *ngFor="let asset of filteredAssets" [value]="asset.id">
                                         {{asset.symbol}}</mat-option>
                                 </mat-select>
                                 <mat-hint align="start">
@@ -182,10 +181,9 @@
                 </ng-container>
 
                 <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-
                 <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
             </mat-table>
-            <!-- Message for empty data  -->
+
             <div class="mat-table__message" *ngIf="!dataSource.hasItems">No records found</div>
             <div class="mat-table__message" *ngIf="dataSource.isPreloadTextViewed$ | async">Please wait....</div>
         </div>

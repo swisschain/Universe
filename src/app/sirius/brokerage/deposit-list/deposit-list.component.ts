@@ -1,19 +1,18 @@
-import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, ViewChild, ElementRef } from '@angular/core';
-import { MatPaginator, MatSort, MatDialog, MatSnackBar } from '@angular/material';
-import { debounceTime, distinctUntilChanged, tap, skip, delay, take, catchError, finalize, map, startWith } from 'rxjs/operators';
-import { fromEvent, merge, Subscription, of } from 'rxjs';
+import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { MatDialog, MatSnackBar } from '@angular/material';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 import { LayoutUtilsService, MessageType } from '../../../core/_base/crud';
 
-import { BrokerAccountService } from '../../api/broker-account.service';
-import { AssetsService } from '../../api/assets.service';
-import { BlockchainsService } from '../../api/blockchains.service';
-import { DepositsDataSource } from '../../models/deposits-data-source';
-import { DepositsService } from '../../api/deposits.service';
-import { BrokerAccount } from '../../api/models/brocker-account/broker-account.interface';
-import { Blockchain } from '../../api/models/blockchains/blockchain.interface';
-import { Asset } from '../../api/models/assets/asset.interface';
-import { DepositState } from '../../api/models/deposits/deposit-state.enum';
-import { FormControl } from '@angular/forms';
+import { Asset } from '../../api/models/assets';
+import { Blockchain } from '../../api/models/blockchains';
+import { BrokerAccount } from '../../api/models/brocker-accounts';
+import { DepositState } from '../../api/models/deposits';
+
+import { AssetsService, BrokerAccountService, BlockchainsService, DepositsService } from '../../api/services';
+
+import { DepositsDataSource } from '../../data-sources';
 
 @Component({
   selector: 'kt-deposit-list',
@@ -47,6 +46,7 @@ export class DepositListComponent implements OnInit, OnDestroy {
   brokerAccounts: BrokerAccount[];
   blockchains: Blockchain[];
   assets: Asset[];
+  filteredAssets: Asset[];
   states = [DepositState.Detected, DepositState.Confirmed, DepositState.Completed, DepositState.Cancelled, DepositState.Failed];
 
   dataSource: DepositsDataSource;
@@ -122,9 +122,15 @@ export class DepositListComponent implements OnInit, OnDestroy {
       });
   }
 
+  onBlockchainChanged() {
+    this.selectedAssetId = '';
+    this.filteredAssets = this.assets.filter(asset => asset.blockchainId === this.selectedBlockchainId);
+    this.load();
+  }
+
   getBrokerAccountName(brokerAccountId: number) {
     if (this.brokerAccounts) {
-      var brokerAccount = this.brokerAccounts.filter((brokerAccount) => brokerAccount.brokerAccountId == brokerAccountId)[0];
+      var brokerAccount = this.brokerAccounts.filter((brokerAccount) => brokerAccount.id == brokerAccountId)[0];
 
       return brokerAccount ? brokerAccount.name : 'unknown';
     }
@@ -134,7 +140,7 @@ export class DepositListComponent implements OnInit, OnDestroy {
 
   getBlockchainName(blockchainId: string) {
     if (this.blockchains) {
-      var blockchain = this.blockchains.filter((blockchain) => blockchain.blockchainId == blockchainId)[0];
+      var blockchain = this.blockchains.filter((blockchain) => blockchain.id == blockchainId)[0];
 
       return blockchain ? blockchain.name : 'unknown';
     }
@@ -144,7 +150,7 @@ export class DepositListComponent implements OnInit, OnDestroy {
 
   getAssetSymbol(assetId: number) {
     if (this.assets) {
-      var asset = this.assets.filter((asset) => asset.assetId == assetId)[0];
+      var asset = this.assets.filter((asset) => asset.id == assetId)[0];
 
       return asset ? asset.symbol : 'unknown';
     }

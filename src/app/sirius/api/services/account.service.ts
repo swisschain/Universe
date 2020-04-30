@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 
-import { Account } from './models/account/account.interface';
-import { AccountRequisite } from './models/account/account-requisite.interface';
-import { PagedResponse } from './models/pagination/paged-response.interface';
+import { Account, AccountRequisite } from '../models/accounts';
+import { PagedResponse } from '../models/pagination/paged-response.interface';
 
 import { map } from 'rxjs/operators';
 
@@ -22,7 +21,7 @@ export class AccountService {
 
     getById(accountId: number) {
         const params = new HttpParams()
-            .set('accountId', accountId.toString());
+            .set('id', accountId.toString());
         return this.http.get<PagedResponse<Account>>(`${API_URL}`, { params: params })
             .pipe(
                 map(result => {
@@ -31,15 +30,15 @@ export class AccountService {
             );
     }
 
-    getRequisites(brokerAccountId: number, blockchainId: string) {
+    getRequisites(accountId: number, blockchainId: string) {
         const params = new HttpParams()
             .set('blockchainId', blockchainId);
 
-        return this.http.get<PagedResponse<AccountRequisite>>(`${API_URL}/${brokerAccountId}/requisites`, { params: params });
+        return this.http.get<PagedResponse<AccountRequisite>>(`${API_URL}/${accountId}/details`, { params: params });
     }
 
     getRequisiteByAssetId(accountId: number, assetId: number) {
-        return this.http.get<AccountRequisite>(`${API_URL}/${accountId}/requisites/by-asset-id/${assetId}`);
+        return this.http.get<AccountRequisite>(`${API_URL}/${accountId}/details/by-asset-id/${assetId}`);
     }
 
     create(brokerAccountId: number, referenceId: string, requestId: string) {

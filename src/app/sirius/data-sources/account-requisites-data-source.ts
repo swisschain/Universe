@@ -3,24 +3,25 @@ import { catchError, finalize } from 'rxjs/operators';
 
 import { BaseDataSource } from './base-data-source';
 
-import { BrokerAccountRequisite } from '../api/models/brocker-account/broker-account-requisite.interface'
-import { BrokerAccountService } from '../api/broker-account.service';
+import { AccountRequisite } from '../api/models/accounts'
+import { AccountService } from '../api/services';
+
 import { PagedResponse } from '../api/models/pagination/paged-response.interface';
 
-export class BrokerAccountRequisitesDataSource extends BaseDataSource<BrokerAccountRequisite> {
+export class AccountRequisitesDataSource extends BaseDataSource<AccountRequisite> {
 
-    constructor(private brokerAccountService: BrokerAccountService) {
+    constructor(private accountService: AccountService) {
         super();
     }
 
     load(brokerAccountId: number, blockchainId: string) {
         this.loadingSubject.next(true);
-        this.brokerAccountService.getRequisites(brokerAccountId, blockchainId)
+        this.accountService.getRequisites(brokerAccountId, blockchainId)
             .pipe(
                 catchError(() => of([])),
                 finalize(() => this.loadingSubject.next(false))
             )
-            .subscribe((response: PagedResponse<BrokerAccountRequisite>) => {
+            .subscribe((response: PagedResponse<AccountRequisite>) => {
                 this.itemsSubject.next(response.items)
             });
     }

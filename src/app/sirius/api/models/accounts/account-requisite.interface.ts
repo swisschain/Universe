@@ -1,9 +1,9 @@
 export interface AccountRequisite {
-    accountRequisitesId: number;
+    id: number;
     accountId: number;
     blockchainId: string;
     address: string;
     tag: string;
     tagType: string;
-    creationDateTime: Date;
+    createdAt: Date;
 }
