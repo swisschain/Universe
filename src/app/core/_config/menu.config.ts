@@ -68,10 +68,10 @@ export class MenuConfig {
 						bullet: 'dot'
 					},
 					{
-						title: 'Cost Analisys',
+						title: 'API Keys',
 						root: true,
-						icon: 'flaticon2-rocket',
-						page: '/billing/report',
+						icon: 'flaticon2-safe',
+						page: '/home/api-keys',
 						bullet: 'dot'
 					},
 					{
@@ -160,13 +160,6 @@ export class MenuConfig {
 						root: true,
 						icon: 'flaticon2-layers-1',
 						page: '/services/exchange/management/instruments',
-						bullet: 'dot'
-					},
-					{
-						title: 'API Keys',
-						root: true,
-						icon: 'flaticon2-rocket',
-						page: '/services/exchange/management/api-keys',
 						bullet: 'dot'
 					},
 					{
@@ -311,13 +304,6 @@ export class MenuConfig {
 						page: '/services/sirius/wallets/list',
 						bullet: 'dot'
 					},
-					{
-						title: 'API Keys',
-						root: true,
-						icon: 'flaticon2-rocket',
-						page: '/services/sirius/wallets/api-keys',
-						bullet: 'dot'
-					},
 					{ section: 'Vault' },
 					{
 						title: 'Overview',
@@ -331,13 +317,6 @@ export class MenuConfig {
 						root: true,
 						icon: 'flaticon2-rocket',
 						page: '/services/sirius/vault/connections',
-						bullet: 'dot'
-					},
-					{
-						title: 'API Keys',
-						root: true,
-						icon: 'flaticon2-rocket',
-						page: '/services/sirius/vault/api-keys',
 						bullet: 'dot'
 					},
 					{ section: 'Setup' },

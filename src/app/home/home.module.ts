@@ -34,14 +34,27 @@ import {
 
 import { ClipboardModule } from 'ngx-clipboard';
 
+import { AuthHeaderInterceptor } from '../core/interceptors/auth-header-interceptor';
+
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HomeRoutingModule } from './home-routing.module';
 import { WorkingOnItComponent } from './shared/working-on-it/working-on-it.component';
+import { ApiKeyListComponent } from './api-keys/api-key-list/api-key-list.component';
+import { ApiKeyEditDialogComponent } from './api-keys/api-key-edit/api-key-edit.dialog.component';
+import { ApiKeyTokenDialogComponent } from './api-keys/api-key-token/api-key-token.dialog.component';
+import { ApiKeyService } from './api/services/api-key.service';
+import { ApiKeysComponent } from './api-keys/api-keys/api-keys.component';
+import { ApiKeyDeletedListComponent } from './api-keys/api-key-deleted-list/api-key-deleted-list.component';
 
 @NgModule({
   declarations: [
     DashboardComponent,
-    WorkingOnItComponent
+    WorkingOnItComponent,
+    ApiKeyListComponent,
+    ApiKeyEditDialogComponent,
+    ApiKeyTokenDialogComponent,
+    ApiKeysComponent,
+    ApiKeyDeletedListComponent
   ],
   imports: [
     CommonModule,
@@ -74,6 +87,34 @@ import { WorkingOnItComponent } from './shared/working-on-it/working-on-it.compo
     MatTooltipModule,
 
     ClipboardModule
+  ],
+  providers: [
+		ModuleGuard,
+		{
+			provide: MAT_DIALOG_DEFAULT_OPTIONS,
+			useValue: {
+				hasBackdrop: true,
+				panelClass: 'kt-mat-dialog-container__wrapper',
+				height: 'auto',
+				width: '900px'
+			}
+		},
+		TypesUtilsService,
+		HttpUtilsService,
+		TypesUtilsService,
+		LayoutUtilsService,
+    { provide: HTTP_INTERCEPTORS, useClass: AuthHeaderInterceptor, multi: true },
+    
+    ApiKeyService
+	],
+  entryComponents: [
+    ActionNotificationComponent,
+		DeleteEntityDialogComponent,
+		FetchEntityDialogComponent,
+    UpdateStatusDialogComponent,
+    
+    ApiKeyEditDialogComponent,
+    ApiKeyTokenDialogComponent
   ]
 })
 export class HomeModule { }
