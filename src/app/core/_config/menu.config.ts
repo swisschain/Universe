@@ -169,6 +169,14 @@ export class MenuConfig {
 						page: '/services/exchange/management/accounts',
 						bullet: 'dot'
 					},
+					{ section: 'Fees' },
+					{
+						title: 'Cash Operations',
+						root: true,
+						icon: 'flaticon2-avatar',
+						page: '/services/exchange/fees/cash-operations',
+						bullet: 'dot'
+					},
 					{ section: 'Trading' },
 					{
 						title: 'Order Books',

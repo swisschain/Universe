@@ -62,6 +62,8 @@ import { CashOperationsDialogComponent } from './accounts/cash-operations/cash-o
 
 import { WorkingOnItComponent } from './shared/working-on-it/working-on-it.component';
 
+import { FeeService } from './api/services';
+
 import { AccountsService } from './api/accounts.service';
 import { AssetPairsService } from './api/asset-pairs.service';
 import { OrderBooksService } from './api/order-books.service';
@@ -72,6 +74,8 @@ import { OperationsService } from './api/operations.service';
 import { OrderDetailsDialogComponent } from './accounts/order-details/order-details.dialog.component';
 import { CashTransferDialogComponent } from './accounts/cash-transfer/cash-transfer.dialog.component';
 import { BalanceHistoryDetailsDialogComponent } from './accounts/balance-history-details/balance-history-details.dialog.component';
+import { CashOperationsFeeListComponent } from './fees/cash-operations-fee-list/cash-operations-fee-list.component';
+import { CashOperationsFeeEditDialogComponent } from './fees/cash-operations-fee-edit/cash-operations-fee-edit.dialog.component';
 
 @NgModule({
 	declarations: [
@@ -98,7 +102,9 @@ import { BalanceHistoryDetailsDialogComponent } from './accounts/balance-history
 		CashOperationsDialogComponent,
 		OrderDetailsDialogComponent,
 		CashTransferDialogComponent,
-		BalanceHistoryDetailsDialogComponent
+		BalanceHistoryDetailsDialogComponent,
+		CashOperationsFeeListComponent,
+		CashOperationsFeeEditDialogComponent
 	],
 	imports: [
 		CommonModule,
@@ -149,6 +155,8 @@ import { BalanceHistoryDetailsDialogComponent } from './accounts/balance-history
 		LayoutUtilsService,
 		{ provide: HTTP_INTERCEPTORS, useClass: AuthHeaderInterceptor, multi: true },
 
+		FeeService,
+
 		AccountsService,
 		AssetsService,
 		AssetPairsService,
@@ -174,7 +182,8 @@ import { BalanceHistoryDetailsDialogComponent } from './accounts/balance-history
 		CashOperationsDialogComponent,
 		OrderDetailsDialogComponent,
 		CashTransferDialogComponent,
-		BalanceHistoryDetailsDialogComponent
+		BalanceHistoryDetailsDialogComponent,
+		CashOperationsFeeEditDialogComponent
 	]
 })
 export class ExchangeModule { }
