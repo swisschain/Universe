@@ -14,15 +14,19 @@ const routes: Routes = [
         component: ApiKeysComponent
     },
     {
+        path: 'comming-soon',
+        component: WorkingOnItComponent
+    },
+    {
         path: '',
-        redirectTo: 'dashboard',
+        redirectTo: 'api-keys',
         pathMatch: 'full'
     },
     {
         path: 'comming-soon',
         component: WorkingOnItComponent
     },
-    { path: '**', redirectTo: 'comming-soon', pathMatch: 'full' },
+    { path: '**', redirectTo: 'comming-soon', pathMatch: 'full' }
 ];
 
 @NgModule({

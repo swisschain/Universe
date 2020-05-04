@@ -79,6 +79,8 @@ export class AsideLeftComponent implements OnInit, AfterViewInit {
 	) {
 	}
 
+	title = '';
+	showTitle = false;
 	menu: any[];
 
 	ngAfterViewInit(): void {
@@ -95,6 +97,8 @@ export class AsideLeftComponent implements OnInit, AfterViewInit {
 				if (this.currentRouteUrl !== currentRouteUrl) {
 					this.currentRouteUrl = currentRouteUrl;
 					this.menu = this.menuAsideService.getItems(this.currentRouteUrl);
+					this.showTitle = this.menuAsideService.showTitle(this.currentRouteUrl);
+					this.title = this.menuAsideService.getTitle(this.currentRouteUrl);
 					this.cdr.markForCheck();
 				}
 			});
@@ -108,6 +112,8 @@ export class AsideLeftComponent implements OnInit, AfterViewInit {
 		}
 
 		this.menu = this.menuAsideService.getItems(this.currentRouteUrl);
+		this.showTitle = this.menuAsideService.showTitle(this.currentRouteUrl);
+		this.title = this.menuAsideService.getTitle(this.currentRouteUrl);
 	}
 
 	/**

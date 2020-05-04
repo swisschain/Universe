@@ -52,7 +52,7 @@ const routes: Routes = [
     },
     {
         path: '',
-        redirectTo: 'dashboard',
+        redirectTo: 'broker-accounts',
         pathMatch: 'full'
     },
     {

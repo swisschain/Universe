@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 // Angular Material
-import { MatButtonModule, MatProgressBarModule, MatTabsModule, MatTooltipModule } from '@angular/material';
+import { MatButtonModule, MatProgressBarModule, MatTabsModule, MatTooltipModule, MatIconModule } from '@angular/material';
 // NgBootstrap
 import { NgbProgressbarModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 // Translation
@@ -104,6 +104,7 @@ import { PermissionEffects, permissionsReducer, RoleEffects, rolesReducer } from
 		MatTabsModule,
 		MatButtonModule,
 		MatTooltipModule,
+		MatIconModule,
 		TranslateModule.forChild(),
 		LoadingBarModule,
 		NgxDaterangepickerMd,

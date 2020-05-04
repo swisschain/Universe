@@ -113,7 +113,7 @@ export class SubscriptionListComponent implements OnInit, OnDestroy {
             .subscribe(
               result => {
                 this.layoutUtilsService.showActionNotification('Subscription has been activated.', MessageType.Delete, 3000, true, false);
-                this.router.navigateByUrl('/home/dashboard');
+                this.router.navigateByUrl('/home/api-keys');
               }
             );
         },

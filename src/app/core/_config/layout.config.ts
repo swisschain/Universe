@@ -54,8 +54,8 @@ export class LayoutConfig {
 			self: {
 				skin: 'light',
 				fixed: {
-					desktop: true,
-					mobile: true,
+					desktop: false,
+					mobile: false,
 				},
 			},
 			menu: {
@@ -107,7 +107,7 @@ export class LayoutConfig {
 			},
 			footer: {
 				self: {
-					display: true,
+					display: false,
 				},
 			},
 			menu: {
