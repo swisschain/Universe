@@ -8,7 +8,7 @@ import { OrderBookListComponent } from './trading/order-book-list/order-book-lis
 import { OrderBookDetailsComponent } from './trading/order-book-details/order-book-details.component';
 import { AccountListComponent } from './accounts/account-list/account-list.component';
 import { AccountDetailsComponent } from './accounts/account-details/account-details.component';
-import { CashOperationsFeeListComponent } from './fees/cash-operations-fee-list/cash-operations-fee-list.component';
+import { CashOperationsFeeComponent } from './fees/cash-operations-fee/cash-operations-fee.component';
 
 const routes: Routes = [
     {
@@ -29,7 +29,7 @@ const routes: Routes = [
     },
     {
         path: 'fees/cash-operations',
-        component: CashOperationsFeeListComponent
+        component: CashOperationsFeeComponent
     },
     {
         path: 'trading/order-books',

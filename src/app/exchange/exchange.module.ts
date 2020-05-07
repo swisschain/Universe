@@ -62,7 +62,7 @@ import { CashOperationsDialogComponent } from './accounts/cash-operations/cash-o
 
 import { WorkingOnItComponent } from './shared/working-on-it/working-on-it.component';
 
-import { FeeService } from './api/services';
+import { FeeService, FeeHistoryService } from './api/services';
 
 import { AccountsService } from './api/accounts.service';
 import { AssetPairsService } from './api/asset-pairs.service';
@@ -76,6 +76,8 @@ import { CashTransferDialogComponent } from './accounts/cash-transfer/cash-trans
 import { BalanceHistoryDetailsDialogComponent } from './accounts/balance-history-details/balance-history-details.dialog.component';
 import { CashOperationsFeeListComponent } from './fees/cash-operations-fee-list/cash-operations-fee-list.component';
 import { CashOperationsFeeEditDialogComponent } from './fees/cash-operations-fee-edit/cash-operations-fee-edit.dialog.component';
+import { CashOperationsFeeComponent } from './fees/cash-operations-fee/cash-operations-fee.component';
+import { CashOperationsFeeHistoryComponent } from './fees/cash-operations-fee-history/cash-operations-fee-history.component';
 
 @NgModule({
 	declarations: [
@@ -104,7 +106,9 @@ import { CashOperationsFeeEditDialogComponent } from './fees/cash-operations-fee
 		CashTransferDialogComponent,
 		BalanceHistoryDetailsDialogComponent,
 		CashOperationsFeeListComponent,
-		CashOperationsFeeEditDialogComponent
+		CashOperationsFeeEditDialogComponent,
+		CashOperationsFeeComponent,
+		CashOperationsFeeHistoryComponent
 	],
 	imports: [
 		CommonModule,
@@ -156,6 +160,7 @@ import { CashOperationsFeeEditDialogComponent } from './fees/cash-operations-fee
 		{ provide: HTTP_INTERCEPTORS, useClass: AuthHeaderInterceptor, multi: true },
 
 		FeeService,
+		FeeHistoryService,
 
 		AccountsService,
 		AssetsService,

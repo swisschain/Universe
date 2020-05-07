@@ -5,7 +5,7 @@ import { CashOperationsFee } from '../models/fees';
 import { Response } from '../models/response';
 import { PagedResponse } from '../models/pagination/paged-response.interface';
 
-const API_URL = 'exchange/api/fees/cash-operations-fee';
+const API_URL = 'exchange/api/fees/cash-operations';
 
 @Injectable()
 export class FeeService {
