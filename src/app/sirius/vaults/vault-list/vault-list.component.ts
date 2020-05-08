@@ -76,7 +76,7 @@ export class VaultListComponent implements OnInit, AfterViewInit, OnDestroy {
     this.edit(null);
   }
 
-  edit(vaultId: string) {
+  edit(vaultId: number) {
     const saveMessage = vaultId ? 'Vault added' : 'Vault updated';
     const messageType = vaultId ? MessageType.Create : MessageType.Update;
     const dialogRef = this.dialog.open(VaultEditDialogComponent, { data: { vaultId }, width: '400px' });

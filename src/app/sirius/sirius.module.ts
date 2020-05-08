@@ -64,7 +64,9 @@ import { VaultListComponent } from './vaults/vault-list/vault-list.component';
 import { ApiKeyEditDialogComponent } from './vaults/api-key-edit/api-key-edit.dialog.component';
 import { ApiKeyListComponent } from './vaults/api-key-list/api-key-list.component';
 import { VaultEditDialogComponent } from './vaults/vault-edit/vault-edit.dialog.component';
-import { ApiKeyTokenComponent } from './vaults/api-key-token/api-key-token.dialog.component';
+import { ApiKeyTokenDialogComponent } from './vaults/api-key-token/api-key-token.dialog.component';
+import { ApiKeyRevokedComponent } from './vaults/api-key-revoked/api-key-revoked.component';
+import { ApiKeyActiveComponent } from './vaults/api-key-active/api-key-active.component';
 
 
 @NgModule({
@@ -93,7 +95,9 @@ import { ApiKeyTokenComponent } from './vaults/api-key-token/api-key-token.dialo
 		VaultEditDialogComponent,
 		ApiKeyListComponent,
 		ApiKeyEditDialogComponent,
-		ApiKeyTokenComponent
+		ApiKeyTokenDialogComponent,
+		ApiKeyRevokedComponent,
+		ApiKeyActiveComponent
 	],
 	imports: [
 		CommonModule,
@@ -166,7 +170,7 @@ import { ApiKeyTokenComponent } from './vaults/api-key-token/api-key-token.dialo
 		RequisitesDialogComponent,
 		VaultEditDialogComponent,
 		ApiKeyEditDialogComponent,
-		ApiKeyTokenComponent
+		ApiKeyTokenDialogComponent
 	]
 })
 export class SiriusModule { }

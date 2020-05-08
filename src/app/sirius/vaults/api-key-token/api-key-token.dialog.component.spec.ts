@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ApiKeyTokenComponent } from './api-key-token.dialog.component';
+import { ApiKeyTokenDialogComponent } from './api-key-token.dialog.component';
 
-describe('ApiKeyTokenComponent', () => {
-  let component: ApiKeyTokenComponent;
-  let fixture: ComponentFixture<ApiKeyTokenComponent>;
+describe('ApiKeyTokenDialogComponent', () => {
+  let component: ApiKeyTokenDialogComponent;
+  let fixture: ComponentFixture<ApiKeyTokenDialogComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ApiKeyTokenComponent ]
+      declarations: [ApiKeyTokenDialogComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ApiKeyTokenComponent);
+    fixture = TestBed.createComponent(ApiKeyTokenDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,13 +1,12 @@
 <kt-portlet-header [class]="'kt-portlet__head--lg'" [viewLoading$]="dataSource.loading$">
     <ng-container ktPortletTools>
         <a (click)="add()" href="javascript:;" class="btn btn-primary kt-margin-r-10" color="primary" mat-raised-button
-            matTooltip="Create API key">
+            matTooltip="Create">
             <i class="la la-plus"></i>
             <span class="kt-hidden-mobile">Create</span>
         </a>
     </ng-container>
 </kt-portlet-header>
-
 <kt-portlet-body>
     <div class="kt-form kt-margin-b-30">
         <div class="kt-form__filtration">
@@ -20,26 +19,11 @@
                         </mat-hint>
                     </mat-form-field>
                 </div>
-                <div class="col-md-3 kt-margin-bottom-10-mobile">
-                    <div class="kt-form__control">
-                        <mat-form-field class="mat-form-field-fluid" floatLabel="never">
-                            <mat-select [(value)]="product" (selectionChange)="load()" placeholder="All">
-                                <mat-option>All</mat-option>
-                                <mat-option *ngFor="let product of products"
-                                    [value]="product">{{getProductName(product)}}
-                                </mat-option>
-                            </mat-select>
-                            <mat-hint align="start">
-                                <strong>Filter</strong> by product
-                            </mat-hint>
-                        </mat-form-field>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
     <div class="mat-table__wrapper">
-        <mat-table class="mat-elevation-z0" #table [dataSource]="dataSource">
+        <mat-table class="mat-elevation-z0" [dataSource]="dataSource">
             <ng-container matColumnDef="apiKeyId">
                 <mat-header-cell *matHeaderCellDef>Id</mat-header-cell>
                 <mat-cell *matCellDef="let item">{{item.id}}</mat-cell>
@@ -50,32 +34,23 @@
                 <mat-cell *matCellDef="let item">{{item.name}}</mat-cell>
             </ng-container>
 
-            <ng-container matColumnDef="expirationDate">
-                <mat-header-cell *matHeaderCellDef>Expiration Date</mat-header-cell>
-                <mat-cell *matCellDef="let item" [ngStyle]="isExpired(item) && {'color': 'red', 'font-weight': 'bold'}">{{item.expirationDate | date}}</mat-cell>
+            <ng-container matColumnDef="expiresAt">
+                <mat-header-cell *matHeaderCellDef>Expired</mat-header-cell>
+                <mat-cell *matCellDef="let item" [ngStyle]="isExpired(item) && {'color': 'red', 'font-weight': 'bold'}">
+                    {{item.expiresAt | date}}</mat-cell>
             </ng-container>
 
-            <ng-container matColumnDef="products">
-                <mat-header-cell *matHeaderCellDef>Products</mat-header-cell>
-                <mat-cell *matCellDef="let item">
-                    <span class="kt-badge kt-badge--inline kt-badge--pill kt-badge--success kt-badge--wide"
-                        *ngFor="let product of item.products">{{getProductName(product)}}</span>
-                </mat-cell>
-            </ng-container>
-
-            <ng-container matColumnDef="created">
-                <mat-header-cell *matHeaderCellDef>Created</mat-header-cell>
-                <mat-cell *matCellDef="let item">{{item.created | date:'short'}}</mat-cell>
+            <ng-container matColumnDef="issuedAt">
+                <mat-header-cell *matHeaderCellDef>Issued</mat-header-cell>
+                <mat-cell *matCellDef="let item">{{item.issuedAt | date}}</mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="actions">
                 <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
                 <mat-cell *matCellDef="let item">
-                    <button mat-icon-button color="primary" matTooltip="Token" type="button" (click)="token(item.id)" *ngIf="!isExpired(item)">
+                    <button mat-icon-button color="primary" matTooltip="Token" type="button" (click)="token(item.id)"
+                        *ngIf="!isExpired(item)">
                         <mat-icon>more_horiz</mat-icon>
-                    </button>&nbsp;
-                    <button mat-icon-button color="primary" matTooltip="Edit" type="button" (click)="edit(item.id)" *ngIf="!isExpired(item)">
-                        <mat-icon>create</mat-icon>
                     </button>&nbsp;
                     <button mat-icon-button color="warn" matTooltip="Revoke" type="button" (click)="delete(item.id)">
                         <mat-icon>delete</mat-icon>
