@@ -57,9 +57,14 @@ import { WithdrawalEditDialogComponent } from './brokerage/withdrawal-edit/withd
 import { WithdrawalDetailsComponent } from './brokerage/withdrawal-details/withdrawal-details.component';
 import { RequisitesDialogComponent } from './shared/requisites/requisites.dialog.component';
 
-import { AccountService, AssetsService, BlockchainsService, BrokerAccountService, DepositsService, WithdrawalService } from './api/services';
+import { AccountService, AssetsService, BlockchainsService, BrokerAccountService, DepositsService, WithdrawalService, VaultService } from './api/services';
 
 import { NumberDirective } from './shared/numbers-only.directive';
+import { VaultListComponent } from './vaults/vault-list/vault-list.component';
+import { ApiKeyEditDialogComponent } from './vaults/api-key-edit/api-key-edit.dialog.component';
+import { ApiKeyListComponent } from './vaults/api-key-list/api-key-list.component';
+import { VaultEditDialogComponent } from './vaults/vault-edit/vault-edit.dialog.component';
+import { ApiKeyTokenComponent } from './vaults/api-key-token/api-key-token.dialog.component';
 
 
 @NgModule({
@@ -82,7 +87,13 @@ import { NumberDirective } from './shared/numbers-only.directive';
 		WithdrawalDetailsComponent,
 		RequisitesDialogComponent,
 
-		NumberDirective
+		NumberDirective,
+
+		VaultListComponent,
+		VaultEditDialogComponent,
+		ApiKeyListComponent,
+		ApiKeyEditDialogComponent,
+		ApiKeyTokenComponent
 	],
 	imports: [
 		CommonModule,
@@ -140,7 +151,8 @@ import { NumberDirective } from './shared/numbers-only.directive';
 		BlockchainsService,
 		BrokerAccountService,
 		DepositsService,
-		WithdrawalService
+		WithdrawalService,
+		VaultService
 	],
 	entryComponents: [
 		ActionNotificationComponent,
@@ -151,7 +163,10 @@ import { NumberDirective } from './shared/numbers-only.directive';
 		AccountEditDialogComponent,
 		BrokerAccountEditDialogComponent,
 		WithdrawalEditDialogComponent,
-		RequisitesDialogComponent
+		RequisitesDialogComponent,
+		VaultEditDialogComponent,
+		ApiKeyEditDialogComponent,
+		ApiKeyTokenComponent
 	]
 })
 export class SiriusModule { }

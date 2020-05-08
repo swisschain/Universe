@@ -8,7 +8,7 @@ import { PagedResponse } from '../models/pagination/paged-response.interface';
 const API_URL = 'exchange/api/fees/cash-operations';
 
 @Injectable()
-export class FeeService {
+export class CashOperationsFeeService {
     constructor(private http: HttpClient) { }
 
     get(asset: string) {

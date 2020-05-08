@@ -62,7 +62,7 @@ import { CashOperationsDialogComponent } from './accounts/cash-operations/cash-o
 
 import { WorkingOnItComponent } from './shared/working-on-it/working-on-it.component';
 
-import { FeeService, FeeHistoryService } from './api/services';
+import { CashOperationsFeeService, TradingFeeService, FeeHistoryService } from './api/services';
 
 import { AccountsService } from './api/accounts.service';
 import { AssetPairsService } from './api/asset-pairs.service';
@@ -78,6 +78,13 @@ import { CashOperationsFeeListComponent } from './fees/cash-operations-fee-list/
 import { CashOperationsFeeEditDialogComponent } from './fees/cash-operations-fee-edit/cash-operations-fee-edit.dialog.component';
 import { CashOperationsFeeComponent } from './fees/cash-operations-fee/cash-operations-fee.component';
 import { CashOperationsFeeHistoryComponent } from './fees/cash-operations-fee-history/cash-operations-fee-history.component';
+import { TradingFeeListComponent } from './fees/trading-fee-list/trading-fee-list.component';
+import { TradingFeeEditDialogComponent } from './fees/trading-fee-edit/trading-fee-edit.dialog.component';
+import { TradingFeeLevelListComponent } from './fees/trading-fee-level-list/trading-fee-level-list.component';
+import { TradingFeeLevelEditDialogComponent } from './fees/trading-fee-level-edit/trading-fee-level-edit.dialog.component';
+import { TradingFeeComponent } from './fees/trading-fee/trading-fee.component';
+import { AuditComponent } from './fees/audit/audit.component';
+import { TradingFeeHistoryComponent } from './fees/trading-fee-history/trading-fee-history.component';
 
 @NgModule({
 	declarations: [
@@ -108,7 +115,14 @@ import { CashOperationsFeeHistoryComponent } from './fees/cash-operations-fee-hi
 		CashOperationsFeeListComponent,
 		CashOperationsFeeEditDialogComponent,
 		CashOperationsFeeComponent,
-		CashOperationsFeeHistoryComponent
+		CashOperationsFeeHistoryComponent,
+		TradingFeeListComponent,
+		TradingFeeEditDialogComponent,
+		TradingFeeLevelListComponent,
+		TradingFeeLevelEditDialogComponent,
+		TradingFeeComponent,
+		AuditComponent,
+		TradingFeeHistoryComponent
 	],
 	imports: [
 		CommonModule,
@@ -159,8 +173,9 @@ import { CashOperationsFeeHistoryComponent } from './fees/cash-operations-fee-hi
 		LayoutUtilsService,
 		{ provide: HTTP_INTERCEPTORS, useClass: AuthHeaderInterceptor, multi: true },
 
-		FeeService,
+		CashOperationsFeeService,
 		FeeHistoryService,
+		TradingFeeService,
 
 		AccountsService,
 		AssetsService,
@@ -188,7 +203,9 @@ import { CashOperationsFeeHistoryComponent } from './fees/cash-operations-fee-hi
 		OrderDetailsDialogComponent,
 		CashTransferDialogComponent,
 		BalanceHistoryDetailsDialogComponent,
-		CashOperationsFeeEditDialogComponent
+		CashOperationsFeeEditDialogComponent,
+		TradingFeeEditDialogComponent,
+		TradingFeeLevelEditDialogComponent
 	]
 })
 export class ExchangeModule { }

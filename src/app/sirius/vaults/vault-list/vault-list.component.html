@@ -1,0 +1,95 @@
+<kt-portlet>
+    <kt-portlet-header [class]="'kt-portlet__head--lg'" [viewLoading$]="dataSource.loading$">
+        <ng-container ktPortletTitle>
+            <h3 class="kt-portlet__head-title">
+                <span>Vaults</span>
+            </h3>
+        </ng-container>
+
+        <ng-container ktPortletTools>
+            <a (click)="add()" href="javascript:;" class="btn btn-primary kt-margin-r-10" color="primary"
+                mat-raised-button matTooltip="Create">
+                <i class="la la-plus"></i>
+                <span class="kt-hidden-mobile">Create</span>
+            </a>
+        </ng-container>
+    </kt-portlet-header>
+
+    <kt-portlet-body>
+        <div class="kt-form kt-margin-b-30">
+            <div class="kt-form__filtration">
+                <div class="row align-items-center">
+                    <div class="col-md-3 kt-margin-bottom-10-mobile">
+                        <mat-form-field class="mat-form-field-fluid">
+                            <input matInput placeholder="Name" [formControl]="searchByNameInput">
+                            <mat-hint align="start">
+                                <strong>Search</strong> by name
+                            </mat-hint>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3 kt-margin-bottom-10-mobile">
+                        <div class="kt-form__control">
+                            <mat-form-field class="mat-form-field-fluid" floatLabel="never">
+                                <mat-select [(value)]="type" (selectionChange)="load()" placeholder="All">
+                                    <mat-option>All</mat-option>
+                                    <mat-option *ngFor="let type of types" [value]="type">{{getVaultTypeTitle(type)}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-hint align="start">
+                                    <strong>Filter</strong> by type
+                                </mat-hint>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mat-table__wrapper">
+            <mat-table class="mat-elevation-z0" [dataSource]="dataSource">
+
+                <ng-container matColumnDef="vaultId">
+                    <mat-header-cell *matHeaderCellDef>Id</mat-header-cell>
+                    <mat-cell *matCellDef="let item">{{item.id}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="name">
+                    <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+                    <mat-cell *matCellDef="let item">{{item.name}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="type">
+                    <mat-header-cell *matHeaderCellDef>Type</mat-header-cell>
+                    <mat-cell *matCellDef="let item">{{ getVaultTypeTitle(item.type)}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="createdAt">
+                    <mat-header-cell *matHeaderCellDef>Created</mat-header-cell>
+                    <mat-cell *matCellDef="let item">{{item.createdAt | date:'short'}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="updatedAt">
+                    <mat-header-cell *matHeaderCellDef>Modified</mat-header-cell>
+                    <mat-cell *matCellDef="let item">{{item.updatedAt | date:'short'}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="actions">
+                    <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+                    <mat-cell *matCellDef="let item">
+                        <button mat-icon-button color="primary" matTooltip="API Keys" type="button"
+                            [routerLink]="['./',item.id]">
+                            <mat-icon>more_horiz</mat-icon>
+                        </button>&nbsp;
+                        <button mat-icon-button color="primary" matTooltip="Edit" type="button" (click)="edit(item.id)">
+                            <mat-icon>create</mat-icon>
+                        </button>
+                    </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+            </mat-table>
+            <div class="mat-table__message" *ngIf="!dataSource.hasItems">No records found</div>
+            <div class="mat-table__message" *ngIf="dataSource.isPreloadTextViewed$ | async">Please wait....</div>
+        </div>
+    </kt-portlet-body>
+</kt-portlet>

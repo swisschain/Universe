@@ -126,6 +126,20 @@ export class MenuConfig {
 						page: '/services/exchange/fees/cash-operations',
 						bullet: 'dot'
 					},
+					{
+						title: 'Trading',
+						root: true,
+						icon: 'flaticon2-avatar',
+						page: '/services/exchange/fees/trading',
+						bullet: 'dot'
+					},
+					{
+						title: 'Audit',
+						root: true,
+						icon: 'flaticon2-avatar',
+						page: '/services/exchange/fees/audit',
+						bullet: 'dot'
+					},
 					{ section: 'Trading' },
 					{
 						title: 'Order Books',
@@ -166,7 +180,15 @@ export class MenuConfig {
 						icon: 'flaticon2-list',
 						page: '/services/sirius/brokerage/withdrawals',
 						bullet: 'dot'
-					}
+					},
+					{ section: 'Vault' },
+					{
+						title: 'Vaults',
+						root: true,
+						icon: 'flaticon2-list',
+						page: '/services/sirius/vaults',
+						bullet: 'dot'
+					},
 				]
 			}
 		},

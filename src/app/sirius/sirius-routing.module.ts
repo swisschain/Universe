@@ -12,6 +12,8 @@ import { WorkingOnItComponent } from './shared/working-on-it/working-on-it.compo
 import { DepositDetailsComponent } from './brokerage/deposit-details/deposit-details.component';
 import { WithdrawalListComponent } from './brokerage/withdrawal-list/withdrawal-list.component';
 import { WithdrawalDetailsComponent } from './brokerage/withdrawal-details/withdrawal-details.component';
+import { VaultListComponent } from './vaults/vault-list/vault-list.component';
+import { ApiKeyListComponent } from './vaults/api-key-list/api-key-list.component';
 
 const routes: Routes = [
     {
@@ -51,8 +53,16 @@ const routes: Routes = [
         component: WithdrawalDetailsComponent
     },
     {
+        path: 'vaults',
+        component: VaultListComponent
+    },
+    {
+        path: 'vaults/:vaultId',
+        component: ApiKeyListComponent
+    },
+    {
         path: '',
-        redirectTo: 'broker-accounts',
+        redirectTo: 'brokerage/broker-accounts',
         pathMatch: 'full'
     },
     {

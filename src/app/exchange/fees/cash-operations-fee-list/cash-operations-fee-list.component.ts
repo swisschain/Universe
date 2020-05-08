@@ -9,7 +9,7 @@ import { LayoutUtilsService, MessageType } from '../../../core/_base/crud';
 import { CashOperationsFee, FeeType } from '../../api/models/fees';
 
 import { AssetsService } from '../../api/assets.service';
-import { FeeService } from '../../api/services';
+import { CashOperationsFeeService } from '../../api/services';
 
 import { CashOperationsFeeDataSource } from '../../data-sources';
 import { CashOperationsFeeEditDialogComponent } from '../cash-operations-fee-edit/cash-operations-fee-edit.dialog.component';
@@ -27,7 +27,7 @@ export class CashOperationsFeeListComponent implements OnInit, OnDestroy {
     public snackBar: MatSnackBar,
     private layoutUtilsService: LayoutUtilsService,
     private assetsService: AssetsService,
-    private feeService: FeeService) { }
+    private cashOperationsFeeService: CashOperationsFeeService) { }
 
   private subscriptions: Subscription[] = [];
 
@@ -42,7 +42,7 @@ export class CashOperationsFeeListComponent implements OnInit, OnDestroy {
   asset = '';
 
   ngOnInit() {
-    this.dataSource = new CashOperationsFeeDataSource(this.feeService);
+    this.dataSource = new CashOperationsFeeDataSource(this.cashOperationsFeeService);
 
     const searchByAssetSubscription = this.searchByAssetInput.valueChanges
       .pipe(
@@ -113,7 +113,7 @@ export class CashOperationsFeeListComponent implements OnInit, OnDestroy {
           return;
         }
 
-        this.feeService.delete(cashOperationsFee.id)
+        this.cashOperationsFeeService.delete(cashOperationsFee.id)
           .subscribe(
             response => {
               this.layoutUtilsService.showActionNotification('Cash operations fee has been deleted.', MessageType.Delete, 3000, true, false);

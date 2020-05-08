@@ -6,7 +6,7 @@ import { markFormGroupTouched, isFormGroupControlHasError } from '../../shared/u
 
 import { Asset } from '../../api/models/assets';
 import { CashOperationsFee, FeeType } from '../../api/models/fees';
-import { FeeService } from '../../api/services';
+import { CashOperationsFeeService } from '../../api/services';
 import { AssetsService } from '../../api/assets.service';
 import { forkJoin } from 'rxjs';
 
@@ -22,7 +22,7 @@ export class CashOperationsFeeEditDialogComponent implements OnInit {
     public dialogRef: MatDialogRef<CashOperationsFeeEditDialogComponent>,
     private fb: FormBuilder,
     private cdr: ChangeDetectorRef,
-    private feeService: FeeService,
+    private cashOperationsFeeService: CashOperationsFeeService,
     private assetsService: AssetsService) {
   }
 
@@ -48,8 +48,8 @@ export class CashOperationsFeeEditDialogComponent implements OnInit {
     if (this.cashOperationsFeeId) {
       forkJoin([
         this.assetsService.getAll(),
-        this.feeService.getById(this.cashOperationsFeeId),
-        this.feeService.get(''),
+        this.cashOperationsFeeService.getById(this.cashOperationsFeeId),
+        this.cashOperationsFeeService.get(''),
       ])
         .subscribe(result => {
           this.cashOperationsFee = result[1].payload;
@@ -61,7 +61,7 @@ export class CashOperationsFeeEditDialogComponent implements OnInit {
     else {
       forkJoin([
         this.assetsService.getAll(),
-        this.feeService.get(''),
+        this.cashOperationsFeeService.get(''),
       ])
         .subscribe(result => {
           this.setAssets(result[0], result[1].payload.items);
@@ -182,7 +182,7 @@ export class CashOperationsFeeEditDialogComponent implements OnInit {
 
   private create(cashOperationsFee: CashOperationsFee) {
     this.viewLoading = true;
-    this.feeService.create(cashOperationsFee)
+    this.cashOperationsFeeService.create(cashOperationsFee)
       .subscribe(
         response => {
           this.viewLoading = false;
@@ -199,7 +199,7 @@ export class CashOperationsFeeEditDialogComponent implements OnInit {
 
   private update(cashOperationsFee: CashOperationsFee) {
     this.viewLoading = true;
-    this.feeService.update(cashOperationsFee)
+    this.cashOperationsFeeService.update(cashOperationsFee)
       .subscribe(
         response => {
           this.viewLoading = false;
