@@ -3,7 +3,7 @@ import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 
 import { map } from 'rxjs/operators';
 
-import { ApiKey, Vault, VaultType } from '../models/vaults';
+import { ApiKey, ApiKeyToken, Vault, VaultType } from '../models/vaults';
 import { PagedResponse } from '../models/pagination/paged-response.interface';
 
 const API_URL = 'sirius/api/vaults';
@@ -61,6 +61,10 @@ export class VaultService {
                     return result.items[0];
                 })
             );
+    }
+
+    getApiKeyToken(vaultId: number, apiKeyId: number) {
+        return this.http.get<ApiKeyToken>(`${API_URL}/${vaultId}/api-keys/${apiKeyId}/token`);
     }
 
     addApiKey(vaultId: number, name: string, expiresAt: Date, requestId: string) {

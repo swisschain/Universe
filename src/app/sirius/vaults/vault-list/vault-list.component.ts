@@ -89,4 +89,8 @@ export class VaultListComponent implements OnInit, AfterViewInit, OnDestroy {
       this.load();
     });
   }
+
+  canEditApiKeys(vaultType: VaultType) {
+    return vaultType === VaultType.Private;
+  }
 }

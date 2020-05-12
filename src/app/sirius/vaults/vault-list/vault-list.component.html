@@ -76,7 +76,7 @@
                     <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
                     <mat-cell *matCellDef="let item">
                         <button mat-icon-button color="primary" matTooltip="API Keys" type="button"
-                            [routerLink]="['./',item.id]">
+                            [routerLink]="['./',item.id]" *ngIf="canEditApiKeys(item.type)">
                             <mat-icon>more_horiz</mat-icon>
                         </button>&nbsp;
                         <button mat-icon-button color="primary" matTooltip="Edit" type="button" (click)="edit(item.id)">

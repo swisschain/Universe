@@ -33,11 +33,11 @@ export class ApiKeyTokenDialogComponent implements OnInit {
   load() {
     this.viewLoading = true;
     forkJoin([
-      this.vaultService.getApiKeyById(this.vaultId, this.apiKeyId)
-      //this.apiKeyService.getToken(this.apiKeyId)
+      this.vaultService.getApiKeyById(this.vaultId, this.apiKeyId),
+      this.vaultService.getApiKeyToken(this.vaultId, this.apiKeyId)
     ]).subscribe(values => {
       this.apiKey = values[0];
-      //this.token = values[1].token;
+      this.token = values[1].token;
       this.viewLoading = false;
     });
   }
