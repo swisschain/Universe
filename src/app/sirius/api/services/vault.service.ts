@@ -40,7 +40,7 @@ export class VaultService {
     update(vaultId: number, name: string, requestId: string) {
         const headers = new HttpHeaders()
             .set('X-Request-ID', requestId);
-        return this.http.put<Vault>(`${API_URL}`, { id: vaultId, name }, { headers: headers });
+        return this.http.put<Vault>(`${API_URL}/${vaultId}`, { name }, { headers: headers });
     }
 
     getApiKeys(vaultId: number, name: string, isRevoked: boolean) {
@@ -71,5 +71,11 @@ export class VaultService {
         const headers = new HttpHeaders()
             .set('X-Request-ID', requestId);
         return this.http.post<ApiKey>(`${API_URL}/${vaultId}/api-keys`, { name, expiresAt }, { headers: headers })
+    }
+
+    revokeApiKey(vaultId: number, apiKeyId: number, requestId: string) {
+        const headers = new HttpHeaders()
+            .set('X-Request-ID', requestId);
+        return this.http.post<ApiKeyToken>(`${API_URL}/${vaultId}/api-keys/${apiKeyId}/revoke`, {}, { headers: headers });
     }
 }

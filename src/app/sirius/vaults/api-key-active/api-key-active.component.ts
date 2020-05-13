@@ -3,6 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { FormControl } from '@angular/forms';
 import { MatDialog, MatSnackBar } from '@angular/material';
 
+import { v4 as uuidv4 } from 'uuid';
+
 import { Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
@@ -90,6 +92,24 @@ export class ApiKeyActiveComponent implements OnInit, OnDestroy {
     });
   }
 
-  delete(apiKeyId: number) {
+  revoke(apiKeyId: number) {
+    const dialogRef = this.layoutUtilsService.deleteElement('Vault API Key Revoke', 'Are you sure to revoke this API key?', 'Vault API key revoking...');
+    dialogRef.afterClosed()
+      .subscribe(res => {
+        if (!res) {
+          return;
+        }
+
+        this.vaultService.revokeApiKey(this.vaultId, apiKeyId, uuidv4())
+          .subscribe(
+            response => {
+              this.layoutUtilsService.showActionNotification('Vault API key has been revoked.', MessageType.Delete, 3000, true, false);
+              this.load();
+            },
+            error => {
+              this.layoutUtilsService.showActionNotification('An error occurred while revoking vault API key.', MessageType.Update, 3000, true, false);
+            }
+          );
+      });
   }
 }

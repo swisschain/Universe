@@ -81,7 +81,7 @@ export class ApiKeyListComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   edit(apiKeyId: string) {
-    const saveMessage = apiKeyId ? 'API Key updated' : 'API Key added';
+    const saveMessage = apiKeyId ? 'API key updated' : 'API key added';
     const messageType = apiKeyId ? MessageType.Update : MessageType.Create;
     const dialogRef = this.dialog.open(ApiKeyEditDialogComponent, { data: { apiKeyId }, width: '700px' });
 
@@ -99,7 +99,7 @@ export class ApiKeyListComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   delete(apiKeyId: string) {
-    const dialogRef = this.layoutUtilsService.deleteElement('API Key Delete', 'Are you sure to delete this API key?', 'API key is deleting...');
+    const dialogRef = this.layoutUtilsService.deleteElement('API Key Revoke', 'Are you sure to revoke this API key?', 'API key is revoking...');
     dialogRef.afterClosed()
       .subscribe(res => {
         if (!res) {
@@ -108,11 +108,11 @@ export class ApiKeyListComponent implements OnInit, AfterViewInit, OnDestroy {
         this.apiKeyService.delete(apiKeyId)
           .subscribe(
             response => {
-              this.layoutUtilsService.showActionNotification('API key has been deleted.', MessageType.Delete, 3000, true, false);
+              this.layoutUtilsService.showActionNotification('API key has been revoked.', MessageType.Delete, 3000, true, false);
               this.load();
             },
             error => {
-              this.layoutUtilsService.showActionNotification('An error occurred while deleting API key.', MessageType.Update, 3000, true, false);
+              this.layoutUtilsService.showActionNotification('An error occurred while revoking API key.', MessageType.Update, 3000, true, false);
             }
           );
       });

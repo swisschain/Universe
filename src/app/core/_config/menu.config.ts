@@ -140,6 +140,13 @@ export class MenuConfig {
 						page: '/services/exchange/fees/audit',
 						bullet: 'dot'
 					},
+					{
+						title: 'Settings',
+						root: true,
+						icon: 'flaticon2-avatar',
+						page: '/services/exchange/fees/settings',
+						bullet: 'dot'
+					},
 					{ section: 'Trading' },
 					{
 						title: 'Order Books',

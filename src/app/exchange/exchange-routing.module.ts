@@ -12,6 +12,7 @@ import { TradingFeeListComponent } from './fees/trading-fee-list/trading-fee-lis
 import { CashOperationsFeeListComponent } from './fees/cash-operations-fee-list/cash-operations-fee-list.component';
 import { TradingFeeLevelListComponent } from './fees/trading-fee-level-list/trading-fee-level-list.component';
 import { AuditComponent } from './fees/audit/audit.component';
+import { SettingsComponent } from './fees/settings/settings.component';
 
 const routes: Routes = [
     {
@@ -45,6 +46,10 @@ const routes: Routes = [
     {
         path: 'fees/audit',
         component: AuditComponent
+    },
+    {
+        path: 'fees/settings',
+        component: SettingsComponent
     },
     {
         path: 'trading/order-books',

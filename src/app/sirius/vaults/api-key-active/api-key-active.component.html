@@ -52,7 +52,7 @@
                         *ngIf="!isExpired(item)">
                         <mat-icon>more_horiz</mat-icon>
                     </button>&nbsp;
-                    <button mat-icon-button color="warn" matTooltip="Revoke" type="button" (click)="delete(item.id)">
+                    <button mat-icon-button color="warn" matTooltip="Revoke" type="button" (click)="revoke(item.id)">
                         <mat-icon>delete</mat-icon>
                     </button>
                 </mat-cell>

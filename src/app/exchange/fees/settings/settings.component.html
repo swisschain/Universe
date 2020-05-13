@@ -1,0 +1,18 @@
+<kt-portlet>
+    <kt-portlet-header>
+        <ng-container ktPortletTitle>
+            <h3 class="kt-portlet__head-title">
+                <span>Settings</span>
+            </h3>
+        </ng-container>
+    </kt-portlet-header>
+    <kt-portlet-body>
+        <h3>Fee Account</h3>
+        <div class="form-group kt-form__group row" *ngIf="account">
+            <label class="col-lg-4 col-form-label">Id: <strong>{{account.id}}</strong></label>
+            <label class="col-lg-4 col-form-label">Name: <strong>{{account.name}}</strong></label>
+            <label class="col-lg-3 col-form-label">Status: <span
+                    [ngStyle]="{'color': account.isDisabled === true ? 'red' : 'green'}"><strong>{{account.isDisabled === true ? 'Disable' : 'Active'}}</strong></span></label>
+        </div>
+    </kt-portlet-body>
+</kt-portlet>

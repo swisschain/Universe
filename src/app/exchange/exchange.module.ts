@@ -62,7 +62,7 @@ import { CashOperationsDialogComponent } from './accounts/cash-operations/cash-o
 
 import { WorkingOnItComponent } from './shared/working-on-it/working-on-it.component';
 
-import { CashOperationsFeeService, TradingFeeService, FeeHistoryService } from './api/services';
+import { CashOperationsFeeService, TradingFeeService, FeeHistoryService, FeeSettingsService } from './api/services';
 
 import { AccountsService } from './api/accounts.service';
 import { AssetPairsService } from './api/asset-pairs.service';
@@ -85,6 +85,7 @@ import { TradingFeeLevelEditDialogComponent } from './fees/trading-fee-level-edi
 import { TradingFeeComponent } from './fees/trading-fee/trading-fee.component';
 import { AuditComponent } from './fees/audit/audit.component';
 import { TradingFeeHistoryComponent } from './fees/trading-fee-history/trading-fee-history.component';
+import { SettingsComponent } from './fees/settings/settings.component';
 
 @NgModule({
 	declarations: [
@@ -122,7 +123,8 @@ import { TradingFeeHistoryComponent } from './fees/trading-fee-history/trading-f
 		TradingFeeLevelEditDialogComponent,
 		TradingFeeComponent,
 		AuditComponent,
-		TradingFeeHistoryComponent
+		TradingFeeHistoryComponent,
+		SettingsComponent
 	],
 	imports: [
 		CommonModule,
@@ -175,6 +177,7 @@ import { TradingFeeHistoryComponent } from './fees/trading-fee-history/trading-f
 
 		CashOperationsFeeService,
 		FeeHistoryService,
+		FeeSettingsService,
 		TradingFeeService,
 
 		AccountsService,
