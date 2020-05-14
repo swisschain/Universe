@@ -5,9 +5,8 @@ import { debounceTime, distinctUntilChanged, map, startWith } from 'rxjs/operato
 import { Subscription, Observable } from 'rxjs';
 import { FormControl } from '@angular/forms';
 
-import { AssetsService } from '../../api/assets.service';
-import { AccountTradesDataSource } from '../../models/account-trades-data-source';
-import { AccountDataService } from '../../api/account-data.service';
+import { AssetService, AccountDataService } from '../../api/services';
+import { AccountTradeDataSource } from '../../data-sources';
 
 @Component({
   selector: 'kt-account-trade-list',
@@ -21,7 +20,7 @@ export class AccountTradeListComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     public snackBar: MatSnackBar,
     private route: ActivatedRoute,
-    private assetsService: AssetsService,
+    private assetService: AssetService,
     private accountDataService: AccountDataService) { }
 
   private accountId: string;
@@ -34,14 +33,14 @@ export class AccountTradeListComponent implements OnInit, OnDestroy {
   filteredBaseAssets: Observable<string[]>;
   filteredQuotingAssets: Observable<string[]>;
 
-  dataSource: AccountTradesDataSource;
+  dataSource: AccountTradeDataSource;
   displayedColumns = ['date', 'baseAsset', 'quotingAsset', 'price', 'baseVolume', 'quotingVolume'];
 
   baseAsset = '';
   quotingAsset = '';
 
   ngOnInit() {
-    this.dataSource = new AccountTradesDataSource(this.accountDataService);
+    this.dataSource = new AccountTradeDataSource(this.accountDataService);
 
     const routeSubscription = this.route.params.subscribe(params => {
       this.accountId = params['accountId'];
@@ -102,7 +101,7 @@ export class AccountTradeListComponent implements OnInit, OnDestroy {
   }
 
   loadAssets() {
-    this.assetsService.getAll()
+    this.assetService.getAll()
       .subscribe(assets => {
         this.assets = assets.map(item => item.symbol);
       });

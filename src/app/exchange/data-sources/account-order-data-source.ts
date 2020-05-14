@@ -3,9 +3,9 @@ import { catchError, finalize } from 'rxjs/operators';
 
 import { BaseDataSource } from './base-data-source';
 
-import { Order } from '../api/models/orders/order.interface'
-import { AccountDataService } from '../api/account-data.service';
-import { PagedResponse } from '../api/models/pagination/paged-response.interface';
+import { Order } from '../api/models/orders'
+import { AccountDataService } from '../api/services';
+import { PagedResponse } from '../api/models/pagination';
 
 export class AccountOrdersDataSource extends BaseDataSource<Order> {
 

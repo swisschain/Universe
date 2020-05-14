@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { MarketOrderCreateResult } from './models/orders/market-order-create-result.interface';
-import { LimitOrderType } from './models/order-books/limit-order-type.enum';
+import { MarketOrderCreateResult } from '../models/orders';
+import { LimitOrderType } from '../models/order-books';
 
 const API_URL = 'exchange/api/operations/trading/market-order';
 
 @Injectable()
-export class MarketOrdersService {
+export class MarketOrderService {
     constructor(private http: HttpClient) { }
 
     create(symbol: string, type: LimitOrderType, walletId: string, volume: number) {

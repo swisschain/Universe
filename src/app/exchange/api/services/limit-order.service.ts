@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { LimitOrderType } from './models/order-books/limit-order-type.enum';
-import { LimitOrderCreateResult } from './models/orders/limit-order-create-result.interface';
+import { LimitOrderType } from '../models/order-books';
+import { LimitOrderCreateResult } from '../models/orders';
 
 const API_URL = 'exchange/api/operations/trading/limit-order';
 
 @Injectable()
-export class LimitOrdersService {
+export class LimitOrderService {
     constructor(private http: HttpClient) { }
 
     create(symbol: string, walletId: string, type: LimitOrderType, price: number, volume: number, cancelPrevious: boolean) {

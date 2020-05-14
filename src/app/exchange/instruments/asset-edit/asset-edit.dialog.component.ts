@@ -2,8 +2,8 @@ import { Component, OnInit, ChangeDetectionStrategy, ViewEncapsulation, OnDestro
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { Asset } from '../../api/models/assets/asset.interface';
-import { AssetsService } from '../../api/assets.service';
+import { Asset } from '../../api/models/assets';
+import { AssetService } from '../../api/services';
 
 @Component({
   selector: 'kt-asset-edit-dialog',
@@ -19,7 +19,7 @@ export class AssetEditDialogComponent implements OnInit, OnDestroy {
     public dialogRef: MatDialogRef<AssetEditDialogComponent>,
     private fb: FormBuilder,
     private cdr: ChangeDetectorRef,
-    private assetsService: AssetsService) {
+    private assetService: AssetService) {
   }
 
   asset: Asset;
@@ -91,7 +91,7 @@ export class AssetEditDialogComponent implements OnInit, OnDestroy {
 
   create(asset: Asset) {
     this.viewLoading = true;
-    this.assetsService.add(asset)
+    this.assetService.add(asset)
       .subscribe(
         response => {
           this.viewLoading = false;
@@ -108,7 +108,7 @@ export class AssetEditDialogComponent implements OnInit, OnDestroy {
 
   update(asset: Asset) {
     this.viewLoading = true;
-    this.assetsService.update(asset)
+    this.assetService.update(asset)
       .subscribe(
         response => {
           this.viewLoading = false;

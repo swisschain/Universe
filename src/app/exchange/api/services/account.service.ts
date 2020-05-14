@@ -3,13 +3,13 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 
 import { map } from 'rxjs/operators';
 
-import { Account } from './models/accounts/account.interface';
-import { PagedResponse } from './models/pagination/paged-response.interface';
+import { Account } from '../models/accounts';
+import { PagedResponse } from '../models/pagination';
 
 const API_URL = 'exchange/api/accounts/account';
 
 @Injectable()
-export class AccountsService {
+export class AccountService {
     constructor(private http: HttpClient) { }
 
     getAll() {

@@ -3,21 +3,20 @@ import { catchError, finalize } from 'rxjs/operators';
 
 import { BaseDataSource } from './base-data-source';
 
-import { OrderBook } from '../api/models/order-books/order-book.interface';
-import { LimitOrderType } from '../api/models/order-books/limit-order-type.enum';
-import { OrderBooksService } from '../api/order-books.service';
-import { OrderBookRowItem } from './order-book-row-item.interface';
-import { PagedResponse } from '../api/models/pagination/paged-response.interface';
+import { OrderBook, LimitOrderType } from '../api/models/order-books';
+import { OrderBookService } from '../api/services';
+import { OrderBookRowItem } from '../models/order-book-row-item.interface';
+import { PagedResponse } from '../api/models/pagination';
 
-export class OrderBooksDataSource extends BaseDataSource<OrderBookRowItem> {
+export class OrderBookDataSource extends BaseDataSource<OrderBookRowItem> {
 
-    constructor(private orderBooksService: OrderBooksService) {
+    constructor(private orderBookService: OrderBookService) {
         super();
     }
 
     load() {
         this.loadingSubject.next(true);
-        this.orderBooksService.get()
+        this.orderBookService.get()
             .pipe(
                 catchError(() => of([])),
                 finalize(() => this.loadingSubject.next(false))

@@ -3,19 +3,19 @@ import { catchError, finalize } from 'rxjs/operators';
 
 import { BaseDataSource } from './base-data-source';
 
-import { AssetPair } from '../api/models/asset-pairs/asset-pair.interface'
-import { AssetPairsService } from '../api/asset-pairs.service';
-import { PagedResponse } from '../api/models/pagination/paged-response.interface';
+import { AssetPair } from '../api/models/asset-pairs'
+import { AssetPairService } from '../api/services';
+import { PagedResponse } from '../api/models/pagination';
 
-export class AssetPairsDataSource extends BaseDataSource<AssetPair> {
+export class AssetPairDataSource extends BaseDataSource<AssetPair> {
 
-    constructor(private assetsService: AssetPairsService) {
+    constructor(private assetService: AssetPairService) {
         super();
     }
 
     load(symbol: string, baseAsset: string, quotingAsset: string, IsDisabled: boolean) {
         this.loadingSubject.next(true);
-        this.assetsService.get(symbol, baseAsset, quotingAsset, IsDisabled)
+        this.assetService.get(symbol, baseAsset, quotingAsset, IsDisabled)
             .pipe(
                 catchError(() => of([])),
                 finalize(() => this.loadingSubject.next(false))

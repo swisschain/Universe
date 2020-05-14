@@ -3,10 +3,9 @@ import { catchError, finalize } from 'rxjs/operators';
 
 import { BaseDataSource } from './base-data-source';
 
-import { BalanceHistory } from '../api/models/balances/balance-history.interface'
-import { AccountDataService } from '../api/account-data.service';
-import { PagedResponse } from '../api/models/pagination/paged-response.interface';
-import { BalanceHistoryType } from '../api/models/balances/balance-history-type';
+import { BalanceHistory, BalanceHistoryType } from '../api/models/balances'
+import { AccountDataService } from '../api/services';
+import { PagedResponse } from '../api/models/pagination';
 
 export class AccountBalanceHistoryDataSource extends BaseDataSource<BalanceHistory> {
 

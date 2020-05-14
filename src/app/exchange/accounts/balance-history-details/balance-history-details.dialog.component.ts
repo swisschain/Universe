@@ -3,9 +3,8 @@ import { MAT_DIALOG_DATA } from '@angular/material';
 
 import { getBalanceHistoryTypeTitle } from '../../shared/utils'
 
-import { AccountDataService } from '../../api/account-data.service';
-import { BalanceHistoryDetails } from '../../api/models/balances/balance-history-details.interface';
-import { BalanceHistoryType } from '../../api/models/balances/balance-history-type';
+import { AccountDataService } from '../../api/services';
+import { BalanceHistoryType, BalanceHistoryDetails } from '../../api/models/balances';
 
 @Component({
   selector: 'kt-balance-history-details-dialog',

@@ -8,11 +8,11 @@ import { Subscription, Observable } from 'rxjs';
 
 import { getBalanceHistoryTypeTitle } from '../../shared/utils'
 
-import { AssetsService } from '../../api/assets.service';
-import { AccountBalanceHistoryDataSource } from '../../models/account-balance-history-data-source';
-import { AccountDataService } from '../../api/account-data.service';
-import { BalanceHistoryType } from '../../api/models/balances/balance-history-type';
-import { BalanceHistory } from '../../api/models/balances/balance-history.interface';
+import { BalanceHistory, BalanceHistoryType } from '../../api/models/balances';
+import { AssetService, AccountDataService } from '../../api/services';
+
+import { AccountBalanceHistoryDataSource } from '../../data-sources';
+
 import { BalanceHistoryDetailsDialogComponent } from '../balance-history-details/balance-history-details.dialog.component';
 
 @Component({
@@ -27,7 +27,7 @@ export class AccountBalanceHistoryListComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     public snackBar: MatSnackBar,
     private route: ActivatedRoute,
-    private assetsService: AssetsService,
+    private assetService: AssetService,
     private accountDataService: AccountDataService) { }
 
   private accountId: string;
@@ -87,7 +87,7 @@ export class AccountBalanceHistoryListComponent implements OnInit, OnDestroy {
   }
 
   loadAssets() {
-    this.assetsService.getAll()
+    this.assetService.getAll()
       .subscribe(assets => {
         this.assets = assets.map(item => item.symbol);
       });

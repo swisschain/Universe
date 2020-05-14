@@ -3,13 +3,10 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 
 import { map } from 'rxjs/operators';
 
-import { BalanceResponse } from './models/balances/balance-response.interface';
-import { PagedResponse } from './models/pagination/paged-response.interface';
-import { Order } from './models/orders/order.interface';
-import { Trade } from './models/trades/trade.interface';
-import { BalanceHistory } from './models/balances/balance-history.interface';
-import { BalanceHistoryType } from './models/balances/balance-history-type';
-import { BalanceHistoryDetails } from './models/balances/balance-history-details.interface';
+import { BalanceResponse, BalanceHistory, BalanceHistoryType, BalanceHistoryDetails } from '../models/balances';
+import { PagedResponse } from '../models/pagination';
+import { Order } from '../models/orders';
+import { Trade } from '../models/trades';
 
 const API_URL = 'exchange/api/account-data';
 

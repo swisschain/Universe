@@ -7,13 +7,13 @@ import { FormControl } from '@angular/forms';
 
 import { LayoutUtilsService, MessageType } from '../../../core/_base/crud';
 
-import { BalancesDataSource } from '../../models/balances-data-source';
-import { AccountDataService } from '../../api/account-data.service';
-import { AssetsService } from '../../api/assets.service';
+import { AssetService, AccountDataService } from '../../api/services';
 import { CashOperationType } from '../../models/cash-operation-type';
+
+import { BalanceDataSource } from '../../data-sources';
+
 import { CashOperationsDialogComponent } from '../cash-operations/cash-operations.dialog.component';
 import { CashTransferDialogComponent } from '../cash-transfer/cash-transfer.dialog.component';
-import { BalanceHistoryType } from '../../api/models/balances/balance-history-type';
 
 @Component({
   selector: 'kt-account-balance-list',
@@ -28,7 +28,7 @@ export class AccountBalanceListComponent implements OnInit, OnDestroy {
     public snackBar: MatSnackBar,
     private route: ActivatedRoute,
     private layoutUtilsService: LayoutUtilsService,
-    private assetsService: AssetsService,
+    private assetService: AssetService,
     private accountDataService: AccountDataService) { }
 
   private accountId: string;
@@ -36,17 +36,17 @@ export class AccountBalanceListComponent implements OnInit, OnDestroy {
 
   searchByAssetInput = new FormControl();
 
-  dataSource: BalancesDataSource;
+  dataSource: BalanceDataSource;
   displayedColumns = ['asset', 'available', 'amount', 'reserved', 'actions'];
 
   assets: string[] = [];
   filteredAssets: Observable<string[]>;
-  
+
   asset = '';
   status = '';
 
   ngOnInit() {
-    this.dataSource = new BalancesDataSource(this.accountDataService);
+    this.dataSource = new BalanceDataSource(this.accountDataService);
 
     const routeSubscription = this.route.params.subscribe(params => {
       this.accountId = params['accountId'];
@@ -88,7 +88,7 @@ export class AccountBalanceListComponent implements OnInit, OnDestroy {
   }
 
   loadAssets() {
-    this.assetsService.getAll()
+    this.assetService.getAll()
       .subscribe(assets => {
         this.assets = assets.map(item => item.symbol);
       });

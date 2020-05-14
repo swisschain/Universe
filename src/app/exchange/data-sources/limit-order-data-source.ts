@@ -3,19 +3,18 @@ import { catchError, finalize } from 'rxjs/operators';
 
 import { BaseDataSource } from './base-data-source';
 
-import { OrderBooksService } from '../api/order-books.service';
-import { LimitOrder } from '../api/models/order-books/limit-order.interface';
-import { OrderBook } from '../api/models/order-books/order-book.interface';
+import { OrderBookService } from '../api/services';
+import { LimitOrder, OrderBook } from '../api/models/order-books';
 
-export class LimitOrdersDataSource extends BaseDataSource<LimitOrder> {
+export class LimitOrderDataSource extends BaseDataSource<LimitOrder> {
 
-    constructor(private orderBooksService: OrderBooksService) {
+    constructor(private orderBookService: OrderBookService) {
         super();
     }
 
     load(assetPairId: string) {
         this.loadingSubject.next(true);
-        this.orderBooksService.getByAssetPair(assetPairId)
+        this.orderBookService.getByAssetPair(assetPairId)
             .pipe(
                 catchError(() => of([])),
                 finalize(() => this.loadingSubject.next(false))

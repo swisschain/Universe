@@ -3,8 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { CashOperationType } from '../../models/cash-operation-type';
-import { AssetsService } from '../../api/assets.service';
-import { OperationsService } from '../../api/operations.service';
+import { AssetService, OperationsService } from '../../api/services';
 
 @Component({
   selector: 'kt-cash-operations.dialog',
@@ -20,7 +19,7 @@ export class CashOperationsDialogComponent implements OnInit {
     public dialogRef: MatDialogRef<CashOperationsDialogComponent>,
     private fb: FormBuilder,
     private cdr: ChangeDetectorRef,
-    private assetsService: AssetsService,
+    private assetService: AssetService,
     private operationsService: OperationsService) {
   }
 
@@ -40,7 +39,7 @@ export class CashOperationsDialogComponent implements OnInit {
     this.walletId = this.data.walletId;
 
     this.viewLoading = true;
-    this.assetsService.getAll()
+    this.assetService.getAll()
       .subscribe(assets => {
         this.assets = assets.map(asset => asset.symbol);
         this.viewLoading = false;

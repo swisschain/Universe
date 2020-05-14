@@ -2,8 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 
-import { Account } from '../../api/models/accounts/account.interface';
-import { AccountsService } from '../../api/accounts.service';
+import { Account } from '../../api/models/accounts';
+import { AccountService } from '../../api/services';
 
 @Component({
   selector: 'kt-account-details',
@@ -14,31 +14,30 @@ export class AccountDetailsComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
-    private accountsService: AccountsService) { }
+    private accountService: AccountService) { }
 
-    private accountId: string;
-    private subscriptions: Subscription[] = [];
-  
-    account: Account;
+  private accountId: string;
+  private subscriptions: Subscription[] = [];
 
-    ngOnInit() {
-      const routeSubscription = this.route.params.subscribe(params => {
-        this.accountId = params['accountId'];
-        this.load();
+  account: Account;
+
+  ngOnInit() {
+    const routeSubscription = this.route.params.subscribe(params => {
+      this.accountId = params['accountId'];
+      this.load();
+    });
+
+    this.subscriptions.push(routeSubscription);
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+  }
+
+  load() {
+    this.accountService.getById(this.accountId)
+      .subscribe(account => {
+        this.account = account;
       });
-  
-      this.subscriptions.push(routeSubscription);
-    }
-  
-    ngOnDestroy() {
-      this.subscriptions.forEach(subscription => subscription.unsubscribe());
-    }
-  
-    load() {
-      this.accountsService.getById(this.accountId)
-        .subscribe(account => {
-          this.account = account;
-        });
-    }
-
+  }
 }

@@ -2,8 +2,8 @@ import { Component, OnInit, ChangeDetectionStrategy, ViewEncapsulation, OnDestro
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { Account } from '../../api/models/accounts/account.interface';
-import { AccountsService } from '../../api/accounts.service';
+import { Account } from '../../api/models/accounts';
+import { AccountService } from '../../api/services';
 
 @Component({
   selector: 'kt-account-edit-dialog',
@@ -19,7 +19,7 @@ export class AccountEditDialogComponent implements OnInit, OnDestroy {
     public dialogRef: MatDialogRef<AccountEditDialogComponent>,
     private fb: FormBuilder,
     private cdr: ChangeDetectorRef,
-    private accountsService: AccountsService) {
+    private accountService: AccountService) {
   }
 
   account: Account;
@@ -70,7 +70,7 @@ export class AccountEditDialogComponent implements OnInit, OnDestroy {
 
   create(name: string, isDisabled: boolean) {
     this.viewLoading = true;
-    this.accountsService.add(name, isDisabled)
+    this.accountService.add(name, isDisabled)
       .subscribe(
         response => {
           this.viewLoading = false;
@@ -87,7 +87,7 @@ export class AccountEditDialogComponent implements OnInit, OnDestroy {
 
   update(name: string, isDisabled: boolean) {
     this.viewLoading = true;
-    this.accountsService.update(this.account.id, name, isDisabled)
+    this.accountService.update(this.account.id, name, isDisabled)
       .subscribe(
         response => {
           this.viewLoading = false;

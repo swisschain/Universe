@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 
-import { AssetPair } from './models/asset-pairs/asset-pair.interface';
-import { PagedResponse } from './models/pagination/paged-response.interface';
+import { AssetPair } from '../models/asset-pairs';
+import { PagedResponse } from '../models/pagination';
 
 const API_URL = 'exchange/api/asset/asset-pairs';
 
 @Injectable()
-export class AssetPairsService {
+export class AssetPairService {
     constructor(private http: HttpClient) { }
 
     getAll() {

@@ -1,14 +1,14 @@
 import { Component, OnInit, Inject, ChangeDetectorRef } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+import { forkJoin } from 'rxjs';
 
 import { markFormGroupTouched, isFormGroupControlHasError } from '../../shared/utils/validation-utils'
 
 import { Asset } from '../../api/models/assets';
 import { CashOperationsFee, FeeType } from '../../api/models/fees';
-import { CashOperationsFeeService } from '../../api/services';
-import { AssetsService } from '../../api/assets.service';
-import { forkJoin } from 'rxjs';
+import { AssetService, CashOperationsFeeService } from '../../api/services';
 
 @Component({
   selector: 'kt-cash-operations-fee-edit-dialog',
@@ -23,7 +23,7 @@ export class CashOperationsFeeEditDialogComponent implements OnInit {
     private fb: FormBuilder,
     private cdr: ChangeDetectorRef,
     private cashOperationsFeeService: CashOperationsFeeService,
-    private assetsService: AssetsService) {
+    private assetService: AssetService) {
   }
 
   private cashOperationsFee: CashOperationsFee;
@@ -47,7 +47,7 @@ export class CashOperationsFeeEditDialogComponent implements OnInit {
     this.viewLoading = true;
     if (this.cashOperationsFeeId) {
       forkJoin([
-        this.assetsService.getAll(),
+        this.assetService.getAll(),
         this.cashOperationsFeeService.getById(this.cashOperationsFeeId),
         this.cashOperationsFeeService.get(''),
       ])
@@ -60,7 +60,7 @@ export class CashOperationsFeeEditDialogComponent implements OnInit {
     }
     else {
       forkJoin([
-        this.assetsService.getAll(),
+        this.assetService.getAll(),
         this.cashOperationsFeeService.get(''),
       ])
         .subscribe(result => {

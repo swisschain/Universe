@@ -7,11 +7,12 @@ import { FormControl } from '@angular/forms';
 
 import { LayoutUtilsService, MessageType } from '../../../core/_base/crud';
 
-import { AccountOrdersDataSource } from '../../models/account-orders-data-source';
-import { AccountDataService } from '../../api/account-data.service';
-import { AssetPairsService } from '../../api/asset-pairs.service';
-import { LimitOrdersService } from '../../api/limit-orders.service';
 import { Order } from '../../api/models/orders/order.interface';
+
+import { AccountDataService, AssetPairService, LimitOrderService } from '../../api/services';
+
+import { AccountOrdersDataSource } from '../../data-sources';
+
 import { LimitOrderEditDialogComponent } from '../../trading/limit-order-edit/limit-order-edit.dialog.component';
 import { MarketOrderEditDialogComponent } from '../../trading/market-order-edit/market-order-edit.dialog.component';
 import { OrderDetailsDialogComponent } from '../order-details/order-details.dialog.component';
@@ -29,9 +30,9 @@ export class AccountOrderListComponent implements OnInit, OnDestroy {
     public snackBar: MatSnackBar,
     private route: ActivatedRoute,
     private layoutUtilsService: LayoutUtilsService,
-    private assetPairsService: AssetPairsService,
+    private assetPairService: AssetPairService,
     private accountDataService: AccountDataService,
-    private limitOrdersService: LimitOrdersService) { }
+    private limitOrderService: LimitOrderService) { }
 
   private accountId: string;
   private subscriptions: Subscription[] = [];
@@ -92,7 +93,7 @@ export class AccountOrderListComponent implements OnInit, OnDestroy {
   }
 
   loadAssetPairs() {
-    this.assetPairsService.getAll()
+    this.assetPairService.getAll()
       .subscribe(assetPairs => {
         this.assetPairs = assetPairs.map(item => item.symbol);
       });
@@ -110,7 +111,7 @@ export class AccountOrderListComponent implements OnInit, OnDestroy {
           return;
         }
 
-        this.limitOrdersService.cancel(order.externalId)
+        this.limitOrderService.cancel(order.externalId)
           .subscribe(
             response => {
               this.layoutUtilsService.showActionNotification('Limit order has been cancelled.', MessageType.Delete, 3000, true, false);

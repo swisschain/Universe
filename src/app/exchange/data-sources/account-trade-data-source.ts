@@ -3,11 +3,11 @@ import { catchError, finalize } from 'rxjs/operators';
 
 import { BaseDataSource } from './base-data-source';
 
-import { Trade } from '../api/models/trades/trade.interface'
-import { AccountDataService } from '../api/account-data.service';
-import { PagedResponse } from '../api/models/pagination/paged-response.interface';
+import { Trade } from '../api/models/trades'
+import { AccountDataService } from '../api/services';
+import { PagedResponse } from '../api/models/pagination';
 
-export class AccountTradesDataSource extends BaseDataSource<Trade> {
+export class AccountTradeDataSource extends BaseDataSource<Trade> {
 
     constructor(private accountDataService: AccountDataService) {
         super();

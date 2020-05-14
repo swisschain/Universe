@@ -8,8 +8,7 @@ import { LayoutUtilsService, MessageType } from '../../../core/_base/crud';
 
 import { TradingFee } from '../../api/models/fees';
 
-import { AssetPairsService } from '../../api/asset-pairs.service';
-import { TradingFeeService } from '../../api/services';
+import { AssetPairService, TradingFeeService } from '../../api/services';
 
 import { TradingFeeDataSource } from '../../data-sources';
 import { TradingFeeEditDialogComponent } from '../trading-fee-edit/trading-fee-edit.dialog.component';
@@ -26,7 +25,7 @@ export class TradingFeeListComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     public snackBar: MatSnackBar,
     private layoutUtilsService: LayoutUtilsService,
-    private assetPairsService: AssetPairsService,
+    private assetPairService: AssetPairService,
     private tradingFeeService: TradingFeeService) { }
 
   private subscriptions: Subscription[] = [];
@@ -77,7 +76,7 @@ export class TradingFeeListComponent implements OnInit, OnDestroy {
   }
 
   loadAssetPairs() {
-    this.assetPairsService.getAll()
+    this.assetPairService.getAll()
       .subscribe(assetPairs => {
         this.assetPairs = assetPairs.map(item => item.symbol);
       });

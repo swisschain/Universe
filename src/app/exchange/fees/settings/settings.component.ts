@@ -2,8 +2,7 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { Account } from '../../api/models/accounts/account.interface';
-import { AccountsService } from '../../api/accounts.service';
-import { FeeSettingsService } from '../../api/services';
+import { AccountService, FeeSettingsService } from '../../api/services';
 
 @Component({
   selector: 'kt-settings',
@@ -15,7 +14,7 @@ export class SettingsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private cdr: ChangeDetectorRef,
-    private accountsService: AccountsService,
+    private accountService: AccountService,
     private feeSettingsService: FeeSettingsService) { }
 
   account: Account;
@@ -27,7 +26,7 @@ export class SettingsComponent implements OnInit {
   load() {
     this.feeSettingsService.get()
       .subscribe(settings => {
-        this.accountsService.getById(settings.payload.feeWalletId)
+        this.accountService.getById(settings.payload.feeWalletId)
           .subscribe(account => {
             this.account = account;
             this.cdr.markForCheck();

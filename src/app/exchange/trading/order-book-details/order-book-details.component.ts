@@ -5,9 +5,8 @@ import { ActivatedRoute } from '@angular/router';
 
 import { LayoutUtilsService, MessageType } from '../../../core/_base/crud';
 
-import { OrderBooksService } from '../../api/order-books.service';
-import { LimitOrdersService } from '../../api/limit-orders.service';
-import { LimitOrdersDataSource } from '../../models/limit-orders-data-source';
+import { OrderBookService, LimitOrderService } from '../../api/services';
+import { LimitOrderDataSource } from '../../data-sources';
 import { LimitOrderEditDialogComponent } from '../limit-order-edit/limit-order-edit.dialog.component';
 
 @Component({
@@ -22,17 +21,17 @@ export class OrderBookDetailsComponent implements OnInit, OnDestroy {
     public snackBar: MatSnackBar,
     private route: ActivatedRoute,
     private layoutUtilsService: LayoutUtilsService,
-    private limitOrdersService: LimitOrdersService,
-    private orderBooksService: OrderBooksService) { }
+    private limitOrderService: LimitOrderService,
+    private orderBookService: OrderBookService) { }
 
   private subscriptions: Subscription[] = [];
 
   symbol: string;
-  dataSource: LimitOrdersDataSource;
+  dataSource: LimitOrderDataSource;
   displayedColumns = ['buyPrice', 'volume', 'sellPrice', 'walletId', 'limitOrderId', 'actions'];
 
   ngOnInit() {
-    this.dataSource = new LimitOrdersDataSource(this.orderBooksService);
+    this.dataSource = new LimitOrderDataSource(this.orderBookService);
 
     const routeSubscription = this.route.params.subscribe(params => {
       this.symbol = params['symbol'];
@@ -74,7 +73,7 @@ export class OrderBookDetailsComponent implements OnInit, OnDestroy {
           return;
         }
 
-        this.limitOrdersService.cancel(limitOrderId)
+        this.limitOrderService.cancel(limitOrderId)
           .subscribe(
             response => {
               this.layoutUtilsService.showActionNotification('Limit order has been cancelled.', MessageType.Delete, 3000, true, false);

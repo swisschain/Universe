@@ -36,15 +36,30 @@ import { ClipboardModule } from 'ngx-clipboard';
 
 import { AuthHeaderInterceptor } from '../core/interceptors/auth-header-interceptor';
 
+import {
+	AccountDataService,
+	AccountService,
+	AssetPairService,
+	AssetService,
+	CashOperationsFeeService,
+	FeeHistoryService,
+	FeeSettingsService,
+	LimitOrderService,
+	MarketOrderService,
+	OperationsService,
+	OrderBookService,
+	TradingFeeService
+} from './api/services';
+
+import { WorkingOnItComponent } from './shared/working-on-it/working-on-it.component';
+
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ExchangeRoutingModule } from './exchange-routing.module';
-import { AssetsService } from './api/assets.service';
 import { InstrumentsComponent } from './instruments/instruments/instruments.component';
 import { AssetListComponent } from './instruments/asset-list/asset-list.component';
 import { AssetEditDialogComponent } from './instruments/asset-edit/asset-edit.dialog.component';
 import { AssetPairListComponent } from './instruments/asset-pair-list/asset-pair-list.component';
 import { AssetPairEditDialogComponent } from './instruments/asset-pair-edit/asset-pair-edit.dialog.component';
-
 import { AssetDetailsDialogComponent } from './instruments/asset-details/asset-details.dialog.component';
 import { AssetPairDetailsDialogComponent } from './instruments/asset-pair-details/asset-pair-details.dialog.component';
 import { LimitOrderEditDialogComponent } from './trading/limit-order-edit/limit-order-edit.dialog.component';
@@ -59,18 +74,6 @@ import { AccountOrderListComponent } from './accounts/account-order-list/account
 import { AccountTradeListComponent } from './accounts/account-trade-list/account-trade-list.component';
 import { MarketOrderEditDialogComponent } from './trading/market-order-edit/market-order-edit.dialog.component';
 import { CashOperationsDialogComponent } from './accounts/cash-operations/cash-operations.dialog.component';
-
-import { WorkingOnItComponent } from './shared/working-on-it/working-on-it.component';
-
-import { CashOperationsFeeService, TradingFeeService, FeeHistoryService, FeeSettingsService } from './api/services';
-
-import { AccountsService } from './api/accounts.service';
-import { AssetPairsService } from './api/asset-pairs.service';
-import { OrderBooksService } from './api/order-books.service';
-import { LimitOrdersService } from './api/limit-orders.service';
-import { MarketOrdersService } from './api/market-orders.service';
-import { AccountDataService } from './api/account-data.service';
-import { OperationsService } from './api/operations.service';
 import { OrderDetailsDialogComponent } from './accounts/order-details/order-details.dialog.component';
 import { CashTransferDialogComponent } from './accounts/cash-transfer/cash-transfer.dialog.component';
 import { BalanceHistoryDetailsDialogComponent } from './accounts/balance-history-details/balance-history-details.dialog.component';
@@ -175,19 +178,18 @@ import { SettingsComponent } from './fees/settings/settings.component';
 		LayoutUtilsService,
 		{ provide: HTTP_INTERCEPTORS, useClass: AuthHeaderInterceptor, multi: true },
 
+		AccountDataService,
+		AccountService,
+		AssetPairService,
+		AssetService,
 		CashOperationsFeeService,
 		FeeHistoryService,
-		FeeSettingsService,
-		TradingFeeService,
-
-		AccountsService,
-		AssetsService,
-		AssetPairsService,
-		OrderBooksService,
-		LimitOrdersService,
-		MarketOrdersService,
-		AccountDataService,
-		OperationsService
+		FeeSettingsService,		
+		LimitOrderService,
+		MarketOrderService,		
+		OperationsService,
+		OrderBookService,
+		TradingFeeService
 	],
 	entryComponents: [
 		ActionNotificationComponent,

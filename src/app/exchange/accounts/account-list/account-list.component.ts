@@ -5,9 +5,9 @@ import { Subscription, fromEvent } from 'rxjs';
 
 import { LayoutUtilsService, MessageType } from '../../../core/_base/crud';
 
-import { Account } from '../../api/models/accounts/account.interface';
-import { AccountsService } from '../../api/accounts.service';
-import { AccountsDataSource } from '../../models/accounts-data-source';
+import { Account } from '../../api/models/accounts';
+import { AccountService } from '../../api/services';
+import { AccountDataSource } from '../../data-sources';
 import { AccountEditDialogComponent } from '../account-edit/account-edit.dialog.component';
 
 @Component({
@@ -24,11 +24,11 @@ export class AccountListComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     public snackBar: MatSnackBar,
     private layoutUtilsService: LayoutUtilsService,
-    private accountsService: AccountsService) { }
+    private accountService: AccountService) { }
 
   private subscriptions: Subscription[] = [];
 
-  dataSource: AccountsDataSource;
+  dataSource: AccountDataSource;
   displayedColumns = ['accountId', 'name', 'isDisabled', 'created', 'modified', 'actions'];
 
   name = '';
@@ -36,7 +36,7 @@ export class AccountListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    this.dataSource = new AccountsDataSource(this.accountsService);
+    this.dataSource = new AccountDataSource(this.accountService);
 
     const searchByNameSubscription = fromEvent(this.searchByNameInput.nativeElement, 'keyup')
       .pipe(
@@ -99,7 +99,7 @@ export class AccountListComponent implements OnInit, OnDestroy {
           return;
         }
 
-        this.accountsService.delete(account.id)
+        this.accountService.delete(account.id)
           .subscribe(
             response => {
               this.layoutUtilsService.showActionNotification('Account has been deleted.', MessageType.Delete, 3000, true, false);

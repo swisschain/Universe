@@ -5,11 +5,9 @@ import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { markFormGroupTouched, isFormGroupControlHasError } from '../../shared/utils/validation-utils'
 
 import { Asset } from '../../api/models/assets';
-import { AssetPair } from '../../api/models/asset-pairs/asset-pair.interface';
+import { AssetPair } from '../../api/models/asset-pairs';
 import { TradingFee } from '../../api/models/fees';
-import { TradingFeeService } from '../../api/services';
-import { AssetsService } from '../../api/assets.service';
-import { AssetPairsService } from '../../api/asset-pairs.service';
+import { AssetService, AssetPairService, TradingFeeService } from '../../api/services';
 import { forkJoin } from 'rxjs';
 
 @Component({
@@ -25,8 +23,8 @@ export class TradingFeeEditDialogComponent implements OnInit {
     private fb: FormBuilder,
     private cdr: ChangeDetectorRef,
     private tradingFeeService: TradingFeeService,
-    private assetsService: AssetsService,
-    private assetPairsService: AssetPairsService) {
+    private assetService: AssetService,
+    private assetPairService: AssetPairService) {
   }
 
   private tradingFee: TradingFee;
@@ -50,8 +48,8 @@ export class TradingFeeEditDialogComponent implements OnInit {
     this.viewLoading = true;
     if (this.tradingFeeId) {
       forkJoin([
-        this.assetsService.getAll(),
-        this.assetPairsService.getAll(),
+        this.assetService.getAll(),
+        this.assetPairService.getAll(),
         this.tradingFeeService.get(''),
         this.tradingFeeService.getById(this.tradingFeeId)
       ])
@@ -64,8 +62,8 @@ export class TradingFeeEditDialogComponent implements OnInit {
     }
     else {
       forkJoin([
-        this.assetsService.getAll(),
-        this.assetPairsService.getAll(),
+        this.assetService.getAll(),
+        this.assetPairService.getAll(),
         this.tradingFeeService.get(''),
       ])
         .subscribe(result => {

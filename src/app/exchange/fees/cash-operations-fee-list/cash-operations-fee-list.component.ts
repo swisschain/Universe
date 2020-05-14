@@ -8,8 +8,7 @@ import { LayoutUtilsService, MessageType } from '../../../core/_base/crud';
 
 import { CashOperationsFee, FeeType } from '../../api/models/fees';
 
-import { AssetsService } from '../../api/assets.service';
-import { CashOperationsFeeService } from '../../api/services';
+import { AssetService, CashOperationsFeeService } from '../../api/services';
 
 import { CashOperationsFeeDataSource } from '../../data-sources';
 import { CashOperationsFeeEditDialogComponent } from '../cash-operations-fee-edit/cash-operations-fee-edit.dialog.component';
@@ -26,7 +25,7 @@ export class CashOperationsFeeListComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     public snackBar: MatSnackBar,
     private layoutUtilsService: LayoutUtilsService,
-    private assetsService: AssetsService,
+    private assetService: AssetService,
     private cashOperationsFeeService: CashOperationsFeeService) { }
 
   private subscriptions: Subscription[] = [];
@@ -77,7 +76,7 @@ export class CashOperationsFeeListComponent implements OnInit, OnDestroy {
   }
 
   loadAssets() {
-    this.assetsService.getAll()
+    this.assetService.getAll()
       .subscribe(assets => {
         this.assets = assets.map(item => item.symbol);
       });

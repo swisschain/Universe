@@ -2,10 +2,9 @@ import { Component, OnInit, ChangeDetectionStrategy, ViewEncapsulation, OnDestro
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { Asset } from '../../api/models/assets/asset.interface';
-import { AssetPair } from '../../api/models/asset-pairs/asset-pair.interface';
-import { AssetsService } from '../../api/assets.service';
-import { AssetPairsService } from '../../api/asset-pairs.service';
+import { Asset } from '../../api/models/assets';
+import { AssetPair } from '../../api/models/asset-pairs';
+import { AssetService, AssetPairService } from '../../api/services';
 
 @Component({
   selector: 'kt-asset-pair-edit',
@@ -21,8 +20,8 @@ export class AssetPairEditDialogComponent implements OnInit, OnDestroy {
     public dialogRef: MatDialogRef<AssetPairEditDialogComponent>,
     private fb: FormBuilder,
     private cdr: ChangeDetectorRef,
-    private assetsService: AssetsService,
-    private assetPairsService: AssetPairsService) {
+    private assetService: AssetService,
+    private assetPairService: AssetPairService) {
   }
 
   assetPair: AssetPair;
@@ -35,7 +34,7 @@ export class AssetPairEditDialogComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.assetPair = this.data.assetPair;
     this.viewLoading = true;
-    this.assetsService.getAll()
+    this.assetService.getAll()
       .subscribe(assets => {
         this.assets = assets
         this.viewLoading = false;
@@ -126,7 +125,7 @@ export class AssetPairEditDialogComponent implements OnInit, OnDestroy {
 
   create(assetPair: AssetPair) {
     this.viewLoading = true;
-    this.assetPairsService.add(assetPair)
+    this.assetPairService.add(assetPair)
       .subscribe(
         response => {
           this.viewLoading = false;
@@ -143,7 +142,7 @@ export class AssetPairEditDialogComponent implements OnInit, OnDestroy {
 
   update(assetPair: AssetPair) {
     this.viewLoading = true;
-    this.assetPairsService.update(assetPair)
+    this.assetPairService.update(assetPair)
       .subscribe(
         response => {
           this.viewLoading = false;

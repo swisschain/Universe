@@ -3,10 +3,10 @@ import { catchError, finalize } from 'rxjs/operators';
 
 import { BaseDataSource } from './base-data-source';
 
-import { Balance } from '../api/models/balances/balance.interface'
-import { AccountDataService } from '../api/account-data.service';
+import { Balance } from '../api/models/balances'
+import { AccountDataService } from '../api/services';
 
-export class BalancesDataSource extends BaseDataSource<Balance> {
+export class BalanceDataSource extends BaseDataSource<Balance> {
 
     constructor(private accountDataService: AccountDataService) {
         super();

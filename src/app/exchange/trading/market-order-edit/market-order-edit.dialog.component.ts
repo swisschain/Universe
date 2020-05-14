@@ -2,10 +2,9 @@ import { Component, OnInit, ChangeDetectionStrategy, ViewEncapsulation, OnDestro
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { MarketOrdersService } from '../../api/market-orders.service';
-import { LimitOrderType } from '../../api/models/order-books/limit-order-type.enum';
-import { LimitOrderStatus } from '../../api/models/orders/limit-order-status.enum';
-import { AssetPairsService } from '../../api/asset-pairs.service';
+import { LimitOrderType } from '../../api/models/order-books';
+import { LimitOrderStatus } from '../../api/models/orders';
+import { AssetPairService, MarketOrderService } from '../../api/services';
 
 @Component({
   selector: 'kt-market-order-edit-dialog',
@@ -21,8 +20,8 @@ export class MarketOrderEditDialogComponent implements OnInit, OnDestroy {
     public dialogRef: MatDialogRef<MarketOrderEditDialogComponent>,
     private fb: FormBuilder,
     private cdr: ChangeDetectorRef,
-    private marketOrdersService: MarketOrdersService,
-    private assetPairsService: AssetPairsService) {
+    private marketOrderService: MarketOrderService,
+    private assetPairService: AssetPairService) {
   }
 
   walletId = '';
@@ -38,7 +37,7 @@ export class MarketOrderEditDialogComponent implements OnInit, OnDestroy {
     this.createForm();
 
     this.viewLoading = true;
-    this.assetPairsService.getAll()
+    this.assetPairService.getAll()
       .subscribe(assetPairs => {
         this.assetPairs = assetPairs.map(assetPair => assetPair.symbol);
         this.viewLoading = false;
@@ -77,7 +76,7 @@ export class MarketOrderEditDialogComponent implements OnInit, OnDestroy {
 
   create(assetPair: string, type: LimitOrderType, volume: number) {
     this.viewLoading = true;
-    this.marketOrdersService.create(assetPair, type, this.walletId, volume)
+    this.marketOrderService.create(assetPair, type, this.walletId, volume)
       .subscribe(
         response => {
           this.viewLoading = false;

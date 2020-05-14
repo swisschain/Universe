@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { OrderBook } from './models/order-books/order-book.interface';
-import { PagedResponse } from './models/pagination/paged-response.interface';
+import { OrderBook } from '../models/order-books';
+import { PagedResponse } from '../models/pagination';
 
 const API_URL = 'exchange/api/books/order-books';
 
 @Injectable()
-export class OrderBooksService {
+export class OrderBookService {
     constructor(private http: HttpClient) { }
 
     get() {

@@ -6,11 +6,10 @@ import { FormControl } from '@angular/forms';
 
 import { LayoutUtilsService, MessageType } from '../../../core/_base/crud';
 
-import { AssetPair } from '../../api/models/asset-pairs/asset-pair.interface';
-import { AssetPairsService } from '../../api/asset-pairs.service';
-import { AssetsService } from '../../api/assets.service';
+import { AssetPair } from '../../api/models/asset-pairs';
+import { AssetService, AssetPairService } from '../../api/services';
 
-import { AssetPairsDataSource } from '../../models/asset-pairs-data-source';
+import { AssetPairDataSource } from '../../data-sources';
 import { AssetPairEditDialogComponent } from '../asset-pair-edit/asset-pair-edit.dialog.component';
 import { AssetPairDetailsDialogComponent } from '../asset-pair-details/asset-pair-details.dialog.component';
 
@@ -26,8 +25,8 @@ export class AssetPairListComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     public snackBar: MatSnackBar,
     private layoutUtilsService: LayoutUtilsService,
-    private assetsService: AssetsService,
-    private assetPairsService: AssetPairsService) { }
+    private assetService: AssetService,
+    private assetPairService: AssetPairService) { }
 
   private subscriptions: Subscription[] = [];
 
@@ -41,7 +40,7 @@ export class AssetPairListComponent implements OnInit, OnDestroy {
   filteredBaseAssetSymbols: Observable<string[]>;
   filteredQuotingAssetSymbols: Observable<string[]>;
 
-  dataSource: AssetPairsDataSource;
+  dataSource: AssetPairDataSource;
   displayedColumns = ['symbol', 'baseAsset', 'quotingAsset', 'accuracy', 'minVolume', 'maxVolume', 'maxOppositeVolume', 'marketOrderPriceThreshold', 'isDisabled', 'created', 'modified', 'actions'];
 
   assetPairSymbol = '';
@@ -51,7 +50,7 @@ export class AssetPairListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    this.dataSource = new AssetPairsDataSource(this.assetPairsService);
+    this.dataSource = new AssetPairDataSource(this.assetPairService);
 
     const searchBySymbolSubscription = this.searchBySymbolInput.valueChanges
       .pipe(
@@ -128,14 +127,14 @@ export class AssetPairListComponent implements OnInit, OnDestroy {
   }
 
   loadAssets() {
-    this.assetsService.getAll()
+    this.assetService.getAll()
       .subscribe(assets => {
         this.assetSymbols = assets.map(item => item.symbol);
       });
   }
 
   loadAssetPairs() {
-    this.assetPairsService.getAll()
+    this.assetPairService.getAll()
       .subscribe(assetPairs => {
         this.assetPairSymbols = assetPairs.map(item => item.symbol);
       });
@@ -186,7 +185,7 @@ export class AssetPairListComponent implements OnInit, OnDestroy {
           return;
         }
 
-        this.assetPairsService.delete(assetPair.symbol)
+        this.assetPairService.delete(assetPair.symbol)
           .subscribe(
             response => {
               this.layoutUtilsService.showActionNotification('Asset pair has been deleted.', MessageType.Delete, 3000, true, false);

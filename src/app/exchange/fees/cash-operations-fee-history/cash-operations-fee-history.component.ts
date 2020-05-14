@@ -7,8 +7,7 @@ import { FormControl } from '@angular/forms';
 import { getHistoryTypeTitle } from '../../shared/utils'
 import { FeeType, OperationType } from '../../api/models/fees';
 
-import { AssetsService } from '../../api/assets.service';
-import { FeeHistoryService } from '../../api/services';
+import { AssetService, FeeHistoryService } from '../../api/services';
 
 import { CashOperationsFeeHistoryDataSource } from '../../data-sources';
 
@@ -23,7 +22,7 @@ export class CashOperationsFeeHistoryComponent implements OnInit, OnDestroy {
   constructor(
     public dialog: MatDialog,
     public snackBar: MatSnackBar,
-    private assetsService: AssetsService,
+    private assetService: AssetService,
     private feeHistoryService: FeeHistoryService) { }
 
   private subscriptions: Subscription[] = [];
@@ -74,7 +73,7 @@ export class CashOperationsFeeHistoryComponent implements OnInit, OnDestroy {
   }
 
   loadAssets() {
-    this.assetsService.getAll()
+    this.assetService.getAll()
       .subscribe(assets => {
         this.assets = assets.map(item => item.symbol);
       });

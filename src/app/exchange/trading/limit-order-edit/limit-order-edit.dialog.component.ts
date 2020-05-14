@@ -2,10 +2,9 @@ import { Component, OnInit, ChangeDetectionStrategy, ViewEncapsulation, OnDestro
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { LimitOrdersService } from '../../api/limit-orders.service';
-import { LimitOrderType } from '../../api/models/order-books/limit-order-type.enum';
-import { LimitOrderStatus } from '../../api/models/orders/limit-order-status.enum';
-import { AssetPairsService } from '../../api/asset-pairs.service';
+import { LimitOrderType } from '../../api/models/order-books';
+import { LimitOrderStatus } from '../../api/models/orders';
+import { AssetPairService, LimitOrderService } from '../../api/services';
 
 @Component({
   selector: 'kt-limit-order-edit-dialog',
@@ -21,8 +20,8 @@ export class LimitOrderEditDialogComponent implements OnInit, OnDestroy {
     public dialogRef: MatDialogRef<LimitOrderEditDialogComponent>,
     private fb: FormBuilder,
     private cdr: ChangeDetectorRef,
-    private limitOrdersService: LimitOrdersService,
-    private assetPairsService: AssetPairsService) {
+    private limitOrderService: LimitOrderService,
+    private assetPairService: AssetPairService) {
   }
 
   walletId = '';
@@ -38,7 +37,7 @@ export class LimitOrderEditDialogComponent implements OnInit, OnDestroy {
     this.createForm();
 
     this.viewLoading = true;
-    this.assetPairsService.getAll()
+    this.assetPairService.getAll()
       .subscribe(assetPairs => {
         this.assetPairs = assetPairs.map(assetPair => assetPair.symbol);
         this.viewLoading = false;
@@ -83,7 +82,7 @@ export class LimitOrderEditDialogComponent implements OnInit, OnDestroy {
 
   create(assetPair: string, type: LimitOrderType, price: number, volume: number, cancelPrevious: boolean) {
     this.viewLoading = true;
-    this.limitOrdersService.create(assetPair, this.walletId, type, price, volume, cancelPrevious)
+    this.limitOrderService.create(assetPair, this.walletId, type, price, volume, cancelPrevious)
       .subscribe(
         response => {
           this.viewLoading = false;

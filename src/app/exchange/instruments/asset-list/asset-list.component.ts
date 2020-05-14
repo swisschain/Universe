@@ -6,10 +6,10 @@ import { FormControl } from '@angular/forms';
 
 import { LayoutUtilsService, MessageType } from '../../../core/_base/crud';
 
-import { Asset } from '../../api/models/assets/asset.interface';
-import { AssetsService } from '../../api/assets.service';
+import { Asset } from '../../api/models/assets';
+import { AssetService } from '../../api/services';
 
-import { AssetsDataSource } from '../../models/assets-data-source';
+import { AssetDataSource } from '../../data-sources';
 import { AssetEditDialogComponent } from '../asset-edit/asset-edit.dialog.component';
 import { AssetDetailsDialogComponent } from '../asset-details/asset-details.dialog.component';
 
@@ -25,13 +25,13 @@ export class AssetListComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     public snackBar: MatSnackBar,
     private layoutUtilsService: LayoutUtilsService,
-    private assetsService: AssetsService) { }
+    private assetService: AssetService) { }
 
   private subscriptions: Subscription[] = [];
 
   searchBySymbolInput = new FormControl();
 
-  dataSource: AssetsDataSource;
+  dataSource: AssetDataSource;
   displayedColumns = ['symbol', 'description', 'accuracy', 'isDisabled', 'created', 'modified', 'actions'];
 
   assetSymbols: string[] = [];
@@ -42,7 +42,7 @@ export class AssetListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    this.dataSource = new AssetsDataSource(this.assetsService);
+    this.dataSource = new AssetDataSource(this.assetService);
 
     const searchByIdSubscription = this.searchBySymbolInput.valueChanges
       .pipe(
@@ -79,7 +79,7 @@ export class AssetListComponent implements OnInit, OnDestroy {
   }
 
   loadAssets() {
-    this.assetsService.getAll()
+    this.assetService.getAll()
       .subscribe(assets => {
         this.assetSymbols = assets.map(item => item.symbol);
       });
@@ -125,7 +125,7 @@ export class AssetListComponent implements OnInit, OnDestroy {
           return;
         }
 
-        this.assetsService.delete(asset.symbol)
+        this.assetService.delete(asset.symbol)
           .subscribe(
             response => {
               this.layoutUtilsService.showActionNotification('Asset has been deleted.', MessageType.Delete, 3000, true, false);
