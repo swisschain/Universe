@@ -2,7 +2,11 @@ import { Component, OnInit, ChangeDetectionStrategy, ViewEncapsulation, Inject, 
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { AssetService, OperationsService } from '../../api/services';
+import { getWalletTypeTitle } from '../../shared/utils'
+
+import { Wallet, WalletType } from '../../api/models/wallets';
+import { AssetService, OperationsService, WalletService } from '../../api/services';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'kt-cash-transfer-dialog',
@@ -19,12 +23,16 @@ export class CashTransferDialogComponent implements OnInit {
     private fb: FormBuilder,
     private cdr: ChangeDetectorRef,
     private assetService: AssetService,
+    private walletService: WalletService,
     private operationsService: OperationsService) {
   }
 
   private asset: string;
 
-  walletId: string;
+  wallets: Wallet[] = [];
+
+  accountId: number;
+  walletId: number;
   assets: string[];
   form: FormGroup;
   hasFormErrors = false;
@@ -33,18 +41,10 @@ export class CashTransferDialogComponent implements OnInit {
 
   ngOnInit() {
     this.asset = this.data.asset;
-    this.walletId = this.data.walletId;
-
-    this.viewLoading = true;
-
-    this.assetService.getAll()
-      .subscribe(assets => {
-        this.assets = assets.map(asset => asset.symbol);
-        this.viewLoading = false;
-        this.cdr.markForCheck();
-      });
-
+    this.accountId = this.data.accountId as number;
+    this.walletId = this.data.walletId as number;
     this.createForm();
+    this.load();
   }
 
   createForm() {
@@ -55,18 +55,31 @@ export class CashTransferDialogComponent implements OnInit {
         Validators.min(0),
         Validators.max(10000)]
       )],
-      fromWallet: [{ value: this.walletId, disabled: true }, Validators.compose([
-        Validators.required,
-        Validators.maxLength(36)]
-      )],
-      toWallet: ['', Validators.compose([
-        Validators.required,
-        Validators.maxLength(36)]
+      wallet: [null, Validators.compose([
+        Validators.required]
       )],
       description: ['', Validators.compose([
         Validators.maxLength(1000)]
       )],
     });
+  }
+
+  load() {
+    this.viewLoading = true;
+    forkJoin([
+      this.assetService.getAll(),
+      this.walletService.getAll(this.accountId)
+    ])
+      .subscribe(data => {
+        this.assets = data[0].map(asset => asset.symbol);
+        this.wallets = data[1].filter(wallet => wallet.id != this.walletId);
+        this.viewLoading = false;
+        this.cdr.markForCheck();
+      });
+  }
+
+  getWalletTypeTitle(walletType: WalletType) {
+    return getWalletTypeTitle(walletType);
   }
 
   onSubmit() {
@@ -80,12 +93,12 @@ export class CashTransferDialogComponent implements OnInit {
       return;
     }
 
-    this.transfer(controls.asset.value, controls.amount.value, controls.toWallet.value, controls.description.value);
+    this.transfer(controls.asset.value, controls.amount.value, controls.wallet.value, controls.description.value);
   }
 
-  transfer(asset: string, amount: number, toWallet: string, description: string) {
+  transfer(asset: string, amount: number, targetWalletId: number, description: string) {
     this.viewLoading = true;
-    this.operationsService.transfer(asset, amount, this.walletId, toWallet, description)
+    this.operationsService.transfer(this.accountId, asset, amount, this.walletId, targetWalletId, description)
       .subscribe(
         response => {
           this.viewLoading = false;

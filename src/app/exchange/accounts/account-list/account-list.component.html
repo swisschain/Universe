@@ -56,10 +56,10 @@
                     <mat-cell *matCellDef="let item">{{item.name}}</mat-cell>
                 </ng-container>
 
-                <ng-container matColumnDef="isDisabled">
+                <ng-container matColumnDef="isEnabled">
                     <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
-                    <mat-cell *matCellDef="let item" [ngStyle]="{'color': item.isDisabled === true ? 'red' : 'green'}">
-                        {{item.isDisabled === true ? 'disable' : 'active'}}</mat-cell>
+                    <mat-cell *matCellDef="let item" [ngStyle]="{'color': item.isEnabled === true ? 'green' : 'red'}">
+                        {{item.isEnabled === true ? 'active' : 'disable'}}</mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="created">

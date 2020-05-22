@@ -1,3 +1,3 @@
 export interface Settings {
-    feeWalletId: string;
+    feeWalletId: number;
 }

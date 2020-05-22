@@ -26,7 +26,8 @@ export class CashOperationsDialogComponent implements OnInit {
   private asset: string;
   operationType: CashOperationType;
 
-  walletId: string;
+  accountId: number;
+  walletId: number;
   assets: string[];
   form: FormGroup;
   hasFormErrors = false;
@@ -36,6 +37,7 @@ export class CashOperationsDialogComponent implements OnInit {
   ngOnInit() {
     this.asset = this.data.asset;
     this.operationType = this.data.operationType;
+    this.accountId = this.data.accountId;
     this.walletId = this.data.walletId;
 
     this.viewLoading = true;
@@ -82,7 +84,7 @@ export class CashOperationsDialogComponent implements OnInit {
 
   cashIn(asset: string, amount: number, description: string) {
     this.viewLoading = true;
-    this.operationsService.cashIn(this.walletId, asset, amount, description)
+    this.operationsService.cashIn(this.accountId, this.walletId, asset, amount, description)
       .subscribe(
         response => {
           this.viewLoading = false;
@@ -99,7 +101,7 @@ export class CashOperationsDialogComponent implements OnInit {
 
   cashOut(asset: string, amount: number, description: string) {
     this.viewLoading = true;
-    this.operationsService.cashOut(this.walletId, asset, amount, description)
+    this.operationsService.cashOut(this.accountId, this.walletId, asset, amount, description)
       .subscribe(
         response => {
           this.viewLoading = false;

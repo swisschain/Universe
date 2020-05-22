@@ -16,7 +16,7 @@ export class AccountDetailsComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private accountService: AccountService) { }
 
-  private accountId: string;
+  private accountId: number;
   private subscriptions: Subscription[] = [];
 
   account: Account;

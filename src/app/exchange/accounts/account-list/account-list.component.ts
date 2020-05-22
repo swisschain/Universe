@@ -29,7 +29,7 @@ export class AccountListComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];
 
   dataSource: AccountDataSource;
-  displayedColumns = ['accountId', 'name', 'isDisabled', 'created', 'modified', 'actions'];
+  displayedColumns = ['accountId', 'name', 'isEnabled', 'created', 'modified', 'actions'];
 
   name = '';
   status = '';
@@ -59,16 +59,15 @@ export class AccountListComponent implements OnInit, OnDestroy {
   }
 
   load() {
-    const isDisabled = this.status === 'enabled' ? false : this.status === 'disabled' ? true : null;
-    this.dataSource.load(this.name, isDisabled);
+    const isEnabled = this.status === 'enabled' ? true : this.status === 'disabled' ? false : null;
+    this.dataSource.load(this.name, isEnabled);
   }
 
   add() {
     const account: Account = {
       id: null,
       name: null,
-      brokerId: null,
-      isDisabled: false,
+      isEnabled: false,
       created: null,
       modified: null
     };

@@ -10,10 +10,11 @@ const API_URL = 'exchange/api/operations/trading/market-order';
 export class MarketOrderService {
     constructor(private http: HttpClient) { }
 
-    create(symbol: string, type: LimitOrderType, walletId: string, volume: number) {
+    create(accountId: number, walletId: number, assetPair: string, type: LimitOrderType, volume: number) {
         return this.http.post<MarketOrderCreateResult>(`${API_URL}`, {
-            symbol,
+            accountId,
             walletId,
+            assetPair,
             volume: type === LimitOrderType.Sell ? -volume : volume,
         });
     }

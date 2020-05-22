@@ -11,19 +11,19 @@ import { Order } from '../../api/models/orders/order.interface';
 
 import { AccountDataService, AssetPairService, LimitOrderService } from '../../api/services';
 
-import { AccountOrdersDataSource } from '../../data-sources';
+import { OrdersDataSource } from '../../data-sources';
 
 import { LimitOrderEditDialogComponent } from '../../trading/limit-order-edit/limit-order-edit.dialog.component';
 import { MarketOrderEditDialogComponent } from '../../trading/market-order-edit/market-order-edit.dialog.component';
 import { OrderDetailsDialogComponent } from '../order-details/order-details.dialog.component';
 
 @Component({
-  selector: 'kt-account-order-list',
-  templateUrl: './account-order-list.component.html',
-  styleUrls: ['./account-order-list.component.scss'],
+  selector: 'kt-order-list',
+  templateUrl: './order-list.component.html',
+  styleUrls: ['./order-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AccountOrderListComponent implements OnInit, OnDestroy {
+export class OrderListComponent implements OnInit, OnDestroy {
 
   constructor(
     public dialog: MatDialog,
@@ -34,12 +34,13 @@ export class AccountOrderListComponent implements OnInit, OnDestroy {
     private accountDataService: AccountDataService,
     private limitOrderService: LimitOrderService) { }
 
-  private accountId: string;
+  private accountId: number;
+  private walletId: number;
   private subscriptions: Subscription[] = [];
 
   searchByAssetPairInput = new FormControl();
 
-  dataSource: AccountOrdersDataSource;
+  dataSource: OrdersDataSource;
   displayedColumns = ['createdAt', 'assetPair', 'type', 'side', 'price', 'volume', 'remainingVolume', 'status', 'actions'];
 
   assetPairs: string[] = [];
@@ -51,10 +52,11 @@ export class AccountOrderListComponent implements OnInit, OnDestroy {
   status = '';
 
   ngOnInit() {
-    this.dataSource = new AccountOrdersDataSource(this.accountDataService);
+    this.dataSource = new OrdersDataSource(this.accountDataService);
 
     const routeSubscription = this.route.params.subscribe(params => {
       this.accountId = params['accountId'];
+      this.walletId = params['walletId'];
       this.load();
     });
 
@@ -89,7 +91,7 @@ export class AccountOrderListComponent implements OnInit, OnDestroy {
   }
 
   load() {
-    this.dataSource.load(this.accountId, this.assetPair, this.type, this.side, this.status);
+    this.dataSource.load(this.walletId, this.assetPair, this.type, this.side, this.status);
   }
 
   loadAssetPairs() {
@@ -127,7 +129,12 @@ export class AccountOrderListComponent implements OnInit, OnDestroy {
   createLimitOrder() {
     const message = 'Limit order created';
     const messageType = MessageType.Update;
-    const dialogRef = this.dialog.open(LimitOrderEditDialogComponent, { data: { walletId: this.accountId }, width: '500px' });
+    const dialogRef = this.dialog.open(LimitOrderEditDialogComponent, {
+      data: {
+        accountId: this.accountId,
+        walletId: this.walletId
+      }, width: '500px'
+    });
 
     dialogRef.afterClosed()
       .subscribe(res => {
@@ -143,7 +150,12 @@ export class AccountOrderListComponent implements OnInit, OnDestroy {
   createMarketOrder() {
     const message = 'Market order created';
     const messageType = MessageType.Update;
-    const dialogRef = this.dialog.open(MarketOrderEditDialogComponent, { data: { walletId: this.accountId }, width: '500px' });
+    const dialogRef = this.dialog.open(MarketOrderEditDialogComponent, {
+      data: {
+        accountId: this.accountId,
+        walletId: this.walletId
+      }, width: '500px'
+    });
 
     dialogRef.afterClosed()
       .subscribe(res => {

@@ -1,5 +1,4 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 
 import { Account } from '../../api/models/accounts/account.interface';
 import { AccountService, FeeSettingsService } from '../../api/services';
@@ -12,7 +11,6 @@ import { AccountService, FeeSettingsService } from '../../api/services';
 export class SettingsComponent implements OnInit {
 
   constructor(
-    private route: ActivatedRoute,
     private cdr: ChangeDetectorRef,
     private accountService: AccountService,
     private feeSettingsService: FeeSettingsService) { }

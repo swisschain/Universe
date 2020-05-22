@@ -13,7 +13,7 @@ import { AssetPairService, LimitOrderService } from '../../api/services';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None
 })
-export class LimitOrderEditDialogComponent implements OnInit, OnDestroy {
+export class LimitOrderEditDialogComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -24,7 +24,8 @@ export class LimitOrderEditDialogComponent implements OnInit, OnDestroy {
     private assetPairService: AssetPairService) {
   }
 
-  walletId = '';
+  accountId: number;
+  walletId: number;
   types: LimitOrderType[] = [LimitOrderType.Sell, LimitOrderType.Buy];
   assetPairs: string[];
   form: FormGroup;
@@ -33,6 +34,7 @@ export class LimitOrderEditDialogComponent implements OnInit, OnDestroy {
   viewLoading = false;
 
   ngOnInit() {
+    this.accountId = this.data.accountId;
     this.walletId = this.data.walletId;
     this.createForm();
 
@@ -43,9 +45,6 @@ export class LimitOrderEditDialogComponent implements OnInit, OnDestroy {
         this.viewLoading = false;
         this.cdr.markForCheck();
       });
-  }
-
-  ngOnDestroy() {
   }
 
   createForm() {
@@ -82,7 +81,7 @@ export class LimitOrderEditDialogComponent implements OnInit, OnDestroy {
 
   create(assetPair: string, type: LimitOrderType, price: number, volume: number, cancelPrevious: boolean) {
     this.viewLoading = true;
-    this.limitOrderService.create(assetPair, this.walletId, type, price, volume, cancelPrevious)
+    this.limitOrderService.create(this.accountId, this.walletId, assetPair, type, price, volume, cancelPrevious)
       .subscribe(
         response => {
           this.viewLoading = false;

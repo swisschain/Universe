@@ -6,15 +6,15 @@ import { Subscription, Observable } from 'rxjs';
 import { FormControl } from '@angular/forms';
 
 import { AssetService, AccountDataService } from '../../api/services';
-import { AccountTradeDataSource } from '../../data-sources';
+import { TradeDataSource } from '../../data-sources';
 
 @Component({
-  selector: 'kt-account-trade-list',
-  templateUrl: './account-trade-list.component.html',
-  styleUrls: ['./account-trade-list.component.scss'],
+  selector: 'kt-trade-list',
+  templateUrl: './trade-list.component.html',
+  styleUrls: ['./trade-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AccountTradeListComponent implements OnInit, OnDestroy {
+export class TradeListComponent implements OnInit, OnDestroy {
 
   constructor(
     public dialog: MatDialog,
@@ -23,7 +23,7 @@ export class AccountTradeListComponent implements OnInit, OnDestroy {
     private assetService: AssetService,
     private accountDataService: AccountDataService) { }
 
-  private accountId: string;
+  private walletId: number;
   private subscriptions: Subscription[] = [];
 
   searchByBaseAssetInput = new FormControl();
@@ -33,17 +33,17 @@ export class AccountTradeListComponent implements OnInit, OnDestroy {
   filteredBaseAssets: Observable<string[]>;
   filteredQuotingAssets: Observable<string[]>;
 
-  dataSource: AccountTradeDataSource;
+  dataSource: TradeDataSource;
   displayedColumns = ['date', 'baseAsset', 'quotingAsset', 'price', 'baseVolume', 'quotingVolume'];
 
   baseAsset = '';
   quotingAsset = '';
 
   ngOnInit() {
-    this.dataSource = new AccountTradeDataSource(this.accountDataService);
+    this.dataSource = new TradeDataSource(this.accountDataService);
 
     const routeSubscription = this.route.params.subscribe(params => {
-      this.accountId = params['accountId'];
+      this.walletId = params['walletId'];
       this.load();
     });
 
@@ -97,7 +97,7 @@ export class AccountTradeListComponent implements OnInit, OnDestroy {
   }
 
   load() {
-    this.dataSource.load(this.accountId, this.baseAsset, this.quotingAsset);
+    this.dataSource.load(this.walletId, this.baseAsset, this.quotingAsset);
   }
 
   loadAssets() {

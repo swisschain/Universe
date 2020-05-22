@@ -24,7 +24,8 @@ export class MarketOrderEditDialogComponent implements OnInit, OnDestroy {
     private assetPairService: AssetPairService) {
   }
 
-  walletId = '';
+  accountId: number;
+  walletId: number;
   types: LimitOrderType[] = [LimitOrderType.Sell, LimitOrderType.Buy];
   assetPairs: string[];
   form: FormGroup;
@@ -33,6 +34,7 @@ export class MarketOrderEditDialogComponent implements OnInit, OnDestroy {
   viewLoading = false;
 
   ngOnInit() {
+    this.accountId = this.data.accountId;
     this.walletId = this.data.walletId;
     this.createForm();
 
@@ -76,7 +78,7 @@ export class MarketOrderEditDialogComponent implements OnInit, OnDestroy {
 
   create(assetPair: string, type: LimitOrderType, volume: number) {
     this.viewLoading = true;
-    this.marketOrderService.create(assetPair, type, this.walletId, volume)
+    this.marketOrderService.create(this.accountId, this.walletId, assetPair, type, volume)
       .subscribe(
         response => {
           this.viewLoading = false;

@@ -1,8 +1,7 @@
 export interface Account {
-    id: string;
-    brokerId: string;
+    id: number;
     name: string;
-    isDisabled: boolean;
+    isEnabled: boolean;
     created: Date;
     modified: Date;
 }

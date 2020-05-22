@@ -13,6 +13,7 @@ import { CashOperationsFeeListComponent } from './fees/cash-operations-fee-list/
 import { TradingFeeLevelListComponent } from './fees/trading-fee-level-list/trading-fee-level-list.component';
 import { AuditComponent } from './fees/audit/audit.component';
 import { SettingsComponent } from './fees/settings/settings.component';
+import { WalletDetailsComponent } from './accounts/wallet-details/wallet-details.component';
 
 const routes: Routes = [
     {
@@ -30,6 +31,10 @@ const routes: Routes = [
     {
         path: 'management/accounts/:accountId',
         component: AccountDetailsComponent
+    },
+    {
+        path: 'management/accounts/:accountId/wallets/:walletId',
+        component: WalletDetailsComponent
     },
     {
         path: 'fees/cash-operations',

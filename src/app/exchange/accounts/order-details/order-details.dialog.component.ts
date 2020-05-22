@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Order } from '../../api/models/orders/order.interface';
 
@@ -11,8 +11,7 @@ export class OrderDetailsDialogComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
-    public dialogRef: MatDialogRef<OrderDetailsDialogComponent>,
-    private changeDetector: ChangeDetectorRef) {
+    public dialogRef: MatDialogRef<OrderDetailsDialogComponent>) {
   }
 
   order: Order;

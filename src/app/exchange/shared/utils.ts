@@ -1,5 +1,6 @@
 import { BalanceHistoryType } from '../api/models/balances/balance-history-type';
 import { OperationType } from '../api/models/fees';
+import { WalletType } from '../api/models/wallets';
 
 export function getBalanceHistoryTypeTitle(balanceHistoryType: BalanceHistoryType): string {
     switch (balanceHistoryType) {
@@ -26,6 +27,19 @@ export function getHistoryTypeTitle(operationType: OperationType): string {
             return 'Modified';
         case OperationType.Deleted:
             return 'Deleted';
+        default:
+            return 'Unknown';
+    }
+}
+
+export function getWalletTypeTitle(walletType: WalletType): string {
+    switch (walletType) {
+        case WalletType.Main:
+            return 'Main';
+        case WalletType.Api:
+            return 'API';
+        case WalletType.Hft:
+            return 'HFT';
         default:
             return 'Unknown';
     }

@@ -43,7 +43,7 @@ export class AccountEditDialogComponent implements OnInit, OnDestroy {
         Validators.minLength(3),
         Validators.maxLength(36)]
       )],
-      isDisabled: [this.account.isDisabled, Validators.required]
+      isEnabled: [this.account.isEnabled, Validators.required]
     });
   }
 
@@ -59,18 +59,18 @@ export class AccountEditDialogComponent implements OnInit, OnDestroy {
     }
 
     const name = controls.name.value;
-    const isDisabled = controls.isDisabled.value;
+    const isEnabled = controls.isEnabled.value;
 
     if (this.account.id) {
-      this.update(name, isDisabled);
+      this.update(name, isEnabled);
     } else {
-      this.create(name, isDisabled);
+      this.create(name, isEnabled);
     }
   }
 
-  create(name: string, isDisabled: boolean) {
+  create(name: string, isEnabled: boolean) {
     this.viewLoading = true;
-    this.accountService.add(name, isDisabled)
+    this.accountService.add(name, isEnabled)
       .subscribe(
         response => {
           this.viewLoading = false;
@@ -85,9 +85,9 @@ export class AccountEditDialogComponent implements OnInit, OnDestroy {
       );
   }
 
-  update(name: string, isDisabled: boolean) {
+  update(name: string, isEnabled: boolean) {
     this.viewLoading = true;
-    this.accountService.update(this.account.id, name, isDisabled)
+    this.accountService.update(this.account.id, name, isEnabled)
       .subscribe(
         response => {
           this.viewLoading = false;

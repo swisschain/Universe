@@ -19,34 +19,34 @@ export class AccountService {
             );
     }
 
-    get(name: string, isDisabled: boolean) {
+    get(name: string, isEnabled: boolean) {
         const params = new HttpParams()
             .set('name', name)
-            .set('isDisabled', isDisabled === true ? 'true' : isDisabled === false ? 'false' : '');
+            .set('isEnabled', isEnabled === true ? 'true' : isEnabled === false ? 'false' : '');
 
         return this.http.get<PagedResponse<Account>>(`${API_URL}`, { params: params });
     }
 
-    getById(accountId: string) {
+    getById(accountId: number) {
         return this.http.get<Account>(`${API_URL}/${accountId}`);
     }
 
-    add(name: string, isDisabled: boolean) {
+    add(name: string, isEnabled: boolean) {
         return this.http.post(`${API_URL}`, {
             name,
-            isDisabled
+            isEnabled
         });
     }
 
-    update(accountId: string, name: string, isDisabled: boolean) {
+    update(accountId: number, name: string, isEnabled: boolean) {
         return this.http.put(`${API_URL}`, {
             id: accountId,
             name,
-            isDisabled
+            isEnabled
         });
     }
 
-    delete(accountId: string) {
+    delete(accountId: number) {
         return this.http.delete(`${API_URL}/${accountId}`);
     }
 }

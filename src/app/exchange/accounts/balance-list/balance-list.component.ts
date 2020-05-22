@@ -16,12 +16,12 @@ import { CashOperationsDialogComponent } from '../cash-operations/cash-operation
 import { CashTransferDialogComponent } from '../cash-transfer/cash-transfer.dialog.component';
 
 @Component({
-  selector: 'kt-account-balance-list',
-  templateUrl: './account-balance-list.component.html',
-  styleUrls: ['./account-balance-list.component.scss'],
+  selector: 'kt-balance-list',
+  templateUrl: './balance-list.component.html',
+  styleUrls: ['./balance-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AccountBalanceListComponent implements OnInit, OnDestroy {
+export class BalanceListComponent implements OnInit, OnDestroy {
 
   constructor(
     public dialog: MatDialog,
@@ -31,7 +31,8 @@ export class AccountBalanceListComponent implements OnInit, OnDestroy {
     private assetService: AssetService,
     private accountDataService: AccountDataService) { }
 
-  private accountId: string;
+  private accountId: number;
+  private walletId: number;
   private subscriptions: Subscription[] = [];
 
   searchByAssetInput = new FormControl();
@@ -50,6 +51,7 @@ export class AccountBalanceListComponent implements OnInit, OnDestroy {
 
     const routeSubscription = this.route.params.subscribe(params => {
       this.accountId = params['accountId'];
+      this.walletId = params['walletId'];
       this.load();
     });
 
@@ -84,7 +86,7 @@ export class AccountBalanceListComponent implements OnInit, OnDestroy {
   }
 
   load() {
-    this.dataSource.load(this.accountId);
+    this.dataSource.load(this.accountId, this.walletId, this.asset);
   }
 
   loadAssets() {
@@ -95,13 +97,13 @@ export class AccountBalanceListComponent implements OnInit, OnDestroy {
   }
 
   cashIn(asset: string) {
-    if (this.accountId) {
+    if (this.walletId) {
       this.operationDialog(CashOperationType.CashIn, asset);
     }
   }
 
   cashOut(asset: string) {
-    if (this.accountId)
+    if (this.walletId)
       this.operationDialog(CashOperationType.CashOut, asset);
   }
 
@@ -112,7 +114,8 @@ export class AccountBalanceListComponent implements OnInit, OnDestroy {
       data: {
         asset,
         operationType,
-        walletId: this.accountId
+        accountId: this.accountId,
+        walletId: this.walletId
       },
       width: '600px'
     });
@@ -134,7 +137,8 @@ export class AccountBalanceListComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(CashTransferDialogComponent, {
       data: {
         asset,
-        walletId: this.accountId
+        accountId: this.accountId,
+        walletId: this.walletId
       },
       width: '600px'
     });

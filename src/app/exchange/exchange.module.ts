@@ -48,7 +48,8 @@ import {
 	MarketOrderService,
 	OperationsService,
 	OrderBookService,
-	TradingFeeService
+	TradingFeeService,
+	WalletService
 } from './api/services';
 
 import { WorkingOnItComponent } from './shared/working-on-it/working-on-it.component';
@@ -68,15 +69,10 @@ import { OrderBookDetailsComponent } from './trading/order-book-details/order-bo
 import { AccountListComponent } from './accounts/account-list/account-list.component';
 import { AccountDetailsComponent } from './accounts/account-details/account-details.component';
 import { AccountEditDialogComponent } from './accounts/account-edit/account-edit.dialog.component';
-import { AccountBalanceListComponent } from './accounts/account-balance-list/account-balance-list.component';
-import { AccountBalanceHistoryListComponent } from './accounts/account-balance-history-list/account-balance-history-list.component';
-import { AccountOrderListComponent } from './accounts/account-order-list/account-order-list.component';
-import { AccountTradeListComponent } from './accounts/account-trade-list/account-trade-list.component';
 import { MarketOrderEditDialogComponent } from './trading/market-order-edit/market-order-edit.dialog.component';
 import { CashOperationsDialogComponent } from './accounts/cash-operations/cash-operations.dialog.component';
 import { OrderDetailsDialogComponent } from './accounts/order-details/order-details.dialog.component';
 import { CashTransferDialogComponent } from './accounts/cash-transfer/cash-transfer.dialog.component';
-import { BalanceHistoryDetailsDialogComponent } from './accounts/balance-history-details/balance-history-details.dialog.component';
 import { CashOperationsFeeListComponent } from './fees/cash-operations-fee-list/cash-operations-fee-list.component';
 import { CashOperationsFeeEditDialogComponent } from './fees/cash-operations-fee-edit/cash-operations-fee-edit.dialog.component';
 import { CashOperationsFeeComponent } from './fees/cash-operations-fee/cash-operations-fee.component';
@@ -89,6 +85,15 @@ import { TradingFeeComponent } from './fees/trading-fee/trading-fee.component';
 import { AuditComponent } from './fees/audit/audit.component';
 import { TradingFeeHistoryComponent } from './fees/trading-fee-history/trading-fee-history.component';
 import { SettingsComponent } from './fees/settings/settings.component';
+import { WalletListComponent } from './accounts/wallet-list/wallet-list.component';
+import { WalletEditDialogComponent } from './accounts/wallet-edit/wallet-edit.dialog.component';
+import { WalletDetailsComponent } from './accounts/wallet-details/wallet-details.component';
+import { BalanceListComponent } from './accounts/balance-list/balance-list.component';
+import { BalanceTotalListComponent } from './accounts/balance-total-list/balance-total-list.component';
+import { BalanceHistoryListComponent } from './accounts/balance-history-list/balance-history-list.component';
+import { BalanceHistoryDetailsDialogComponent } from './accounts/balance-history-details/balance-history-details.dialog.component';
+import { OrderListComponent } from './accounts/order-list/order-list.component';
+import { TradeListComponent } from './accounts/trade-list/trade-list.component';
 
 @NgModule({
 	declarations: [
@@ -107,15 +112,10 @@ import { SettingsComponent } from './fees/settings/settings.component';
 		AccountListComponent,
 		AccountDetailsComponent,
 		AccountEditDialogComponent,
-		AccountBalanceListComponent,
-		AccountBalanceHistoryListComponent,
-		AccountOrderListComponent,
-		AccountTradeListComponent,
 		MarketOrderEditDialogComponent,
 		CashOperationsDialogComponent,
 		OrderDetailsDialogComponent,
 		CashTransferDialogComponent,
-		BalanceHistoryDetailsDialogComponent,
 		CashOperationsFeeListComponent,
 		CashOperationsFeeEditDialogComponent,
 		CashOperationsFeeComponent,
@@ -127,7 +127,16 @@ import { SettingsComponent } from './fees/settings/settings.component';
 		TradingFeeComponent,
 		AuditComponent,
 		TradingFeeHistoryComponent,
-		SettingsComponent
+		SettingsComponent,
+		WalletListComponent,
+		WalletEditDialogComponent,
+		WalletDetailsComponent,
+		BalanceListComponent,
+		BalanceTotalListComponent,
+		BalanceHistoryListComponent,
+		BalanceHistoryDetailsDialogComponent,
+		OrderListComponent,
+		TradeListComponent,
 	],
 	imports: [
 		CommonModule,
@@ -189,7 +198,8 @@ import { SettingsComponent } from './fees/settings/settings.component';
 		MarketOrderService,		
 		OperationsService,
 		OrderBookService,
-		TradingFeeService
+		TradingFeeService,
+		WalletService
 	],
 	entryComponents: [
 		ActionNotificationComponent,
@@ -210,7 +220,8 @@ import { SettingsComponent } from './fees/settings/settings.component';
 		BalanceHistoryDetailsDialogComponent,
 		CashOperationsFeeEditDialogComponent,
 		TradingFeeEditDialogComponent,
-		TradingFeeLevelEditDialogComponent
+		TradingFeeLevelEditDialogComponent,
+		WalletEditDialogComponent
 	]
 })
 export class ExchangeModule { }

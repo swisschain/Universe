@@ -1,0 +1,56 @@
+<kt-portlet>
+    <kt-portlet-header [class]="'kt-portlet__head--lg'">
+        <ng-container ktPortletTitle>
+            <h3 class="kt-portlet__head-title">
+                <span>Wallet: {{wallet?.name}}</span>
+            </h3>
+        </ng-container>
+
+        <ng-container ktPortletTools>
+            <a [routerLink]="['../../']" class="btn btn-secondary kt-margin-r-10" mat-raised-button
+                matTooltip="Back to account">
+                <i class="la la-arrow-left"></i>
+                <span class="kt-hidden-mobile">Back</span>
+            </a>
+        </ng-container>
+    </kt-portlet-header>
+
+    <kt-portlet-body>
+        <h6>Account</h6>
+        <div class="form-group kt-form__group row" *ngIf="account">
+            <label class="col-lg-3 col-form-label">Id: <strong>{{account.id}}</strong></label>
+            <label class="col-lg-5 col-form-label">Name: <strong>{{account.name}}</strong></label>
+            <label class="col-lg-4 col-form-label">Status: <strong
+                    [ngStyle]="{'color': account.isDisabled === true ? 'red' : 'green'}">{{account.isDisabled ? 'disable' : 'active'}}</strong></label>
+        </div>
+        <h6>Wallet</h6>
+        <div class="form-group kt-form__group row" *ngIf="wallet">
+            <label class="col-lg-3 col-form-label">Id: <strong>{{wallet.id}}</strong></label>
+            <label class="col-lg-5 col-form-label">Type: <strong>{{getWalletTypeTitle(wallet.type)}}</strong></label>
+            <label class="col-lg-4 col-form-label">Status: <strong
+                    [ngStyle]="{'color': wallet.isEnabled === true ? 'green' : 'red'}">{{wallet.isEnabled ? 'active' : 'disable'}}</strong></label>
+        </div>
+        <mat-tab-group>
+            <mat-tab label="Balances">
+                <ng-template matTabContent>
+                    <kt-balance-list></kt-balance-list>
+                </ng-template>
+            </mat-tab>
+            <mat-tab label="Balance History">
+                <ng-template matTabContent>
+                    <kt-balance-history-list></kt-balance-history-list>
+                </ng-template>
+            </mat-tab>
+            <mat-tab label="Orders">
+                <ng-template matTabContent>
+                    <kt-order-list></kt-order-list>
+                </ng-template>
+            </mat-tab>
+            <mat-tab label="Trades">
+                <ng-template matTabContent>
+                    <kt-trade-list></kt-trade-list>
+                </ng-template>
+            </mat-tab>
+        </mat-tab-group>
+    </kt-portlet-body>
+</kt-portlet>

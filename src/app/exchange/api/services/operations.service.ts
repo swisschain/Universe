@@ -7,28 +7,31 @@ const API_URL = 'exchange/api/operations';
 export class OperationsService {
     constructor(private http: HttpClient) { }
 
-    cashIn(wallet: string, asset: string, volume: number, description: string) {
+    cashIn(accountId: number, walletId: number, asset: string, volume: number, description: string) {
         return this.http.post(`${API_URL}/cash-management/cash-in`, {
-            wallet,
+            accountId,
+            walletId,
             asset,
             volume,
             description
         });
     }
 
-    cashOut(wallet: string, asset: string, volume: number, description: string) {
+    cashOut(accountId: number, walletId: number, asset: string, volume: number, description: string) {
         return this.http.post(`${API_URL}/cash-management/cash-out`, {
-            wallet,
+            accountId,
+            walletId,
             asset,
             volume,
             description
         });
     }
 
-    transfer(asset: string, volume: number, fromWallet: string, toWallet: string, description: string) {
+    transfer(accountId: number, asset: string, volume: number, fromWalletId: number, toWalletId: number, description: string) {
         return this.http.post(`${API_URL}/cash-management/transfer`, {
-            fromWallet,
-            toWallet,
+            accountId,
+            fromWalletId,
+            toWalletId,
             asset,
             volume,
             description

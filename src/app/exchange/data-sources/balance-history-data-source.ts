@@ -3,24 +3,24 @@ import { catchError, finalize } from 'rxjs/operators';
 
 import { BaseDataSource } from './base-data-source';
 
-import { Order } from '../api/models/orders'
+import { BalanceHistory, BalanceHistoryType } from '../api/models/balances'
 import { AccountDataService } from '../api/services';
 import { PagedResponse } from '../api/models/pagination';
 
-export class AccountOrdersDataSource extends BaseDataSource<Order> {
+export class BalanceHistoryDataSource extends BaseDataSource<BalanceHistory> {
 
     constructor(private accountDataService: AccountDataService) {
         super();
     }
 
-    load(walletId: string, assetPair: string, orderType: string, side: string, status: string) {
+    load(walletId: number, asset: string, balanceHistoryType: BalanceHistoryType) {
         this.loadingSubject.next(true);
-        this.accountDataService.getOrders(walletId, assetPair, orderType, side, status)
+        this.accountDataService.getBalanceHistory(walletId, asset, balanceHistoryType)
             .pipe(
                 catchError(() => of([])),
                 finalize(() => this.loadingSubject.next(false))
             )
-            .subscribe((response: PagedResponse<Order>) => {
+            .subscribe((response: PagedResponse<BalanceHistory>) => {
                 this.itemsSubject.next(response.items)
             });
     }

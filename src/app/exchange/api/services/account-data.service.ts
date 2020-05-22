@@ -14,16 +14,21 @@ const API_URL = 'exchange/api/account-data';
 export class AccountDataService {
     constructor(private http: HttpClient) { }
 
-    getBalances(walletId: string) {
-        return this.http.get<BalanceResponse>(`${API_URL}/balance/${walletId}`)
+    getBalances(accountId: number, walletId: number, asset: string) {
+        const params = new HttpParams()
+            .set('accountId', accountId.toString())
+            .set('walletId', walletId ? walletId.toString() : '')
+            .set('asset', asset);
+
+        return this.http.get<BalanceResponse>(`${API_URL}/balance`, { params: params })
             .pipe(
                 map(result => result.list)
             );
     }
 
-    getBalanceHistory(wallet: string, asset: string, eventType: BalanceHistoryType) {
+    getBalanceHistory(walletId: number, asset: string, eventType: BalanceHistoryType) {
         const params = new HttpParams()
-            .set('wallet', wallet)
+            .set('wallet', walletId.toString())
             .set('asset', asset)
             .set('eventType', eventType ? eventType.toString() : '')
             .set('order', 'desc');
@@ -35,9 +40,9 @@ export class AccountDataService {
         return this.http.get<BalanceHistoryDetails>(`${API_URL}/balance-update/details/${balanceHistoryId}`);
     }
 
-    getOrders(walletId: string, assetPair: string, orderType: string, side: string, status: string) {
+    getOrders(walletId: number, assetPair: string, orderType: string, side: string, status: string) {
         const params = new HttpParams()
-            .set('walletId', walletId)
+            .set('walletId', walletId.toString())
             .set('assetPairId', assetPair)
             .set('orderType', orderType)
             .set('side', side)
@@ -51,9 +56,9 @@ export class AccountDataService {
         return this.http.get<Order>(`${API_URL}/order/${orderId}`);
     }
 
-    getTrades(walletId: string, baseAsset: string, quotingAsset: string) {
+    getTrades(walletId: number, baseAsset: string, quotingAsset: string) {
         const params = new HttpParams()
-            .set('walletId', walletId)
+            .set('walletId', walletId.toString())
             .set('baseAssetId', baseAsset)
             .set('quotingAssetId', quotingAsset)
             .set('order', 'desc');
