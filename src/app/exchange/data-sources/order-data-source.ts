@@ -13,9 +13,9 @@ export class OrdersDataSource extends BaseDataSource<Order> {
         super();
     }
 
-    load(walletId: number, assetPair: string, orderType: string, side: string, status: string) {
+    load(accountId: number, walletId: number, assetPair: string, orderType: string, side: string, status: string) {
         this.loadingSubject.next(true);
-        this.accountDataService.getOrders(walletId, assetPair, orderType, side, status)
+        this.accountDataService.getOrders(accountId, walletId, assetPair, orderType, side, status)
             .pipe(
                 catchError(() => of([])),
                 finalize(() => this.loadingSubject.next(false))

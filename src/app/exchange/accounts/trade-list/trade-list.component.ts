@@ -23,6 +23,7 @@ export class TradeListComponent implements OnInit, OnDestroy {
     private assetService: AssetService,
     private accountDataService: AccountDataService) { }
 
+  private accountId: number;
   private walletId: number;
   private subscriptions: Subscription[] = [];
 
@@ -43,6 +44,7 @@ export class TradeListComponent implements OnInit, OnDestroy {
     this.dataSource = new TradeDataSource(this.accountDataService);
 
     const routeSubscription = this.route.params.subscribe(params => {
+      this.accountId = params['accountId'];
       this.walletId = params['walletId'];
       this.load();
     });
@@ -97,7 +99,7 @@ export class TradeListComponent implements OnInit, OnDestroy {
   }
 
   load() {
-    this.dataSource.load(this.walletId, this.baseAsset, this.quotingAsset);
+    this.dataSource.load(this.accountId, this.walletId, this.baseAsset, this.quotingAsset);
   }
 
   loadAssets() {

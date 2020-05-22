@@ -5,6 +5,7 @@ import { BaseDataSource } from './base-data-source';
 
 import { Balance } from '../api/models/balances'
 import { AccountDataService } from '../api/services';
+import { PagedResponse } from '../api/models/pagination';
 
 export class BalanceDataSource extends BaseDataSource<Balance> {
 
@@ -19,8 +20,8 @@ export class BalanceDataSource extends BaseDataSource<Balance> {
                 catchError(() => of([])),
                 finalize(() => this.loadingSubject.next(false))
             )
-            .subscribe((response: Balance[]) => {
-                this.itemsSubject.next(response)
+            .subscribe((response: PagedResponse<Balance>) => {
+                this.itemsSubject.next(response.items)
             });
     }
 }

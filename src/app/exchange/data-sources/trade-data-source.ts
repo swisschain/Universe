@@ -13,9 +13,9 @@ export class TradeDataSource extends BaseDataSource<Trade> {
         super();
     }
 
-    load(walletId: number, baseAsset: string, quotingAsset: string) {
+    load(accountId: number, walletId: number, baseAsset: string, quotingAsset: string) {
         this.loadingSubject.next(true);
-        this.accountDataService.getTrades(walletId, baseAsset, quotingAsset)
+        this.accountDataService.getTrades(accountId, walletId, baseAsset, quotingAsset)
             .pipe(
                 catchError(() => of([])),
                 finalize(() => this.loadingSubject.next(false))

@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 
-import { map } from 'rxjs/operators';
-
-import { BalanceResponse, BalanceHistory, BalanceHistoryType, BalanceHistoryDetails } from '../models/balances';
+import { Balance, BalanceHistory, BalanceHistoryType, BalanceHistoryDetails } from '../models/balances';
 import { PagedResponse } from '../models/pagination';
 import { Order } from '../models/orders';
 import { Trade } from '../models/trades';
@@ -20,15 +18,13 @@ export class AccountDataService {
             .set('walletId', walletId ? walletId.toString() : '')
             .set('asset', asset);
 
-        return this.http.get<BalanceResponse>(`${API_URL}/balance`, { params: params })
-            .pipe(
-                map(result => result.list)
-            );
+        return this.http.get<PagedResponse<Balance>>(`${API_URL}/balance`, { params: params });
     }
 
-    getBalanceHistory(walletId: number, asset: string, eventType: BalanceHistoryType) {
+    getBalanceHistory(accountId: number, walletId: number, asset: string, eventType: BalanceHistoryType) {
         const params = new HttpParams()
-            .set('wallet', walletId.toString())
+            .set('accountId', accountId.toString())
+            .set('walletId', walletId.toString())
             .set('asset', asset)
             .set('eventType', eventType ? eventType.toString() : '')
             .set('order', 'desc');
@@ -36,12 +32,13 @@ export class AccountDataService {
         return this.http.get<PagedResponse<BalanceHistory>>(`${API_URL}/balance-update`, { params: params });
     }
 
-    getBalanceHistoryDetails(balanceHistoryId: string) {
+    getBalanceHistoryDetails(balanceHistoryId: number) {
         return this.http.get<BalanceHistoryDetails>(`${API_URL}/balance-update/details/${balanceHistoryId}`);
     }
 
-    getOrders(walletId: number, assetPair: string, orderType: string, side: string, status: string) {
+    getOrders(accountId: number, walletId: number, assetPair: string, orderType: string, side: string, status: string) {
         const params = new HttpParams()
+            .set('accountId', accountId.toString())
             .set('walletId', walletId.toString())
             .set('assetPairId', assetPair)
             .set('orderType', orderType)
@@ -56,8 +53,9 @@ export class AccountDataService {
         return this.http.get<Order>(`${API_URL}/order/${orderId}`);
     }
 
-    getTrades(walletId: number, baseAsset: string, quotingAsset: string) {
+    getTrades(accountId: number, walletId: number, baseAsset: string, quotingAsset: string) {
         const params = new HttpParams()
+            .set('accountId', accountId.toString())
             .set('walletId', walletId.toString())
             .set('baseAssetId', baseAsset)
             .set('quotingAssetId', quotingAsset)

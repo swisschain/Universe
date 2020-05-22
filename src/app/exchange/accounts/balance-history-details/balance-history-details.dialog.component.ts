@@ -19,7 +19,7 @@ export class BalanceHistoryDetailsDialogComponent implements OnInit {
     private accountDataService: AccountDataService) {
   }
 
-  private balanceHistoryId: string;
+  private balanceHistoryId: number;
 
   viewLoading = false;
   balanceHistoryDetails: BalanceHistoryDetails;

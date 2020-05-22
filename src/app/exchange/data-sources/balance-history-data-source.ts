@@ -13,9 +13,9 @@ export class BalanceHistoryDataSource extends BaseDataSource<BalanceHistory> {
         super();
     }
 
-    load(walletId: number, asset: string, balanceHistoryType: BalanceHistoryType) {
+    load(accountId: number, walletId: number, asset: string, balanceHistoryType: BalanceHistoryType) {
         this.loadingSubject.next(true);
-        this.accountDataService.getBalanceHistory(walletId, asset, balanceHistoryType)
+        this.accountDataService.getBalanceHistory(accountId, walletId, asset, balanceHistoryType)
             .pipe(
                 catchError(() => of([])),
                 finalize(() => this.loadingSubject.next(false))
