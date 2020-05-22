@@ -18,7 +18,7 @@ export class CashOperationsFeeService {
         return this.http.get<Response<PagedResponse<CashOperationsFee>>>(`${API_URL}`, { params: params });
     }
 
-    getById(cashOperationsFeeId: string) {
+    getById(cashOperationsFeeId: number) {
         return this.http.get<Response<CashOperationsFee>>(`${API_URL}/${cashOperationsFeeId}`);
     }
 
@@ -46,7 +46,7 @@ export class CashOperationsFeeService {
         });
     }
 
-    delete(cashOperationsFeeId: string) {
+    delete(cashOperationsFeeId: number) {
         return this.http.delete(`${API_URL}/${cashOperationsFeeId}`);
     }
 }

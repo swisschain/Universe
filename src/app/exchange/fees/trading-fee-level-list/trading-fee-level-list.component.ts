@@ -28,7 +28,7 @@ export class TradingFeeLevelListComponent implements OnInit, OnDestroy {
     private layoutUtilsService: LayoutUtilsService,
     private tradingFeeService: TradingFeeService) { }
 
-  private tradingFeeId: string;
+  private tradingFeeId: number;
   private subscriptions: Subscription[] = [];
 
   dataSource: TradingFeeLevelDataSource;

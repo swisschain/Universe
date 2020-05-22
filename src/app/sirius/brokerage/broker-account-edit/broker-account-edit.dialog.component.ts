@@ -4,9 +4,12 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { v4 as uuidv4 } from 'uuid';
 
+import { getVaultTypeTitle } from '../../shared/utils'
+
 import { markFormGroupTouched, isFormGroupControlHasError, setFormError, getCommonError } from '../../shared/validation-utils'
 
-import { BrokerAccountService } from '../../api/services';
+import { Vault, VaultType } from '../../api/models/vaults';
+import { BrokerAccountService, VaultService } from '../../api/services';
 
 @Component({
   selector: 'kt-broker-account-edit-dialog',
@@ -22,11 +25,13 @@ export class BrokerAccountEditDialogComponent implements OnInit {
     public dialogRef: MatDialogRef<BrokerAccountEditDialogComponent>,
     private fb: FormBuilder,
     private cdr: ChangeDetectorRef,
-    private brokerAccountService: BrokerAccountService) {
+    private brokerAccountService: BrokerAccountService,
+    private vaultService: VaultService) {
   }
 
   private requestId = uuidv4();
 
+  vaults: Vault[] = [];
   form: FormGroup;
   hasFormErrors = false;
   errorMessage = '';
@@ -34,6 +39,7 @@ export class BrokerAccountEditDialogComponent implements OnInit {
 
   ngOnInit() {
     this.createForm();
+    this.load();
   }
 
   createForm() {
@@ -41,8 +47,25 @@ export class BrokerAccountEditDialogComponent implements OnInit {
       name: ['', Validators.compose([
         Validators.required,
         Validators.maxLength(50)
+      ])],
+      vaultId: [null, Validators.compose([
+        Validators.required
       ])]
     });
+  }
+
+  load() {
+    this.viewLoading = true;
+    this.vaultService.getAll()
+      .subscribe(vaults => {
+        this.vaults = vaults;
+        this.viewLoading = false;
+        this.cdr.markForCheck();
+      });
+  }
+
+  getVaultTypeTitle(type: VaultType) {
+    return getVaultTypeTitle(type);
   }
 
   onSubmit() {

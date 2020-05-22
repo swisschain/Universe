@@ -24,6 +24,12 @@
             <label class="col-lg-4 col-form-label">Blockchains:
                 <strong>{{brokerAccount?.blockchainsCount}}</strong></label>
         </div>
+        <h6>Vault</h6>
+        <div class="form-group kt-form__group row">
+            <label class="col-lg-3 col-form-label">Id: <strong>{{vault?.id}}</strong></label>
+            <label class="col-lg-3 col-form-label">Name: <strong>{{vault?.name}}</strong></label>
+            <label class="col-lg-4 col-form-label">Type: <strong>{{vault ? getVaultTypeTitle(vault.type) : ''}}</strong></label>
+        </div>
         <mat-tab-group>
             <mat-tab label="Balances">
                 <ng-template matTabContent>

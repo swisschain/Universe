@@ -1,5 +1,5 @@
 export interface TradingFee {
-    id: string;
+    id: number;
     assetPair: string;
     asset: string;
     created: Date;

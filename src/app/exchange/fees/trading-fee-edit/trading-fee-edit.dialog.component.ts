@@ -32,7 +32,7 @@ export class TradingFeeEditDialogComponent implements OnInit {
   assets: string[];
   assetPairs: string[];
 
-  tradingFeeId: string;
+  tradingFeeId: number;
   form: FormGroup;
   hasFormErrors = false;
   errorMessage = '';

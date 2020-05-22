@@ -12,6 +12,15 @@ const API_URL = 'sirius/api/vaults';
 export class VaultService {
     constructor(private http: HttpClient) { }
 
+    getAll() {
+        return this.http.get<PagedResponse<Vault>>(`${API_URL}`)
+            .pipe(
+                map(result => {
+                    return result.items;
+                })
+            );
+    }
+
     get(name: string, type: VaultType) {
         const params = new HttpParams()
             .set('name', name)

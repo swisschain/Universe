@@ -31,7 +31,7 @@ export class CashOperationsFeeEditDialogComponent implements OnInit {
   assets: string[];
   feeTypes = [FeeType.Absolute, FeeType.Percentage];
 
-  cashOperationsFeeId: string;
+  cashOperationsFeeId: number;
   form: FormGroup;
   hasFormErrors = false;
   errorMessage = '';

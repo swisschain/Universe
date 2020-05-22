@@ -6,6 +6,7 @@ export interface BrokerAccount {
     state: BrokerAccountState;
     accountCount: number;
     blockchainsCount: number;
+    vaultId: number;
     createdAt: Date;
     updatedAt: Date;
 }

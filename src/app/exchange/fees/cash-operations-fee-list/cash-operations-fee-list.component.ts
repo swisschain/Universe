@@ -90,7 +90,7 @@ export class CashOperationsFeeListComponent implements OnInit, OnDestroy {
     this.edit(null);
   }
 
-  edit(cashOperationsFeeId: string) {
+  edit(cashOperationsFeeId: number) {
     const saveMessage = cashOperationsFeeId ? 'Cash operations fee updated' : 'Cash operations fee added';
     const messageType = cashOperationsFeeId ? MessageType.Update : MessageType.Create;
     const dialogRef = this.dialog.open(CashOperationsFeeEditDialogComponent, { data: { cashOperationsFeeId }, width: '600px' });

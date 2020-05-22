@@ -3,7 +3,10 @@ import { MatDialog, MatSnackBar } from '@angular/material';
 
 import { LayoutUtilsService, MessageType } from '../../../core/_base/crud';
 
-import { BrokerAccountService } from '../../api/services';
+import { getVaultTypeTitle } from '../../shared/utils'
+
+import { Vault, VaultType } from '../../api/models/vaults';
+import { BrokerAccountService, VaultService } from '../../api/services';
 import { BrokerAccountsDataSource } from '../../data-sources';
 import { BrokerAccountEditDialogComponent } from '../broker-account-edit/broker-account-edit.dialog.component';
 
@@ -19,18 +22,35 @@ export class BrokerAccountListComponent implements OnInit {
     public dialog: MatDialog,
     public snackBar: MatSnackBar,
     private layoutUtilsService: LayoutUtilsService,
-    private brokerAccountService: BrokerAccountService) { }
+    private brokerAccountService: BrokerAccountService,
+    private vaultService: VaultService) { }
+
+  private vaults: Vault[] = [];
 
   dataSource: BrokerAccountsDataSource;
-  displayedColumns = ['brokerAccountId', 'name', 'blockchainsCount', 'accountCount', 'state', 'createdAt', 'updatedAt', 'actions'];
+  displayedColumns = ['brokerAccountId', 'name', 'blockchainsCount', 'accountCount', 'state', 'vault', 'createdAt', 'updatedAt', 'actions'];
 
   ngOnInit() {
     this.dataSource = new BrokerAccountsDataSource(this.brokerAccountService);
-    this.load();
+    this.vaultService.getAll()
+      .subscribe(vaults => {
+        this.vaults = vaults;
+        this.load();
+      });
   }
 
   load() {
     this.dataSource.load();
+  }
+
+  getVaultName(vaultId: number) {
+    const vault = this.vaults.filter(o => o.id == vaultId)[0];
+
+    if (vault) {
+      return `${vault.name} (${getVaultTypeTitle(vault.type)})`;
+    }
+
+    return '';
   }
 
   add() {

@@ -1,6 +1,6 @@
 export interface TradingFeeLevel {
-    id: string;
-    tradingFeeId: string;
+    id: number;
+    tradingFeeId: number;
     volume: number;
     makerFee: number;
     takerFee: number;

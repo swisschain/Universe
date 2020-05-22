@@ -22,7 +22,7 @@ export class TradingFeeLevelEditDialogComponent implements OnInit {
     private tradingFeeService: TradingFeeService) {
   }
 
-  tradingFeeId: string;
+  tradingFeeId: number;
   tradingFeeLevel: TradingFeeLevel;
   form: FormGroup;
   hasFormErrors = false;

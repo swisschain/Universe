@@ -18,7 +18,7 @@ export class TradingFeeService {
         return this.http.get<Response<PagedResponse<TradingFee>>>(`${API_URL}`, { params: params });
     }
 
-    getById(tradingFeeId: string) {
+    getById(tradingFeeId: number) {
         return this.http.get<Response<TradingFee>>(`${API_URL}/${tradingFeeId}`);
     }
 
@@ -36,11 +36,11 @@ export class TradingFeeService {
         });
     }
 
-    delete(tradingFeeId: string) {
+    delete(tradingFeeId: number) {
         return this.http.delete(`${API_URL}/${tradingFeeId}`);
     }
 
-    getLevels(tradingFeeId: string) {
+    getLevels(tradingFeeId: number) {
         return this.http.get<Response<TradingFeeLevel[]>>(`${API_URL}/${tradingFeeId}/levels`);
     }
 
@@ -62,7 +62,7 @@ export class TradingFeeService {
         });
     }
 
-    deleteLevel(tradingFeeLevelId: string) {
+    deleteLevel(tradingFeeLevelId: number) {
         return this.http.delete(`${API_URL}/levels/${tradingFeeLevelId}`);
     }
 }

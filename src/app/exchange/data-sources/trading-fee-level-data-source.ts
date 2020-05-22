@@ -14,7 +14,7 @@ export class TradingFeeLevelDataSource extends BaseDataSource<TradingFeeLevel> {
         super();
     }
 
-    load(tradingFeeId: string) {
+    load(tradingFeeId: number) {
         this.loadingSubject.next(true);
         this.tradingFeeService.getLevels(tradingFeeId)
             .pipe(

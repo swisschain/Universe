@@ -1,7 +1,7 @@
 import { FeeType } from './fee-type.enum';
 
 export interface CashOperationsFee {
-    id: string;
+    id: number;
     asset: string;
     cashInValue: number;
     cashInFeeType: FeeType;
