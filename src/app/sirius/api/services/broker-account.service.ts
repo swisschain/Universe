@@ -43,9 +43,9 @@ export class BrokerAccountService {
         return this.http.get<PagedResponse<BrokerBalance>>(`${API_URL}/${brokerAccountId}/balances`);
     }
 
-    create(name: string, requestId: string) {
+    create(name: string, vaultId: number, requestId: string) {
         const headers = new HttpHeaders()
             .set('X-Request-ID', requestId);
-        return this.http.post<BrokerAccount>(`${API_URL}`, { name }, { headers: headers });
+        return this.http.post<BrokerAccount>(`${API_URL}`, { name, vaultId }, { headers: headers });
     }
 }

@@ -76,12 +76,14 @@ export class BrokerAccountEditDialogComponent implements OnInit {
       return;
     }
 
-    this.create(this.form.controls.name.value);
+    const controls = this.form.controls;
+
+    this.create(controls.name.value, controls.vaultId.value);
   }
 
-  create(name: string) {
+  create(name: string, vaultId: number) {
     this.viewLoading = true;
-    this.brokerAccountService.create(name, this.requestId)
+    this.brokerAccountService.create(name, vaultId, this.requestId)
       .subscribe(
         response => {
           this.viewLoading = false;
