@@ -1,0 +1,55 @@
+<kt-portlet>
+    <kt-portlet-header [class]="'kt-portlet__head--lg'">
+        <ng-container ktPortletTitle>
+            <h3 class="kt-portlet__head-title">
+                <span>Template</span>
+            </h3>
+        </ng-container>
+
+        <ng-container ktPortletTools>
+            <a [routerLink]="['../']" class="btn btn-secondary kt-margin-r-10" mat-raised-button
+                matTooltip="Back to templates">
+                <i class="la la-arrow-left"></i>
+                <span class="kt-hidden-mobile">Back</span>
+            </a>
+            <a href="javascript:;" (click)="personalize()" class="btn btn-secondary kt-margin-r-10" mat-raised-button
+                matTooltip="Personalize" color="primary" *ngIf="template && !template.isPersonalized">
+                <i class="la la-chain-broken"></i>
+                <span class="kt-hidden-mobile">Personalize</span>
+            </a>
+            <a href="javascript:;" (click)="restore()" class="btn btn-secondary kt-margin-r-10" mat-raised-button
+                matTooltip="Restore to default" color="primary" *ngIf="template && template.isPersonalized">
+                <i class="la la-chain"></i>
+                <span class="kt-hidden-mobile">Restore</span>
+            </a>
+        </ng-container>
+    </kt-portlet-header>
+
+    <kt-portlet-body>
+        <div class="form-group kt-form__group row">
+            <label class="col-lg-4 col-form-label">
+                Product: <strong>{{productTitle}}</strong>
+            </label>
+            <label class="col-lg-4 col-form-label">
+                Name: <strong>{{templateName}}</strong>
+            </label>
+        </div>
+        <mat-tab-group>
+            <mat-tab label="Email">
+                <ng-template matTabContent>
+                    <kt-template-content-list [parent]="template" [channel]="channelEmail"></kt-template-content-list>
+                </ng-template>
+            </mat-tab>
+            <mat-tab label="SMS">
+                <ng-template matTabContent>
+                    <kt-template-content-list [parent]="template" [channel]="channelSms"></kt-template-content-list>
+                </ng-template>
+            </mat-tab>
+            <mat-tab label="PUSH">
+                <ng-template matTabContent>
+                    <kt-template-content-list [parent]="template" [channel]="channelPush"></kt-template-content-list>
+                </ng-template>
+            </mat-tab>
+        </mat-tab-group>
+    </kt-portlet-body>
+</kt-portlet>

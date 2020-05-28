@@ -38,6 +38,7 @@ import {
 	DeleteEntityDialogComponent,
 	FetchEntityDialogComponent,
 	UpdateStatusDialogComponent,
+	EntityDialogComponent,
 } from './content/crud';
 // Layout partials
 import {
@@ -78,6 +79,7 @@ import {CartComponent} from './layout/topbar/cart/cart.component';
 		DeleteEntityDialogComponent,
 		FetchEntityDialogComponent,
 		UpdateStatusDialogComponent,
+		EntityDialogComponent,
 		AlertComponent,
 
 		// topbar components
@@ -112,6 +114,7 @@ import {CartComponent} from './layout/topbar/cart/cart.component';
 		DeleteEntityDialogComponent,
 		FetchEntityDialogComponent,
 		UpdateStatusDialogComponent,
+		EntityDialogComponent,
 		AlertComponent,
 
 		// topbar components

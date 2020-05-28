@@ -6,7 +6,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { PartialsModule } from '../views/partials/partials.module';
 import { EffectsModule } from '@ngrx/effects';
 import { HttpUtilsService, TypesUtilsService, LayoutUtilsService } from '../core/_base/crud';
-import { ActionNotificationComponent, DeleteEntityDialogComponent, FetchEntityDialogComponent, UpdateStatusDialogComponent } from '../views/partials/content/crud';
+import { ActionNotificationComponent, DeleteEntityDialogComponent, FetchEntityDialogComponent, UpdateStatusDialogComponent, EntityDialogComponent } from '../views/partials/content/crud';
 import { ModuleGuard } from '../core/auth';
 import {
   MatInputModule,
@@ -42,9 +42,19 @@ import { WorkingOnItComponent } from './shared/working-on-it/working-on-it.compo
 import { ApiKeyListComponent } from './api-keys/api-key-list/api-key-list.component';
 import { ApiKeyEditDialogComponent } from './api-keys/api-key-edit/api-key-edit.dialog.component';
 import { ApiKeyTokenDialogComponent } from './api-keys/api-key-token/api-key-token.dialog.component';
-import { ApiKeyService } from './api/services/api-key.service';
 import { ApiKeysComponent } from './api-keys/api-keys/api-keys.component';
 import { ApiKeyDeletedListComponent } from './api-keys/api-key-deleted-list/api-key-deleted-list.component';
+
+import { ApiKeyService, LayoutService, TemplateService } from './api/services';
+import { LayoutListComponent } from './notifications/layout-list/layout-list.component';
+import { LayoutContentListComponent } from './notifications/layout-content-list/layout-content-list.component';
+import { LayoutContentEditComponent } from './notifications/layout-content-edit/layout-content-edit.component';
+import { TemplateListComponent } from './notifications/template-list/template-list.component';
+import { TemplateContentListComponent } from './notifications/template-content-list/template-content-list.component';
+import { TemplateContentEditDialogComponent } from './notifications/template-content-edit/template-content-edit.dialog.component';
+import { TemplateContentEmailEditComponent } from './notifications/template-content-email-edit/template-content-email-edit.component';
+import { TemplateComponent } from './notifications/template/template.component';
+import { LayoutComponent } from './notifications/layout/layout.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +64,16 @@ import { ApiKeyDeletedListComponent } from './api-keys/api-key-deleted-list/api-
     ApiKeyEditDialogComponent,
     ApiKeyTokenDialogComponent,
     ApiKeysComponent,
-    ApiKeyDeletedListComponent
+    ApiKeyDeletedListComponent,
+    LayoutListComponent,
+    LayoutContentListComponent,
+    LayoutContentEditComponent,
+    TemplateListComponent,
+    TemplateContentListComponent,
+    TemplateContentEditDialogComponent,
+    TemplateContentEmailEditComponent,
+    TemplateComponent,
+    LayoutComponent
   ],
   imports: [
     CommonModule,
@@ -89,32 +108,36 @@ import { ApiKeyDeletedListComponent } from './api-keys/api-key-deleted-list/api-
     ClipboardModule
   ],
   providers: [
-		ModuleGuard,
-		{
-			provide: MAT_DIALOG_DEFAULT_OPTIONS,
-			useValue: {
-				hasBackdrop: true,
-				panelClass: 'kt-mat-dialog-container__wrapper',
-				height: 'auto',
-				width: '900px'
-			}
-		},
-		TypesUtilsService,
-		HttpUtilsService,
-		TypesUtilsService,
-		LayoutUtilsService,
+    ModuleGuard,
+    {
+      provide: MAT_DIALOG_DEFAULT_OPTIONS,
+      useValue: {
+        hasBackdrop: true,
+        panelClass: 'kt-mat-dialog-container__wrapper',
+        height: 'auto',
+        width: '900px'
+      }
+    },
+    TypesUtilsService,
+    HttpUtilsService,
+    TypesUtilsService,
+    LayoutUtilsService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthHeaderInterceptor, multi: true },
-    
-    ApiKeyService
-	],
+
+    ApiKeyService,
+    LayoutService,
+    TemplateService
+  ],
   entryComponents: [
     ActionNotificationComponent,
-		DeleteEntityDialogComponent,
-		FetchEntityDialogComponent,
+    DeleteEntityDialogComponent,
+    FetchEntityDialogComponent,
     UpdateStatusDialogComponent,
-    
+    EntityDialogComponent,
+
     ApiKeyEditDialogComponent,
-    ApiKeyTokenDialogComponent
+    ApiKeyTokenDialogComponent,
+    TemplateContentEditDialogComponent
   ]
 })
 export class HomeModule { }

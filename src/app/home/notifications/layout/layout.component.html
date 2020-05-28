@@ -1,0 +1,36 @@
+<kt-portlet>
+    <kt-portlet-header [class]="'kt-portlet__head--lg'">
+        <ng-container ktPortletTitle>
+            <h3 class="kt-portlet__head-title">
+                <span>Layout</span>
+            </h3>
+        </ng-container>
+
+        <ng-container ktPortletTools>
+            <a [routerLink]="['../']" class="btn btn-secondary kt-margin-r-10" mat-raised-button
+                matTooltip="Back to layouts">
+                <i class="la la-arrow-left"></i>
+                <span class="kt-hidden-mobile">Back</span>
+            </a>
+            <a href="javascript:;" (click)="personalize()" class="btn btn-secondary kt-margin-r-10" mat-raised-button
+                matTooltip="Personalize" color="primary" *ngIf="layout && !layout.isPersonalized">
+                <i class="la la-chain-broken"></i>
+                <span class="kt-hidden-mobile">Personalize</span>
+            </a>
+            <a href="javascript:;" (click)="restore()" class="btn btn-secondary kt-margin-r-10" mat-raised-button
+                matTooltip="Restore to default" color="primary" *ngIf="layout && layout.isPersonalized">
+                <i class="la la-chain"></i>
+                <span class="kt-hidden-mobile">Restore</span>
+            </a>
+        </ng-container>
+    </kt-portlet-header>
+
+    <kt-portlet-body>
+        <div class="form-group kt-form__group row">
+            <label class="col-lg-4 col-form-label">
+                Product: <strong>{{productTitle}}</strong>
+            </label>
+        </div>
+        <kt-layout-content-list [parent]="layout"></kt-layout-content-list>
+    </kt-portlet-body>
+</kt-portlet>
