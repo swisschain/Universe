@@ -14,6 +14,8 @@ import { WithdrawalListComponent } from './brokerage/withdrawal-list/withdrawal-
 import { WithdrawalDetailsComponent } from './brokerage/withdrawal-details/withdrawal-details.component';
 import { VaultListComponent } from './vaults/vault-list/vault-list.component';
 import { ApiKeyListComponent } from './vaults/api-key-list/api-key-list.component';
+import { KeyKeeperListComponent } from './key-keepers/key-keeper-list/key-keeper-list.component';
+import { KeyKeepingConfigurationComponent } from './key-keepers/key-keeping-configuration/key-keeping-configuration.component';
 
 const routes: Routes = [
     {
@@ -59,6 +61,14 @@ const routes: Routes = [
     {
         path: 'vaults/:vaultId',
         component: ApiKeyListComponent
+    },
+    {
+        path: 'key-keepers',
+        component: KeyKeeperListComponent
+    },
+    {
+        path: 'key-keeping-configuration',
+        component: KeyKeepingConfigurationComponent
     },
     {
         path: '',

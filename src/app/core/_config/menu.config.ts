@@ -211,6 +211,20 @@ export class MenuConfig {
 						page: '/services/sirius/vaults',
 						bullet: 'dot'
 					},
+					{
+						title: 'Key Keepers',
+						root: true,
+						icon: 'flaticon2-list',
+						page: '/services/sirius/key-keepers',
+						bullet: 'dot'
+					},
+					{
+						title: 'Configuration',
+						root: true,
+						icon: 'flaticon2-list',
+						page: '/services/sirius/key-keeping-configuration',
+						bullet: 'dot'
+					}
 				]
 			}
 		},

@@ -1,0 +1,82 @@
+<kt-portlet>
+    <kt-portlet-header [class]="'kt-portlet__head--lg'" [viewLoading$]="loading$">
+        <ng-container ktPortletTitle>
+            <h3 class="kt-portlet__head-title">
+                <span>Configuration</span>
+            </h3>
+        </ng-container>
+        <ng-container ktPortletTools>
+            <a href="javascript:;" class="btn btn-primary kt-margin-r-10" color="primary" (click)="onSubmit()"
+                mat-raised-button matTooltip="Save" [disabled]="loading$ | async">
+                <span class="kt-hidden-mobile">Save</span>
+            </a>
+        </ng-container>
+    </kt-portlet-header>
+
+    <kt-portlet-body>
+        <div>
+            <form [formGroup]="form" class="kt-form kt-form--group-seperator-dashed">
+                <kt-alert *ngIf="hasFormErrors" type="warn" [showCloseButton]="true" [duration]="10000"
+                    (close)="onAlertClose($event)">
+                    {{errorMessage}}
+                </kt-alert>
+                <div class="kt-form__section kt-form__section--first">
+                    <div class="form-group kt-form__group row">
+                        <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                            <mat-form-field class="mat-form-field-fluid">
+                                <input matInput type="number" placeholder="Activate approvements"
+                                    formControlName="activateApprovementsCount" min="0" max="100" step="1" />
+                                <mat-error *ngIf="isFormControlHasError('activateApprovementsCount','required')">
+                                    <strong>Required field</strong>
+                                </mat-error>
+                                <mat-error *ngIf="isFormControlHasError('activateApprovementsCount','min')">
+                                    <strong>Minimum value: 1</strong>
+                                </mat-error>
+                                <mat-error *ngIf="isFormControlHasError('activateApprovementsCount','max')">
+                                    <strong>Maximum value: 100</strong>
+                                </mat-error>
+                                <mat-error *ngIf="isFormControlHasError('activateApprovementsCount','serverError')">
+                                    <strong>{{form.get('activateApprovementsCount').errors?.serverError}}</strong>
+                                </mat-error>
+                                <mat-hint align="start">The minimum required number of key keepers approvements count to
+                                    activate vault
+                                </mat-hint>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                            <mat-form-field class="mat-form-field-fluid">
+                                <input matInput type="number" placeholder="Manual transaction approvements"
+                                    formControlName="manualTransactionApprovementsCount" min="0" max="100" step="1" />
+                                <mat-error *ngIf="isFormControlHasError('manualTransactionApprovementsCount','required')">
+                                    <strong>Required field</strong>
+                                </mat-error>
+                                <mat-error *ngIf="isFormControlHasError('manualTransactionApprovementsCount','min')">
+                                    <strong>Minimum value: 1</strong>
+                                </mat-error>
+                                <mat-error *ngIf="isFormControlHasError('manualTransactionApprovementsCount','max')">
+                                    <strong>Maximum value: 100</strong>
+                                </mat-error>
+                                <mat-error *ngIf="isFormControlHasError('manualTransactionApprovementsCount','serverError')">
+                                    <strong>{{form.get('manualTransactionApprovementsCount').errors?.serverError}}</strong>
+                                </mat-error>
+                                <mat-hint align="start">The minimum required number of key keepers approvements count to
+                                    sign manual transaction
+                                </mat-hint>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group kt-form__group row" *ngIf="createdAt && updatedAt">
+                    <label class="col-lg-2 col-form-label">Created:</label>
+                    <div class="col-lg-2">
+                        <label class="col-form-label">{{createdAt | date:'short'}}</label>
+                    </div>
+                    <label class="col-lg-2 col-form-label">Updated:</label>
+                    <div class="col-lg-2">
+                        <label class="col-form-label">{{updatedAt | date:'short'}}</label>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </kt-portlet-body>
+</kt-portlet>

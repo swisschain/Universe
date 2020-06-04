@@ -57,7 +57,17 @@ import { WithdrawalEditDialogComponent } from './brokerage/withdrawal-edit/withd
 import { WithdrawalDetailsComponent } from './brokerage/withdrawal-details/withdrawal-details.component';
 import { RequisitesDialogComponent } from './shared/requisites/requisites.dialog.component';
 
-import { AccountService, AssetsService, BlockchainsService, BrokerAccountService, DepositsService, WithdrawalService, VaultService } from './api/services';
+import {
+	AccountService,
+	AssetsService,
+	BlockchainsService,
+	BrokerAccountService,
+	DepositsService,
+	KeyKeeperService,
+	KeyKeepingConfigurationService,	
+	VaultService,
+	WithdrawalService
+} from './api/services';
 
 import { NumberDirective } from './shared/numbers-only.directive';
 import { VaultListComponent } from './vaults/vault-list/vault-list.component';
@@ -67,6 +77,9 @@ import { VaultEditDialogComponent } from './vaults/vault-edit/vault-edit.dialog.
 import { ApiKeyTokenDialogComponent } from './vaults/api-key-token/api-key-token.dialog.component';
 import { ApiKeyRevokedComponent } from './vaults/api-key-revoked/api-key-revoked.component';
 import { ApiKeyActiveComponent } from './vaults/api-key-active/api-key-active.component';
+import { KeyKeeperListComponent } from './key-keepers/key-keeper-list/key-keeper-list.component';
+import { KeyKeeperEditDialogComponent } from './key-keepers/key-keeper-edit/key-keeper-edit.dialog.component';
+import { KeyKeepingConfigurationComponent } from './key-keepers/key-keeping-configuration/key-keeping-configuration.component';
 
 
 @NgModule({
@@ -97,7 +110,10 @@ import { ApiKeyActiveComponent } from './vaults/api-key-active/api-key-active.co
 		ApiKeyEditDialogComponent,
 		ApiKeyTokenDialogComponent,
 		ApiKeyRevokedComponent,
-		ApiKeyActiveComponent
+		ApiKeyActiveComponent,
+		KeyKeeperListComponent,
+		KeyKeeperEditDialogComponent,
+		KeyKeepingConfigurationComponent
 	],
 	imports: [
 		CommonModule,
@@ -155,8 +171,10 @@ import { ApiKeyActiveComponent } from './vaults/api-key-active/api-key-active.co
 		BlockchainsService,
 		BrokerAccountService,
 		DepositsService,
-		WithdrawalService,
-		VaultService
+		KeyKeeperService,
+		KeyKeepingConfigurationService,
+		VaultService,
+		WithdrawalService
 	],
 	entryComponents: [
 		ActionNotificationComponent,
@@ -170,7 +188,8 @@ import { ApiKeyActiveComponent } from './vaults/api-key-active/api-key-active.co
 		RequisitesDialogComponent,
 		VaultEditDialogComponent,
 		ApiKeyEditDialogComponent,
-		ApiKeyTokenDialogComponent
+		ApiKeyTokenDialogComponent,
+		KeyKeeperEditDialogComponent
 	]
 })
 export class SiriusModule { }
