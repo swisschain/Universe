@@ -45,7 +45,7 @@ import { ApiKeyTokenDialogComponent } from './api-keys/api-key-token/api-key-tok
 import { ApiKeysComponent } from './api-keys/api-keys/api-keys.component';
 import { ApiKeyDeletedListComponent } from './api-keys/api-key-deleted-list/api-key-deleted-list.component';
 
-import { ApiKeyService, LayoutService, TemplateService } from './api/services';
+import { ApiKeyService, LayoutService, MessageService, NotificationApiKeyService, ProviderService, TemplateService } from './api/services';
 import { LayoutListComponent } from './notifications/layout-list/layout-list.component';
 import { LayoutContentListComponent } from './notifications/layout-content-list/layout-content-list.component';
 import { LayoutContentEditComponent } from './notifications/layout-content-edit/layout-content-edit.component';
@@ -55,6 +55,10 @@ import { TemplateContentEditDialogComponent } from './notifications/template-con
 import { TemplateContentEmailEditComponent } from './notifications/template-content-email-edit/template-content-email-edit.component';
 import { TemplateComponent } from './notifications/template/template.component';
 import { LayoutComponent } from './notifications/layout/layout.component';
+import { MessageListComponent } from './notifications/message-list/message-list.component';
+import { MessageDetailsDialogComponent } from './notifications/message-details/message-details.dialog.component';
+import { NotificationApiKeyListComponent } from './notifications/api-key-list/api-key-list.component';
+import { NotificationApiKeyEditDialogComponent } from './notifications/api-key-edit/api-key-edit.dialog.component';
 
 @NgModule({
   declarations: [
@@ -73,7 +77,11 @@ import { LayoutComponent } from './notifications/layout/layout.component';
     TemplateContentEditDialogComponent,
     TemplateContentEmailEditComponent,
     TemplateComponent,
-    LayoutComponent
+    LayoutComponent,
+    MessageListComponent,
+    MessageDetailsDialogComponent,
+    NotificationApiKeyListComponent,
+    NotificationApiKeyEditDialogComponent
   ],
   imports: [
     CommonModule,
@@ -126,6 +134,9 @@ import { LayoutComponent } from './notifications/layout/layout.component';
 
     ApiKeyService,
     LayoutService,
+    MessageService,
+    NotificationApiKeyService,
+    ProviderService,
     TemplateService
   ],
   entryComponents: [
@@ -137,7 +148,9 @@ import { LayoutComponent } from './notifications/layout/layout.component';
 
     ApiKeyEditDialogComponent,
     ApiKeyTokenDialogComponent,
-    TemplateContentEditDialogComponent
+    TemplateContentEditDialogComponent,
+    MessageDetailsDialogComponent,
+    NotificationApiKeyEditDialogComponent
   ]
 })
 export class HomeModule { }

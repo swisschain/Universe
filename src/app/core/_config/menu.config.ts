@@ -81,6 +81,20 @@ export class MenuConfig {
 						page: '/home/notifications/templates',
 						bullet: 'dot'
 					},
+					{
+						title: 'API Keys',
+						root: true,
+						icon: 'flaticon-star',
+						page: '/home/notifications/api-keys',
+						bullet: 'dot'
+					},
+					{
+						title: 'Messages',
+						root: true,
+						icon: 'flaticon-star',
+						page: '/home/notifications/messages',
+						bullet: 'dot'
+					},
 					{ section: 'Services' },
 					{
 						title: 'Sirius',

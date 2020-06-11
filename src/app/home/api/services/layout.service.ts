@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 
 import { Layout, LayoutContent, Product } from '../models/notifications';
 
-const API_URL = 'quasar/api/layouts';
+const API_URL = 'quasar-templates/api/layouts';
 
 @Injectable()
 export class LayoutService {

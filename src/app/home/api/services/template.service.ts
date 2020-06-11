@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 
 import { Template, TemplateContent, Product, Channel } from '../models/notifications';
 
-const API_URL = 'quasar/api/templates';
+const API_URL = 'quasar-templates/api/templates';
 
 @Injectable()
 export class TemplateService {

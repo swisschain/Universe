@@ -16,7 +16,7 @@
             <div class="form-group kt-form__group row">
                 <div class="col-lg-12 kt-margin-bottom-20-mobile">
                     <mat-form-field class="mat-form-field-fluid">
-                        <input matInput placeholder="External id" formControlName="externalId" maxlength="500" />
+                        <input matInput placeholder="Key id" formControlName="externalId" maxlength="500" />
                         <mat-error *ngIf="isFormControlHasError('externalId','required')">
                             <strong>Required field</strong>
                         </mat-error>
@@ -26,7 +26,7 @@
                         <mat-error *ngIf="isFormControlHasError('externalId','serverError')">
                             <strong>{{form.get('externalId').errors?.serverError}}</strong>
                         </mat-error>
-                        <mat-hint align="start">Please enter external id
+                        <mat-hint align="start">Please enter key id
                         </mat-hint>
                     </mat-form-field>
                 </div>

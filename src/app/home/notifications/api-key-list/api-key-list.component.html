@@ -1,0 +1,82 @@
+<kt-portlet>
+    <kt-portlet-header [class]="'kt-portlet__head--lg'" [viewLoading$]="dataSource.loading$">
+        <ng-container ktPortletTitle>
+            <h3 class="kt-portlet__head-title">
+                <span>API Keys</span>
+            </h3>
+        </ng-container>
+
+        <ng-container ktPortletTools>
+            <a (click)="add()" href="javascript:;" class="btn btn-primary kt-margin-r-10" color="primary"
+                mat-raised-button matTooltip="Create">
+                <i class="la la-plus"></i>
+                <span class="kt-hidden-mobile">Create</span>
+            </a>
+        </ng-container>
+    </kt-portlet-header>
+
+    <kt-portlet-body>
+        <div class="mat-table__wrapper">
+            <mat-table class="mat-elevation-z0" #table [dataSource]="dataSource">
+                <ng-container matColumnDef="product">
+                    <mat-header-cell *matHeaderCellDef>Product</mat-header-cell>
+                    <mat-cell *matCellDef="let item">{{getProductTitle(item.product)}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="channel">
+                    <mat-header-cell *matHeaderCellDef>Channel</mat-header-cell>
+                    <mat-cell *matCellDef="let item">{{getChannelTitle(item.channel)}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="provider">
+                    <mat-header-cell *matHeaderCellDef>Provider</mat-header-cell>
+                    <mat-cell *matCellDef="let item">{{getProviderName(item.providerId)}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="from">
+                    <mat-header-cell *matHeaderCellDef>From</mat-header-cell>
+                    <mat-cell *matCellDef="let item">{{item.from}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="apiKey">
+                    <mat-header-cell *matHeaderCellDef>API Key</mat-header-cell>
+                    <mat-cell *matCellDef="let item">{{formatApiKey(item.value)}}
+                        <button mat-icon-button color="primary" matTooltip="Copy" matTooltipPosition="right"
+                            ngxClipboard [cbContent]="item.value">
+                            <mat-icon>filter_none</mat-icon>
+                        </button>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="created">
+                    <mat-header-cell *matHeaderCellDef>Created</mat-header-cell>
+                    <mat-cell *matCellDef="let item">{{item.created | date:'short'}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="modified">
+                    <mat-header-cell *matHeaderCellDef>Modified</mat-header-cell>
+                    <mat-cell *matCellDef="let item">{{item.modified | date:'short'}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="actions">
+                    <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+                    <mat-cell *matCellDef="let item">
+                        <button mat-icon-button color="primary" matTooltip="Edit" type="button" (click)="edit(item)">
+                            <mat-icon>create</mat-icon>
+                        </button>&nbsp;
+                        <button mat-icon-button color="warn" matTooltip="Delete" type="button"
+                            (click)="delete(item)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+            </mat-table>
+
+            <div class="mat-table__message" *ngIf="!dataSource.hasItems">No records found</div>
+            <div class="mat-table__message" *ngIf="dataSource.isPreloadTextViewed$ | async">Please wait....</div>
+        </div>
+    </kt-portlet-body>
+</kt-portlet>

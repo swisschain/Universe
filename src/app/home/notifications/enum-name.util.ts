@@ -1,4 +1,4 @@
-import { Product, Channel } from '../api/models/notifications';
+import { Product, Channel, MessageStatus } from '../api/models/notifications';
 
 export function getProductTitle(product: Product): string {
     switch (product) {
@@ -19,6 +19,19 @@ export function getChannelTitle(channel: Channel): string {
             return 'SMS';
         case Channel.Push:
             return 'PUSH';
+        default:
+            return '';
+    }
+}
+
+export function getMessageStatusTitle(messageStatus: MessageStatus): string {
+    switch (messageStatus) {
+        case MessageStatus.New:
+            return 'New';
+        case MessageStatus.Sent:
+            return 'Sent';
+        case MessageStatus.Error:
+            return 'Error';
         default:
             return '';
     }

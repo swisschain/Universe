@@ -16,9 +16,14 @@
         "secure": false,
         "logLevel": "info",
         "changeOrigin": true
-    }
-    ,
+    },
     "/quasar": {
+        "target": "https://universe.swisschain.io/",
+        "secure": false,
+        "logLevel": "info",
+        "changeOrigin": true
+    },
+    "/quasar-templates":{
         "target": "https://universe.swisschain.io/",
         "secure": false,
         "logLevel": "info",
