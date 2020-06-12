@@ -27,8 +27,8 @@ export class MessageListComponent implements OnInit, OnDestroy {
 
   private subscriptions: Subscription[] = [];
 
-  private templateName: string = null;
-  private address: string = null;
+  private templateName = '';
+  private address = '';
 
   status: MessageStatus = null;
   channel: Channel = null;
@@ -89,7 +89,7 @@ export class MessageListComponent implements OnInit, OnDestroy {
     return getMessageStatusTitle(messageStatus);
   }
 
-  edit(message: Message) {
+  details(message: Message) {
     this.dialog.open(MessageDetailsDialogComponent, { data: { message }, width: '800px' });
   }
 }

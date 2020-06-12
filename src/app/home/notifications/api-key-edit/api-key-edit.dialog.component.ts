@@ -60,10 +60,10 @@ export class NotificationApiKeyEditDialogComponent implements OnInit {
       providerId: [{ value: this.apiKey ? this.apiKey.providerId : null, disabled: this.apiKey ? true : false }, Validators.compose([
         Validators.required]
       )],
-      from: [{ value: this.apiKey ? this.apiKey.from : null }, Validators.compose([
+      from: [this.apiKey ? this.apiKey.from : null, Validators.compose([
       ]
       )],
-      value: [{ value: this.apiKey ? this.apiKey.value : null }, Validators.compose([
+      value: [this.apiKey ? this.apiKey.value : null, Validators.compose([
         Validators.required]
       )],
     });
