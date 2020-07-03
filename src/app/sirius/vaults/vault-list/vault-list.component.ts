@@ -7,9 +7,9 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 import { LayoutUtilsService, MessageType } from '../../../core/_base/crud';
 
-import { getVaultTypeTitle } from '../../shared/utils'
+import { getVaultTypeTitle, getVaultStatusTitle } from '../../shared/utils';
 
-import { Vault, VaultType } from '../../api/models/vaults';
+import { Vault, VaultType, VaultStatus } from '../../api/models/vaults';
 import { VaultService } from '../../api/services';
 import { VaultDataSource } from '../../data-sources';
 import { VaultEditDialogComponent } from '../vault-edit/vault-edit.dialog.component';
@@ -33,7 +33,7 @@ export class VaultListComponent implements OnInit, AfterViewInit, OnDestroy {
   searchByNameInput = new FormControl();
 
   dataSource: VaultDataSource;
-  displayedColumns = ['vaultId', 'name', 'type', 'createdAt', 'updatedAt', 'actions'];
+  displayedColumns = ['vaultId', 'name', 'type', 'status', 'createdAt', 'updatedAt', 'actions'];
 
   types = [VaultType.Private, VaultType.Shared];
 
@@ -70,6 +70,10 @@ export class VaultListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getVaultTypeTitle(type: VaultType) {
     return getVaultTypeTitle(type);
+  }
+
+  getVaultStatusTitle(status: VaultStatus) {
+    return getVaultStatusTitle(status);
   }
 
   add() {

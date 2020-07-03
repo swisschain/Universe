@@ -53,13 +53,13 @@ export class KeyKeeperEditDialogComponent implements OnInit {
   }
 
   setData(keyKeeper: KeyKeeper) {
-    this.form.controls.externalId.setValue(keyKeeper.externalId);
+    this.form.controls.keyId.setValue(keyKeeper.keyId);
     this.form.controls.description.setValue(keyKeeper.description);
   }
 
   createForm() {
     this.form = this.fb.group({
-      externalId: [{ value: '', disabled: this.keyKeeperId ? true : false }, Validators.compose([
+      keyId: [{ value: '', disabled: this.keyKeeperId ? true : false }, Validators.compose([
         Validators.required,
         Validators.maxLength(500)]
       )],
@@ -80,16 +80,15 @@ export class KeyKeeperEditDialogComponent implements OnInit {
     }
 
     if (!this.keyKeeperId) {
-      this.create(controls.externalId.value, controls.description.value);
-    }
-    else {
+      this.create(controls.keyId.value, controls.description.value);
+    } else {
       this.update(controls.description.value);
     }
   }
 
-  create(externalId: string, description: string) {
+  create(keyId: string, description: string) {
     this.viewLoading = true;
-    this.keyKeeperService.create(externalId, description, this.requestId)
+    this.keyKeeperService.create(keyId, description, this.requestId)
       .subscribe(
         response => {
           this.viewLoading = false;

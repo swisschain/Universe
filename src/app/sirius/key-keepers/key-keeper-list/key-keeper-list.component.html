@@ -26,7 +26,7 @@
                 <div class="row align-items-center">
                     <div class="col-md-3 kt-margin-bottom-10-mobile">
                         <mat-form-field class="mat-form-field-fluid">
-                            <input matInput placeholder="Key Id" [formControl]="searchByExternalIdInput">
+                            <input matInput placeholder="Key Id" [formControl]="searchByKeyIdInput">
                             <mat-hint align="start">
                                 <strong>Search</strong> by key id
                             </mat-hint>
@@ -51,9 +51,15 @@
                     <mat-cell *matCellDef="let item">{{item.id}}</mat-cell>
                 </ng-container>
 
-                <ng-container matColumnDef="externalId">
+                <ng-container matColumnDef="keyId">
                     <mat-header-cell *matHeaderCellDef>Key Id</mat-header-cell>
-                    <mat-cell *matCellDef="let item">{{item.externalId}}</mat-cell>
+                    <mat-cell *matCellDef="let item">
+                        {{getKeyId(item.keyId)}}
+                        <button mat-icon-button color="primary" matTooltip="Copy" matTooltipPosition="right" ngxClipboard
+                            [cbContent]="item.keyId">
+                            <mat-icon>filter_none</mat-icon>
+                        </button>
+                    </mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="description">

@@ -62,6 +62,11 @@
                     <mat-cell *matCellDef="let item">{{ getVaultTypeTitle(item.type)}}</mat-cell>
                 </ng-container>
 
+                <ng-container matColumnDef="status">
+                    <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+                    <mat-cell *matCellDef="let item">{{ getVaultStatusTitle(item.status)}}</mat-cell>
+                </ng-container>
+
                 <ng-container matColumnDef="createdAt">
                     <mat-header-cell *matHeaderCellDef>Created</mat-header-cell>
                     <mat-cell *matCellDef="let item">{{item.createdAt | date:'short'}}</mat-cell>

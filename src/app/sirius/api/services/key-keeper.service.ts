@@ -21,9 +21,9 @@ export class KeyKeeperService {
             );
     }
 
-    get(externalId: string, description: string) {
+    get(keyId: string, description: string) {
         const params = new HttpParams()
-            .set('externalId', externalId)
+            .set('keyId', keyId)
             .set('description', description);
         return this.http.get<PagedResponse<KeyKeeper>>(`${API_URL}`, { params: params });
     }
@@ -40,10 +40,10 @@ export class KeyKeeperService {
             );
     }
 
-    create(externalId: string, description: string, requestId: string) {
+    create(keyId: string, description: string, requestId: string) {
         const headers = new HttpHeaders()
             .set('X-Request-ID', requestId);
-        return this.http.post<KeyKeeper>(`${API_URL}`, { externalId, description }, { headers: headers });
+        return this.http.post<KeyKeeper>(`${API_URL}`, { keyId, description }, { headers: headers });
     }
 
     update(keyKeeperId: number, description: string, requestId: string) {

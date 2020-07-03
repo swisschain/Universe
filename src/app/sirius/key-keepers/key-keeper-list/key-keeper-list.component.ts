@@ -5,6 +5,8 @@ import { MatDialog, MatSnackBar } from '@angular/material';
 import { Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
+import { formatAddress } from '../../shared/address-utils';
+
 import { LayoutUtilsService, MessageType } from '../../../core/_base/crud';
 
 import { KeyKeeperService } from '../../api/services';
@@ -27,29 +29,29 @@ export class KeyKeeperListComponent implements OnInit, AfterViewInit, OnDestroy 
 
   private subscriptions: Subscription[] = [];
 
-  searchByExternalIdInput = new FormControl();
+  searchByKeyIdInput = new FormControl();
   searchByDescriptionInput = new FormControl();
 
   dataSource: KeyKeeperDataSource;
-  displayedColumns = ['keyKeeperId', 'externalId', 'description', 'createdAt', 'updatedAt', 'actions'];
+  displayedColumns = ['keyKeeperId', 'keyId', 'description', 'createdAt', 'updatedAt', 'actions'];
 
-  externalId = '';
+  keyId = '';
   description = '';
 
   ngOnInit() {
     this.dataSource = new KeyKeeperDataSource(this.keyKeeperService);
 
-    const searchByExternalIdSubscription = this.searchByExternalIdInput.valueChanges
+    const searchByKeyIdSubscription = this.searchByKeyIdInput.valueChanges
       .pipe(
         debounceTime(500),
         distinctUntilChanged()
       )
       .subscribe(value => {
-        this.externalId = value;
+        this.keyId = value;
         this.load();
       });
 
-    this.subscriptions.push(searchByExternalIdSubscription);
+    this.subscriptions.push(searchByKeyIdSubscription);
 
     const searchByDescriptionSubscription = this.searchByDescriptionInput.valueChanges
       .pipe(
@@ -73,7 +75,11 @@ export class KeyKeeperListComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   load() {
-    this.dataSource.load(this.externalId, this.description);
+    this.dataSource.load(this.keyId, this.description);
+  }
+
+  getKeyId(address: string){
+    return formatAddress(address);
   }
 
   add() {

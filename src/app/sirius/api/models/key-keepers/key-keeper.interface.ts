@@ -1,6 +1,6 @@
 export interface KeyKeeper {
     id: number;
-    externalId: string;
+    keyId: string;
     description: string;
     createdAt: Date;
     updatedAt: Date;
