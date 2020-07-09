@@ -1,13 +1,18 @@
-name: Continuous integration
+name: Release Portal
 
-on: [push] 
+on:
+  push:
+      branches:
+        - dev-*
 
 jobs:
   build:
+
     runs-on: ubuntu-latest
     strategy:
       matrix:
         node-version: [12.x]
+
     steps:
     - uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }}
@@ -18,14 +23,14 @@ jobs:
     - name: Publish to Registry
       uses: SC-Poc/Publish-Docker-Github-Action@master
       with:
-        name: swisschains/universe
+        name: swisschains/universe-portal:dev 
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
         workdir: ./
         tag_names: true
-    - name: Restart service
+    - name: Restart pod
       uses: SC-Poc/kube-restart-pods@master
       env:
         KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
         NAMESPACE: universe
-        POD: admin-panel
+        POD: portal
