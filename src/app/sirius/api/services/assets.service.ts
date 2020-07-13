@@ -13,20 +13,22 @@ export class AssetsService {
     constructor(private http: HttpClient) { }
 
     getAll() {
-        return this.http.get<PagedResponse<Asset>>(`${API_URL}`);
+        const params = new HttpParams()
+            .set('limit', '1000');
+        return this.http.get<PagedResponse<Asset>>(`${API_URL}`, {params});
     }
 
     get(symbol: string, blockchainId: string) {
         const params = new HttpParams()
             .set('symbol', symbol)
             .set('blockchainId', blockchainId);
-        return this.http.get<PagedResponse<Asset>>(`${API_URL}`, { params: params });
+        return this.http.get<PagedResponse<Asset>>(`${API_URL}`, { params });
     }
 
     getById(assetId: number) {
         const params = new HttpParams()
             .set('id', assetId.toString());
-        return this.http.get<PagedResponse<Asset>>(`${API_URL}`, { params: params })
+        return this.http.get<PagedResponse<Asset>>(`${API_URL}`, { params })
             .pipe(
                 map(result => {
                     return result.items[0];
