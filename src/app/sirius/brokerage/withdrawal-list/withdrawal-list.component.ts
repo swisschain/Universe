@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/
 import { FormControl } from '@angular/forms';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
-import { Subscription } from 'rxjs';
+import { Subscription, forkJoin } from 'rxjs';
 import { LayoutUtilsService, MessageType } from '../../../core/_base/crud';
 
 import { Asset } from '../../api/models/assets';
@@ -128,10 +128,16 @@ export class WithdrawalListComponent implements OnInit, OnDestroy {
 
     this.subscriptions.push(searchByDestinationTagInput);
 
-    this.load();
-    this.loadBrokerAccounts();
-    this.loadBlockchains();
-    this.loadAssets();
+    forkJoin([
+      this.brokerAccountService.get(),
+      this.blockchainsService.get(),
+      this.assetsService.getAll()
+    ]).subscribe(result => {
+      this.brokerAccounts = result[0].items;
+      this.blockchains = result[1].items;
+      this.assets = result[2].items;
+      this.load();
+    });
   }
 
   ngOnDestroy() {
@@ -151,27 +157,6 @@ export class WithdrawalListComponent implements OnInit, OnDestroy {
       this.selectedDestinationTag);
   }
 
-  loadBrokerAccounts() {
-    this.brokerAccountService.get()
-      .subscribe(result => {
-        this.brokerAccounts = result.items;
-      });
-  }
-
-  loadBlockchains() {
-    this.blockchainsService.get()
-      .subscribe(result => {
-        this.blockchains = result.items;
-      });
-  }
-
-  loadAssets() {
-    this.assetsService.getAll()
-      .subscribe(result => {
-        this.assets = result.items;
-      });
-  }
-
   onBlockchainChanged() {
     this.selectedAssetId = '';
     this.filteredAssets = this.assets.filter(asset => asset.blockchainId === this.selectedBlockchainId);
@@ -180,31 +165,9 @@ export class WithdrawalListComponent implements OnInit, OnDestroy {
 
   getBrokerAccountName(brokerAccountId: number) {
     if (this.brokerAccounts) {
-      var brokerAccount = this.brokerAccounts.filter((brokerAccount) => brokerAccount.id == brokerAccountId)[0];
-
+      const brokerAccount = this.brokerAccounts.filter((item) => item.id === brokerAccountId)[0];
       return brokerAccount ? brokerAccount.name : 'unknown';
     }
-
-    return '';
-  }
-
-  getBlockchainName(blockchainId: string) {
-    if (this.blockchains) {
-      var blockchain = this.blockchains.filter((blockchain) => blockchain.id == blockchainId)[0];
-
-      return blockchain ? blockchain.name : 'unknown';
-    }
-
-    return '';
-  }
-
-  getAssetSymbol(assetId: number) {
-    if (this.assets) {
-      var asset = this.assets.filter((asset) => asset.id == assetId)[0];
-
-      return asset ? asset.symbol : 'unknown';
-    }
-
     return '';
   }
 
@@ -212,12 +175,10 @@ export class WithdrawalListComponent implements OnInit, OnDestroy {
     const saveMessage = 'Withdrawal created';
     const messageType = MessageType.Create;
     const dialogRef = this.dialog.open(WithdrawalEditDialogComponent, { data: {}, width: '700px' });
-
     dialogRef.afterClosed().subscribe(res => {
       if (!res) {
         return;
       }
-
       this.layoutUtilsService.showActionNotification(saveMessage, messageType, 1000, true, false);
       this.load();
     });

@@ -92,9 +92,14 @@
                 <div class="col-lg-6 kt-margin-bottom-20-mobile">
                     <mat-form-field class="mat-form-field-fluid">
                         <mat-select placeholder="Asset" formControlName="assetId">
+                            <mat-option>
+                                <ngx-mat-select-search [formControl]="assetFilterCtrl" [placeholderLabel]="'Search...'"
+                                    [noEntriesFoundLabel]="'No matching assets found'" [searching]="assetSearching"></ngx-mat-select-search>
+                            </mat-option>
                             <mat-option>None</mat-option>
-                            <mat-option *ngFor="let asset of filteredAssets" [value]="asset.id">
-                                {{asset.symbol}}</mat-option>
+                            <mat-option *ngFor="let asset of filteredAssets | async" [value]="asset.id">
+                                {{asset.symbol}}
+                              </mat-option>
                         </mat-select>
                         <mat-error *ngIf="isFormControlHasError('assetId','required')">
                             <strong>Required field</strong>

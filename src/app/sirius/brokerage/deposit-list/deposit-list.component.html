@@ -118,12 +118,12 @@
 
                 <ng-container matColumnDef="blockchainName">
                     <mat-header-cell *matHeaderCellDef>Blockchain</mat-header-cell>
-                    <mat-cell *matCellDef="let item">{{getBlockchainName(item.blockchainId)}}</mat-cell>
+                    <mat-cell *matCellDef="let item">{{item.blockchainName}}</mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="assetSymbol">
                     <mat-header-cell *matHeaderCellDef>Asset</mat-header-cell>
-                    <mat-cell *matCellDef="let item">{{getAssetSymbol(item.assetId)}}</mat-cell>
+                    <mat-cell *matCellDef="let item">{{item.assetSymbol}}</mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="amount">

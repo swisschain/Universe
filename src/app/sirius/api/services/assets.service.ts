@@ -21,7 +21,8 @@ export class AssetsService {
     get(symbol: string, blockchainId: string) {
         const params = new HttpParams()
             .set('symbol', symbol)
-            .set('blockchainId', blockchainId);
+            .set('blockchainId', blockchainId)
+            .set('limit', '100');
         return this.http.get<PagedResponse<Asset>>(`${API_URL}`, { params });
     }
 

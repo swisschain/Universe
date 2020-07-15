@@ -1,18 +1,19 @@
 import { Component, OnInit, ChangeDetectionStrategy, ViewEncapsulation, OnDestroy, Inject, ChangeDetectorRef } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 
 import { v4 as uuidv4 } from 'uuid';
 
 import { markFormGroupTouched, isFormGroupControlHasError, setFormError, getCommonError } from '../../shared/validation-utils'
 
-import { Subscription, forkJoin } from 'rxjs';
+import { Subscription, forkJoin, ReplaySubject } from 'rxjs';
 
 import { Asset } from '../../api/models/assets';
 import { Blockchain } from '../../api/models/blockchains';
 import { BrokerAccount } from '../../api/models/brocker-accounts';
 
 import { AssetsService, BrokerAccountService, BlockchainsService, WithdrawalService } from '../../api/services';
+import { filter, tap, debounceTime, map, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'kt-withdrawal-edit-dialog',
@@ -37,6 +38,9 @@ export class WithdrawalEditDialogComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];
   private requestId = uuidv4();
 
+  assetSearching = false;
+
+  assetFilterCtrl: FormControl = new FormControl();
   form: FormGroup;
   destinationRequisitesForm: FormGroup;
   hasFormErrors = false;
@@ -46,31 +50,75 @@ export class WithdrawalEditDialogComponent implements OnInit, OnDestroy {
   brokerAccounts: BrokerAccount[];
   blockchains: Blockchain[];
   assets: Asset[];
-  filteredAssets: Asset[];
+  filteredAssets: ReplaySubject<Asset[]> = new ReplaySubject<Asset[]>(1);
 
   ngOnInit() {
     this.createForm();
 
-    const blockchainIdSubscription = this.form.get('blockchainId').valueChanges
+    const blockchainIdSubscription = this.form.controls.blockchainId.valueChanges
       .subscribe(value => {
         this.form.controls.assetId.setValue(null);
-        this.filteredAssets = this.assets.filter(asset => asset.blockchainId === value);
+        this.filteredAssets.next([]);
+        if (value) {
+          this.assetsService
+            .get('', value)
+            .pipe(
+              map(result => {
+                return result.items;
+              })
+            )
+            .subscribe(result => {
+              if (!this.assetSearching) {
+                this.filteredAssets.next(result);
+              }
+            });
+        }
+        this.updateControlsState();
       });
 
     this.subscriptions.push(blockchainIdSubscription);
 
+    const assetFilterCtrlSubscription = this.assetFilterCtrl.valueChanges
+      .pipe(
+        filter(search => !!search),
+        tap(() => this.assetSearching = true),
+        debounceTime(500),
+        switchMap(search => {
+          if (!this.form.controls.blockchainId.value) {
+            return [];
+          }
+          return this.assetsService
+            .get(search, this.form.controls.blockchainId.value)
+            .pipe(
+              map(result => {
+                return result.items;
+              })
+            );
+        })
+      )
+      .subscribe(result => {
+        this.assetSearching = false;
+        this.filteredAssets.next(result);
+      },
+        error => {
+          this.assetSearching = false;
+        });
+
+    this.subscriptions.push(assetFilterCtrlSubscription);
+
     this.viewLoading = true;
+
     forkJoin([
       this.brokerAccountService.get(),
-      this.blockchainsService.get(),
-      this.assetsService.getAll()
+      this.blockchainsService.get()
     ]).subscribe(result => {
       this.brokerAccounts = result[0].items;
       this.blockchains = result[1].items;
-      this.assets = result[2].items;
       this.viewLoading = false;
       this.cdr.markForCheck();
     });
+
+    this.updateControlsState();
   }
 
   ngOnDestroy() {
@@ -145,6 +193,14 @@ export class WithdrawalEditDialogComponent implements OnInit, OnDestroy {
           this.cdr.markForCheck();
         }
       );
+  }
+
+  updateControlsState() {
+    if (!this.form.controls.blockchainId.value) {
+      this.form.controls.assetId.disable();
+    } else {
+      this.form.controls.assetId.enable();
+    }
   }
 
   isFormControlHasError(controlName: string, validationType: string): boolean {
