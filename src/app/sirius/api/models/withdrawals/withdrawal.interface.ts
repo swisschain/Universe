@@ -21,6 +21,7 @@ export interface Withdrawal {
     assetSymbol: string;
     assetAddress: string;
     blockchainName: string;
+    brokerAccountName: string;
     createdAt: Date;
     updatedAt: Date;
 }

@@ -17,3 +17,5 @@ FROM nginx:1.16.0-alpine
 COPY --from=node /usr/src/app/dist /usr/share/nginx/html
 
 COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
+
+RUN date > /date

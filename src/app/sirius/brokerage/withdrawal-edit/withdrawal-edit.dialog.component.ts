@@ -49,7 +49,6 @@ export class WithdrawalEditDialogComponent implements OnInit, OnDestroy {
 
   brokerAccounts: BrokerAccount[];
   blockchains: Blockchain[];
-  assets: Asset[];
   filteredAssets: ReplaySubject<Asset[]> = new ReplaySubject<Asset[]>(1);
 
   ngOnInit() {

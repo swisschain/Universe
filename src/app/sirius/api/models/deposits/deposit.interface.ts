@@ -18,6 +18,7 @@ export interface Deposit {
     assetSymbol: string;
     assetAddress: string;
     blockchainName: string;
+    brokerAccountName: string;
     createdAt: Date;
     updatedAt: Date;
 }
