@@ -23,7 +23,7 @@ jobs:
     - name: Publish to Registry
       uses: SC-Poc/Publish-Docker-Github-Action@master
       with:
-        name: swisschains/universe-portal:dev 
+        name: swisschains/universe
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
         workdir: ./
@@ -33,4 +33,4 @@ jobs:
       env:
         KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
         NAMESPACE: universe
-        POD: portal
+        POD: admin-panel
