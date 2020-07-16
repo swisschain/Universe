@@ -21,8 +21,7 @@
                     <mat-form-field class="mat-form-field-fluid">
                         <mat-select placeholder="Broker account" formControlName="brokerAccountId">
                             <mat-option>None</mat-option>
-                            <mat-option *ngFor="let brokerAccount of brokerAccounts"
-                                [value]="brokerAccount.id">
+                            <mat-option *ngFor="let brokerAccount of brokerAccounts" [value]="brokerAccount.id">
                                 {{brokerAccount.name}}</mat-option>
                         </mat-select>
                         <mat-error *ngIf="isFormControlHasError('brokerAccountId','required')">
@@ -38,7 +37,8 @@
                 </div>
                 <div class="col-lg-6 kt-margin-bottom-20-mobile">
                     <mat-form-field class="mat-form-field-fluid">
-                        <input matInput type="number" placeholder="Enter account id" formControlName="accountId" min="0"/>
+                        <input matInput type="number" placeholder="Enter account id" formControlName="accountId"
+                            min="0" />
                         <mat-error *ngIf="isFormControlHasError('accountId','min')">
                             <strong>Minimum field value: 0</strong>
                         </mat-error>
@@ -55,7 +55,8 @@
             <div class="form-group kt-form__group row">
                 <div class="col-lg-12 kt-margin-bottom-20-mobile">
                     <mat-form-field class="mat-form-field-fluid">
-                        <input matInput placeholder="Enter reference id" formControlName="referenceId" maxlength="100"/>
+                        <input matInput placeholder="Enter reference id" formControlName="referenceId"
+                            maxlength="100" />
                         <mat-error *ngIf="isFormControlHasError('referenceId','maxlength')">
                             <strong>Maximum field length: 100</strong>
                         </mat-error>
@@ -72,11 +73,11 @@
             <div class="form-group kt-form__group row">
                 <div class="col-lg-6 kt-margin-bottom-20-mobile">
                     <mat-form-field class="mat-form-field-fluid">
-                        <mat-select placeholder="Blockchain" formControlName="blockchainId">
+                        <mat-select placeholder="Blockchain" formControlName="blockchainId"
+                            (selectionChange)="updateTag()">
                             <mat-option>None</mat-option>
-                            <mat-option *ngFor="let blockchain of blockchains"
-                                        [value]="blockchain.id">
-                                        {{blockchain.name}}</mat-option>
+                            <mat-option *ngFor="let blockchain of blockchains" [value]="blockchain.id">
+                                {{blockchain.name}}</mat-option>
                         </mat-select>
                         <mat-error *ngIf="isFormControlHasError('blockchainId','required')">
                             <strong>Required field</strong>
@@ -92,9 +93,15 @@
                 <div class="col-lg-6 kt-margin-bottom-20-mobile">
                     <mat-form-field class="mat-form-field-fluid">
                         <mat-select placeholder="Asset" formControlName="assetId">
+                            <mat-option>
+                                <ngx-mat-select-search [formControl]="assetFilterCtrl" [placeholderLabel]="'Search...'"
+                                    [noEntriesFoundLabel]="'No matching assets found'" [searching]="assetSearching">
+                                </ngx-mat-select-search>
+                            </mat-option>
                             <mat-option>None</mat-option>
-                            <mat-option *ngFor="let asset of filteredAssets" [value]="asset.id">
-                                {{asset.symbol}}</mat-option>
+                            <mat-option *ngFor="let asset of filteredAssets | async" [value]="asset.id">
+                                {{asset.symbol}}
+                            </mat-option>
                         </mat-select>
                         <mat-error *ngIf="isFormControlHasError('assetId','required')">
                             <strong>Required field</strong>
@@ -127,30 +134,93 @@
                             <strong>amount</strong>
                         </mat-hint>
                     </mat-form-field>
-                </div>                
+                </div>
             </div>
 
-            <div class="kt-separator kt-separator--dashed"></div>
-
-            <div class="form-group kt-form__group row" [formGroup]="destinationRequisitesForm">
-                <div class="col-lg-12 kt-margin-bottom-20-mobile">
-                    <mat-form-field class="mat-form-field-fluid">
-                        <input matInput placeholder="Enter address" formControlName="address" maxlength="100"/>
-                        <mat-error *ngIf="isFormControlHasError('address','required')">
-                            <strong>Required field</strong>
-                        </mat-error>
-                        <mat-error *ngIf="isFormControlHasError('address','maxlength')">
-                            <strong>Maximum field length: 100</strong>
-                        </mat-error>
-                        <mat-error *ngIf="isDestinationRequisitesFormControlHasError('address','serverError')">
-                            <strong>{{destinationRequisitesForm.get('address').errors?.serverError}}</strong>
-                        </mat-error>
-                        <mat-hint align="start">Please enter
-                            <strong>address</strong>
-                        </mat-hint>
-                    </mat-form-field>
+            <div [formGroup]="destinationRequisitesForm">
+                <div class="form-group kt-form__group row">
+                    <div class="col-lg-12 kt-margin-bottom-20-mobile">
+                        <mat-form-field class="mat-form-field-fluid">
+                            <input matInput placeholder="Enter address" formControlName="address" maxlength="100" />
+                            <mat-error *ngIf="isFormControlHasError('address','required')">
+                                <strong>Required field</strong>
+                            </mat-error>
+                            <mat-error *ngIf="isFormControlHasError('address','maxlength')">
+                                <strong>Maximum field length: 100</strong>
+                            </mat-error>
+                            <mat-error *ngIf="isDestinationRequisitesFormControlHasError('address','serverError')">
+                                <strong>{{destinationRequisitesForm.get('address').errors?.serverError}}</strong>
+                            </mat-error>
+                            <mat-hint align="start">Please enter
+                                <strong>address</strong>
+                            </mat-hint>
+                        </mat-form-field>
+                    </div>
                 </div>
-            </div>            
+                <div class="form-group kt-form__group row" *ngIf="hasTag">
+                    <div class="col-lg-6 kt-margin-bottom-20-mobile">
+                        <mat-form-field class="mat-form-field-fluid">
+                            <mat-select placeholder="Tag type" formControlName="tagType"
+                                (selectionChange)="updateTagType()">
+                                <mat-option value="text">Text</mat-option>
+                                <mat-option value="number">Number</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="isFormControlHasError('tagType','required')">
+                                <strong>Required field</strong>
+                            </mat-error>
+                            <mat-error *ngIf="isFormControlHasError('tagType','serverError')">
+                                <strong>{{destinationRequisitesForm.get('tagType').errors?.serverError}}</strong>
+                            </mat-error>
+                            <mat-hint align="start">Please select
+                                <strong>tag type</strong>
+                            </mat-hint>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-lg-6 kt-margin-bottom-20-mobile">
+                        <ng-container [ngSwitch]="destinationRequisitesForm.controls.tagType.value || 'text'">
+                            <ng-container *ngSwitchCase="'text'">
+                                <mat-form-field class="mat-form-field-fluid">
+                                    <input matInput [placeholder]="textTag.name" formControlName="tag"
+                                        [attr.maxlength]="textTag.maxLength" />
+                                    <mat-error *ngIf="isDestinationRequisitesFormControlHasError('tag','required')">
+                                        <strong>Required field</strong>
+                                    </mat-error>
+                                    <mat-error *ngIf="isDestinationRequisitesFormControlHasError('tag','maxlength')">
+                                        <strong>Maximum field length: {{textTag.maxLength}}</strong>
+                                    </mat-error>
+                                    <mat-error *ngIf="isDestinationRequisitesFormControlHasError('tag','serverError')">
+                                        <strong>{{destinationRequisitesForm.get('tag').errors?.serverError}}</strong>
+                                    </mat-error>
+                                    <mat-hint align="start">Please enter
+                                        <strong>value</strong>
+                                    </mat-hint>
+                                </mat-form-field>
+                            </ng-container>
+                            <ng-container *ngSwitchCase="'number'">
+                                <mat-form-field class="mat-form-field-fluid">
+                                    <input matInput type="number" [placeholder]="numberTag.name" formControlName="tag"
+                                        [attr.min]="numberTag.min" [attr.max]="numberTag.max" step="1" />
+                                    <mat-error *ngIf="isDestinationRequisitesFormControlHasError('tag','required')">
+                                        <strong>Required field</strong>
+                                    </mat-error>
+                                    <mat-error *ngIf="isDestinationRequisitesFormControlHasError('tag','min')">
+                                        <strong>Minimum field value: {{numberTag.min}}</strong>
+                                    </mat-error>
+                                    <mat-error *ngIf="isDestinationRequisitesFormControlHasError('tag','max')">
+                                        <strong>Maximum field value: {{numberTag.max}}</strong>
+                                    </mat-error>
+                                    <mat-error *ngIf="isDestinationRequisitesFormControlHasError('tag','serverError')">
+                                        <strong>{{destinationRequisitesForm.get('tag').errors?.serverError}}</strong>
+                                    </mat-error>
+                                    <mat-hint align="start">Please enter
+                                        <strong>value</strong>
+                                    </mat-hint>
+                                </mat-form-field>
+                            </ng-container>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="kt-portlet__foot kt-portlet__no-border kt-portlet__foot--fit">
             <div class="kt-form__actions kt-form__actions--solid">

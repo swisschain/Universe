@@ -24,11 +24,15 @@
                 <div class="row align-items-center">
                     <div class="col-md-3 kt-margin-bottom-10-mobile">
                         <div class="kt-form__control">
-                            <mat-form-field class="mat-form-field-fluid">
-                                <mat-select [(value)]="selectedBrokerAccountId" (selectionChange)="load()">
-                                    <mat-option value="">All</mat-option>
-                                    <mat-option *ngFor="let brokerAccount of brokerAccounts"
-                                        [value]="brokerAccount.brokerAccountId">
+                            <mat-form-field class="mat-form-field-fluid" floatLabel="never">
+                                <mat-select [(value)]="selectedBrokerAccountId" (selectionChange)="load()" placeholder="All">
+                                    <mat-option>
+                                        <ngx-mat-select-search [formControl]="brokerAccountFilterCtrl" [placeholderLabel]="'Search...'"
+                                            [noEntriesFoundLabel]="'No matching broker account found'" [searching]="brokerAccountSearching"></ngx-mat-select-search>
+                                    </mat-option>
+                                    <mat-option>All</mat-option>
+                                    <mat-option *ngFor="let brokerAccount of filteredBrokerAccounts | async"
+                                        [value]="brokerAccount.id">
                                         {{brokerAccount.name}}</mat-option>
                                 </mat-select>
                                 <mat-hint align="start">
@@ -52,47 +56,6 @@
                                 <strong>Search</strong> by reference id
                             </mat-hint>
                         </mat-form-field>
-                    </div>
-                    <div class="col-md-3 kt-margin-bottom-10-mobile">
-                        <div class="kt-form__control">
-                            <mat-form-field class="mat-form-field-fluid">
-                                <mat-select [(value)]="selectedBlockchainId" (selectionChange)="onBlockchainChanged()">
-                                    <mat-option value="">All</mat-option>
-                                    <mat-option *ngFor="let blockchain of blockchains"
-                                        [value]="blockchain.id">
-                                        {{blockchain.name}}</mat-option>
-                                </mat-select>
-                                <mat-hint align="start">
-                                    <strong>Filter</strong> by blockchain
-                                </mat-hint>
-                            </mat-form-field>
-                        </div>
-                    </div>
-                    <div class="col-md-3 kt-margin-bottom-10-mobile">
-                        <div class="kt-form__control">
-                            <mat-form-field class="mat-form-field-fluid">
-                                <mat-select [(value)]="selectedAssetId" (selectionChange)="load()">
-                                    <mat-option value="">All</mat-option>
-                                    <mat-option *ngFor="let asset of filteredAssets" [value]="asset.id">
-                                        {{asset.symbol}}</mat-option>
-                                </mat-select>
-                                <mat-hint align="start">
-                                    <strong>Filter</strong> by asset
-                                </mat-hint>
-                            </mat-form-field>
-                        </div>
-                    </div>
-                    <div class="col-md-3 kt-margin-bottom-10-mobile">
-                        <div class="kt-form__control">
-                            <mat-form-field class="mat-form-field-fluid">
-                                <mat-select multiple [(value)]="selectedStates" (selectionChange)="load()">
-                                    <mat-option *ngFor="let state of states" [value]="state">{{state}}</mat-option>
-                                </mat-select>
-                                <mat-hint align="start">
-                                    <strong>Filter</strong> by state
-                                </mat-hint>
-                            </mat-form-field>
-                        </div>
                     </div>
                     <div class="col-md-3 kt-margin-bottom-10-mobile">
                         <mat-form-field class="mat-form-field-fluid">
@@ -119,6 +82,52 @@
                             </mat-hint>
                         </mat-form-field>
                     </div>
+                    <div class="col-md-3 kt-margin-bottom-10-mobile">
+                        <div class="kt-form__control">
+                            <mat-form-field class="mat-form-field-fluid" floatLabel="never">
+                                <mat-select multiple [(value)]="selectedStates" (selectionChange)="load()" placeholder="All">
+                                    <mat-option *ngFor="let state of states" [value]="state">{{state}}</mat-option>
+                                </mat-select>
+                                <mat-hint align="start">
+                                    <strong>Filter</strong> by state
+                                </mat-hint>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-md-3 kt-margin-bottom-10-mobile">
+                        <div class="kt-form__control">
+                            <mat-form-field class="mat-form-field-fluid" floatLabel="never">
+                                <mat-select [(value)]="selectedBlockchainId" [formControl]="searchByBlockchainIdInput" placeholder="All">
+                                    <mat-option value="">All</mat-option>
+                                    <mat-option *ngFor="let blockchain of blockchains"
+                                        [value]="blockchain.id">
+                                        {{blockchain.name}}</mat-option>
+                                </mat-select>
+                                <mat-hint align="start">
+                                    <strong>Filter</strong> by blockchain
+                                </mat-hint>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-md-3 kt-margin-bottom-10-mobile" *ngIf="selectedBlockchainId">
+                        <div class="kt-form__control">
+                            <mat-form-field class="mat-form-field-fluid" floatLabel="never">
+                                <mat-select [(value)]="selectedAssetId" (selectionChange)="load()" placeholder="All">
+                                    <mat-option>
+                                        <ngx-mat-select-search [formControl]="assetFilterCtrl" [placeholderLabel]="'Search...'"
+                                            [noEntriesFoundLabel]="'No matching assets found'" [searching]="assetSearching"></ngx-mat-select-search>
+                                    </mat-option>
+                                    <mat-option>All</mat-option>
+                                    <mat-option *ngFor="let asset of filteredAssets | async" [value]="asset.id">
+                                        {{asset.symbol}}
+                                      </mat-option>
+                                </mat-select>
+                                <mat-hint align="start">
+                                    <strong>Filter</strong> by asset
+                                </mat-hint>
+                            </mat-form-field>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -132,7 +141,7 @@
 
                 <ng-container matColumnDef="brokerAccountName">
                     <mat-header-cell *matHeaderCellDef>Broker Account</mat-header-cell>
-                    <mat-cell *matCellDef="let item">{{getBrokerAccountName(item.brokerAccountId)}}</mat-cell>
+                    <mat-cell *matCellDef="let item">{{item.brokerAccountName}}</mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="accountId">
@@ -147,12 +156,12 @@
 
                 <ng-container matColumnDef="blockchainName">
                     <mat-header-cell *matHeaderCellDef>Blockchain</mat-header-cell>
-                    <mat-cell *matCellDef="let item">{{getBlockchainName(item.blockchainId)}}</mat-cell>
+                    <mat-cell *matCellDef="let item">{{item.blockchainName}}</mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="assetSymbol">
                     <mat-header-cell *matHeaderCellDef>Asset</mat-header-cell>
-                    <mat-cell *matCellDef="let item">{{getAssetSymbol(item.assetId)}}</mat-cell>
+                    <mat-cell *matCellDef="let item">{{item.assetSymbol}}</mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="destinationAddress">

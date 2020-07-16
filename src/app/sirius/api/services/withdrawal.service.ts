@@ -54,7 +54,7 @@ export class WithdrawalService {
             );
     }
 
-    create(brokerAccountId: number, accountId: number, referenceId: string, assetId: number, amount: number, address: string, requestId: string) {
+    create(brokerAccountId: number, accountId: number, referenceId: string, assetId: number, amount: number, address: string, tagType: string, tag: string, requestId: string) {
         const headers = new HttpHeaders()
             .set('X-Request-ID', requestId);
         return this.http.post<Withdrawal>(`${API_URL}`, {
@@ -64,8 +64,10 @@ export class WithdrawalService {
             assetId,
             amount,
             destinationDetails: {
-                address
+                address,
+                tagType,
+                tag
             }
-        }, { headers: headers });
+        }, { headers });
     }
 }

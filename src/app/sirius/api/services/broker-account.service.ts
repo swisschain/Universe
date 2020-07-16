@@ -12,15 +12,18 @@ const API_URL = 'sirius/api/broker-accounts';
 export class BrokerAccountService {
     constructor(private http: HttpClient) { }
 
-    get() {
-        return this.http.get<PagedResponse<BrokerAccount>>(`${API_URL}`, {});
+    get(name: string = '') {
+        const params = new HttpParams()
+            .set('name', name)
+            .set('limit', '100');
+        return this.http.get<PagedResponse<BrokerAccount>>(`${API_URL}`, { params });
     }
 
     getById(brokerAccountId: number) {
         const params = new HttpParams()
             .set('id', brokerAccountId.toString());
 
-        return this.http.get<PagedResponse<BrokerAccount>>(`${API_URL}`, { params: params })
+        return this.http.get<PagedResponse<BrokerAccount>>(`${API_URL}`, { params })
             .pipe(
                 map(result => {
                     return result.items[0];
@@ -32,7 +35,7 @@ export class BrokerAccountService {
         const params = new HttpParams()
             .set('blockchainId', blockchainId);
 
-        return this.http.get<PagedResponse<BrokerAccountRequisite>>(`${API_URL}/${brokerAccountId}/details`, { params: params });
+        return this.http.get<PagedResponse<BrokerAccountRequisite>>(`${API_URL}/${brokerAccountId}/details`, { params });
     }
 
     getRequisiteByAssetId(brokerAccountId: number, assetId: number) {
@@ -46,6 +49,6 @@ export class BrokerAccountService {
     create(name: string, vaultId: number, requestId: string) {
         const headers = new HttpHeaders()
             .set('X-Request-ID', requestId);
-        return this.http.post<BrokerAccount>(`${API_URL}`, { name, vaultId }, { headers: headers });
+        return this.http.post<BrokerAccount>(`${API_URL}`, { name, vaultId }, { headers });
     }
 }

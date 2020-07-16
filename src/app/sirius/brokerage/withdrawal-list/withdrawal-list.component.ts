@@ -1,8 +1,8 @@
 import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog, MatSnackBar } from '@angular/material';
-import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
-import { Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map, filter, tap, switchMap } from 'rxjs/operators';
+import { Subscription, forkJoin, ReplaySubject } from 'rxjs';
 import { LayoutUtilsService, MessageType } from '../../../core/_base/crud';
 
 import { Asset } from '../../api/models/assets';
@@ -40,6 +40,12 @@ export class WithdrawalListComponent implements OnInit, OnDestroy {
   searchByTransactionIdInput = new FormControl();
   searchByDestinationAddressInput = new FormControl();
   searchByDestinationTagInput = new FormControl();
+  searchByBlockchainIdInput = new FormControl();
+  brokerAccountFilterCtrl = new FormControl();
+  assetFilterCtrl = new FormControl();
+
+  assetSearching = false;
+  brokerAccountSearching = false;
 
   selectedBrokerAccountId = '';
   selectedAccountId: number = null;
@@ -51,10 +57,9 @@ export class WithdrawalListComponent implements OnInit, OnDestroy {
   selectedDestinationAddress = '';
   selectedDestinationTag = '';
 
-  brokerAccounts: BrokerAccount[];
   blockchains: Blockchain[];
-  assets: Asset[];
-  filteredAssets: Asset[];
+  filteredAssets: ReplaySubject<Asset[]> = new ReplaySubject<Asset[]>(1);
+  filteredBrokerAccounts: ReplaySubject<BrokerAccount[]> = new ReplaySubject<BrokerAccount[]>(1);
   states = [WithdrawalState.Processing, WithdrawalState.Executing, WithdrawalState.Sent, WithdrawalState.Completed, WithdrawalState.Failed];
 
   dataSource: WithdrawalDataSource;
@@ -128,10 +133,90 @@ export class WithdrawalListComponent implements OnInit, OnDestroy {
 
     this.subscriptions.push(searchByDestinationTagInput);
 
-    this.load();
-    this.loadBrokerAccounts();
-    this.loadBlockchains();
-    this.loadAssets();
+    const blockchainIdSubscription = this.searchByBlockchainIdInput.valueChanges
+      .subscribe(value => {
+        this.selectedAssetId = '';
+        this.filteredAssets.next([]);
+        if (value) {
+          this.assetsService
+            .get('', value)
+            .pipe(
+              map(result => {
+                return result.items;
+              })
+            )
+            .subscribe(result => {
+              if (!this.assetSearching) {
+                this.filteredAssets.next(result);
+              }
+            });
+        }
+        this.load();
+      });
+
+    this.subscriptions.push(blockchainIdSubscription);
+
+    const assetFilterCtrlSubscription = this.assetFilterCtrl.valueChanges
+      .pipe(
+        tap(() => this.assetSearching = true),
+        debounceTime(500),
+        switchMap(search => {
+          if (!this.selectedBlockchainId) {
+            return [];
+          }
+          return this.assetsService
+            .get(search, this.selectedBlockchainId)
+            .pipe(
+              map(result => {
+                return result.items;
+              })
+            );
+        })
+      )
+      .subscribe(result => {
+        this.assetSearching = false;
+        this.filteredAssets.next(result);
+      },
+        error => {
+          this.assetSearching = false;
+          console.error(error);
+        });
+
+    this.subscriptions.push(assetFilterCtrlSubscription);
+
+    const brokerAccountFilterCtrlSubscription = this.brokerAccountFilterCtrl.valueChanges
+      .pipe(
+        tap(() => this.brokerAccountSearching = true),
+        debounceTime(500),
+        switchMap(search => {
+          return this.brokerAccountService
+            .get(search)
+            .pipe(
+              map(result => {
+                return result.items;
+              })
+            );
+        })
+      )
+      .subscribe(result => {
+        this.brokerAccountSearching = false;
+        this.filteredBrokerAccounts.next(result);
+      },
+        error => {
+          this.brokerAccountSearching = false;
+          console.error(error);
+        });
+
+    this.subscriptions.push(brokerAccountFilterCtrlSubscription);
+
+    forkJoin([
+      this.brokerAccountService.get(),
+      this.blockchainsService.get()
+    ]).subscribe(result => {
+      this.filteredBrokerAccounts.next(result[0].items);
+      this.blockchains = result[1].items;
+      this.load();
+    });
   }
 
   ngOnDestroy() {
@@ -151,73 +236,14 @@ export class WithdrawalListComponent implements OnInit, OnDestroy {
       this.selectedDestinationTag);
   }
 
-  loadBrokerAccounts() {
-    this.brokerAccountService.get()
-      .subscribe(result => {
-        this.brokerAccounts = result.items;
-      });
-  }
-
-  loadBlockchains() {
-    this.blockchainsService.get()
-      .subscribe(result => {
-        this.blockchains = result.items;
-      });
-  }
-
-  loadAssets() {
-    this.assetsService.getAll()
-      .subscribe(result => {
-        this.assets = result.items;
-      });
-  }
-
-  onBlockchainChanged() {
-    this.selectedAssetId = '';
-    this.filteredAssets = this.assets.filter(asset => asset.blockchainId === this.selectedBlockchainId);
-    this.load();
-  }
-
-  getBrokerAccountName(brokerAccountId: number) {
-    if (this.brokerAccounts) {
-      var brokerAccount = this.brokerAccounts.filter((brokerAccount) => brokerAccount.id == brokerAccountId)[0];
-
-      return brokerAccount ? brokerAccount.name : 'unknown';
-    }
-
-    return '';
-  }
-
-  getBlockchainName(blockchainId: string) {
-    if (this.blockchains) {
-      var blockchain = this.blockchains.filter((blockchain) => blockchain.id == blockchainId)[0];
-
-      return blockchain ? blockchain.name : 'unknown';
-    }
-
-    return '';
-  }
-
-  getAssetSymbol(assetId: number) {
-    if (this.assets) {
-      var asset = this.assets.filter((asset) => asset.id == assetId)[0];
-
-      return asset ? asset.symbol : 'unknown';
-    }
-
-    return '';
-  }
-
   create() {
     const saveMessage = 'Withdrawal created';
     const messageType = MessageType.Create;
     const dialogRef = this.dialog.open(WithdrawalEditDialogComponent, { data: {}, width: '700px' });
-
     dialogRef.afterClosed().subscribe(res => {
       if (!res) {
         return;
       }
-
       this.layoutUtilsService.showActionNotification(saveMessage, messageType, 1000, true, false);
       this.load();
     });

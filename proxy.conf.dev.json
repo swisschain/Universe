@@ -1,0 +1,32 @@
+{
+    "/api": {
+        "target": "https://universe-dev.swisschain.io/",
+        "secure": false,
+        "logLevel": "info",
+        "changeOrigin": true
+    },
+    "/exchange": {
+        "target": "https://universe-dev.swisschain.io/",
+        "secure": false,
+        "logLevel": "info",
+        "changeOrigin": true
+    },
+    "/sirius": {
+        "target": "https://universe-dev.swisschain.io/",
+        "secure": false,
+        "logLevel": "info",
+        "changeOrigin": true
+    },
+    "/quasar": {
+        "target": "https://universe-dev.swisschain.io/",
+        "secure": false,
+        "logLevel": "info",
+        "changeOrigin": true
+    },
+    "/quasar-templates":{
+        "target": "https://universe-dev.swisschain.io/",
+        "secure": false,
+        "logLevel": "info",
+        "changeOrigin": true
+    }
+}

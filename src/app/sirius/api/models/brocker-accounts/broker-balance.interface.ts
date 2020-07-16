@@ -6,6 +6,9 @@ export interface BrokerBalance {
     availableBalance: number;
     pendingBalance: number;
     reservedBalance: number;
+    assetSymbol: string;
+    assetAddress: string;
+    blockchainName: string;
     createdAt: Date;
     updatedAt: Date;
 }

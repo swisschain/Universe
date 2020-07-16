@@ -11,9 +11,14 @@ export interface Deposit {
     blockchainId: string;
     fees: Fee[];
     transactionInfo: TransactionInfo;
-    state: DepositState,
-    sources: Source[],
+    state: DepositState;
+    sources: Source[];
     amount: number;
+    requiredConfirmationsCount: number;
+    assetSymbol: string;
+    assetAddress: string;
+    blockchainName: string;
+    brokerAccountName: string;
     createdAt: Date;
     updatedAt: Date;
 }

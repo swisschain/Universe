@@ -13,7 +13,7 @@
         <mat-table class="lmat-elevation-z8" #table [dataSource]="dataSource">
             <ng-container matColumnDef="assetId">
                 <mat-header-cell *matHeaderCellDef>Asset</mat-header-cell>
-                <mat-cell *matCellDef="let item">{{getAssetName(item.assetId)}}</mat-cell>
+                <mat-cell *matCellDef="let item">{{item.assetSymbol}}</mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="pendingBalance">

@@ -4,7 +4,8 @@
     "description": "Packages used by Angular",
     "scripts": {
         "ng": "ng",
-        "start": "ng serve --proxy-config proxy.conf.json",
+        "start-dev": "ng serve --proxy-config proxy.conf.dev.json",
+        "start-test": "ng serve --proxy-config proxy.conf.test.json",
         "build": "ng build --prod",
         "build-dev": "ng build --output-hashing=all",
         "test": "ng test",
