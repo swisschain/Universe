@@ -16,7 +16,7 @@
 
     <kt-portlet-body>
         <mat-tab-group>
-            <mat-tab label="Details">
+            <mat-tab label="Summary">
                 <ng-template matTabContent>
                     <div *ngIf="withdrawal">
                         <div class="form-group kt-form__group row">
@@ -29,7 +29,7 @@
                         </div>
                         <div class="form-group kt-form__group row">
                             <label class="col-lg-2 col-form-label">Id:
-                                <strong>{{brokerAccount?.brokerAccountId}}</strong></label>
+                                <strong>{{brokerAccount?.id}}</strong></label>
                             <label class="col-lg-4 col-form-label">Name:
                                 <strong>{{brokerAccount?.name}}</strong></label>
                         </div>
@@ -48,7 +48,7 @@
                             <h4 class="kt-form__heading-title">Asset:</h4>
                         </div>
                         <div class="form-group kt-form__group row">
-                            <label class="col-lg-2 col-form-label">Id: <strong>{{asset?.assetId}}</strong></label>
+                            <label class="col-lg-2 col-form-label">Id: <strong>{{asset?.id}}</strong></label>
                             <label class="col-lg-4 col-form-label">Symbol: <strong>{{asset?.symbol}}</strong></label>
                         </div>
                         <div class="kt-form__heading">
@@ -56,7 +56,7 @@
                         </div>
                         <div class="form-group kt-form__group row">
                             <label class="col-lg-3 col-form-label">Id:
-                                <strong>{{blockchain?.blockchainId}}</strong></label>
+                                <strong>{{blockchain?.id}}</strong></label>
                             <label class="col-lg-4 col-form-label">Name: <strong>{{blockchain?.name}}</strong></label>
                         </div>
                         <div *ngIf="withdrawal && withdrawal.fees.lenght > 0">

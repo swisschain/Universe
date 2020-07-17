@@ -134,7 +134,7 @@ export class WithdrawalEditDialogComponent implements OnInit, OnDestroy {
         Validators.required,
         Validators.maxLength(100)]
       )],
-      tagType: ['', Validators.compose([
+      tagType: ['none', Validators.compose([
       ]
       )],
       tag: ['', Validators.compose([
@@ -175,26 +175,22 @@ export class WithdrawalEditDialogComponent implements OnInit, OnDestroy {
       this.numberTag = blockchain.protocol.capabilities.destinationTag.number;
       if (this.textTag && this.numberTag) {
         this.hasTag = true;
-        tagTypeControl.setValue('text');
         tagTypeControl.enable();
       } else if (this.textTag) {
         this.hasTag = true;
-        tagTypeControl.setValue('text');
         tagTypeControl.disable();
       } else if (this.numberTag) {
         this.hasTag = true;
-        tagTypeControl.setValue('number');
         tagTypeControl.disable();
       } else {
         this.hasTag = false;
-        tagTypeControl.setValue('');
         tagTypeControl.disable();
       }
     } else {
       this.hasTag = false;
-      tagTypeControl.setValue('');
       tagTypeControl.disable();
     }
+    tagTypeControl.setValue('none');
     this.updateTagType();
   }
 
@@ -232,6 +228,13 @@ export class WithdrawalEditDialogComponent implements OnInit, OnDestroy {
     if (this.hasTag) {
       tag = this.destinationRequisitesForm.controls.tag.value;
       tagType = this.destinationRequisitesForm.controls.tagType.value;
+    }
+
+    if (tagType === 'none') {
+      tagType = null;
+      tag = null;
+    } else if (tagType === 'number') {
+      tag = tag.toString();
     }
 
     this.create(controls.brokerAccountId.value,
