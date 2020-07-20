@@ -211,7 +211,7 @@ export class MenuConfig {
 						bullet: 'dot'
 					},
 					{
-						title: 'Withdrawal',
+						title: 'Withdrawals',
 						root: true,
 						icon: 'flaticon2-list',
 						page: '/services/sirius/brokerage/withdrawals',

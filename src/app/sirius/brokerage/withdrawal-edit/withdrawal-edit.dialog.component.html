@@ -162,8 +162,9 @@
                         <mat-form-field class="mat-form-field-fluid">
                             <mat-select placeholder="Tag type" formControlName="tagType"
                                 (selectionChange)="updateTagType()">
-                                <mat-option value="text">Text</mat-option>
-                                <mat-option value="number">Number</mat-option>
+                                <mat-option value="none">None</mat-option>
+                                <mat-option value="text" *ngIf="textTag">Text</mat-option>
+                                <mat-option value="number" *ngIf="numberTag">Number</mat-option>
                             </mat-select>
                             <mat-error *ngIf="isFormControlHasError('tagType','required')">
                                 <strong>Required field</strong>
