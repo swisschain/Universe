@@ -12,12 +12,6 @@
 			(mouseenter)="mouseEnter($event)" (mouseleave)="mouseLeave($event)"
 			[ngClass]="htmlClassService.getClasses('aside_menu', true)">
 			<ul class="kt-menu__nav" [ngClass]="htmlClassService.getClasses('aside_menu_nav', true)">
-				<li *ngIf="showTitle">
-					<button mat-icon-button color="warn" matTooltip="Go back" matTooltipPosition="above" type="button" [routerLink]="['/home']">
-                        <mat-icon>arrow_upward</mat-icon>
-					</button>
-					<span style="color: #fff;font-size: 20px;">{{title}}</span>
-				</li>
 				<ng-container [ngTemplateOutlet]="menuListTemplate"></ng-container>
 			</ul>
 		</div>

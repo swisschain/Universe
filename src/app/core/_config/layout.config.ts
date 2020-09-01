@@ -54,13 +54,13 @@ export class LayoutConfig {
 			self: {
 				skin: 'light',
 				fixed: {
-					desktop: false,
+					desktop: true,
 					mobile: false,
 				},
 			},
 			menu: {
 				self: {
-					display: true,
+					display: false,
 					layout: 'default',
 					'root-arrow': false,
 				},
@@ -107,7 +107,7 @@ export class LayoutConfig {
 			},
 			footer: {
 				self: {
-					display: false,
+					display: true,
 				},
 			},
 			menu: {
@@ -125,6 +125,7 @@ export class LayoutConfig {
 		footer: {
 			self: {
 				width: 'fluid',
+				fixed: true
 			},
 		},
 	};

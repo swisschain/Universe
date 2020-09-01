@@ -1,17 +1,17 @@
-// Angular
 import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-// RxJS
+
 import { Observable, Subject } from 'rxjs';
-import { finalize, takeUntil, tap } from 'rxjs/operators';
-// Translate
+import { finalize, takeUntil } from 'rxjs/operators';
+
 import { TranslateService } from '@ngx-translate/core';
-// Store
 import { Store } from '@ngrx/store';
+
 import { AppState } from '../../../../core/reducers';
-// Auth
 import { AuthNoticeService, AuthService, Login } from '../../../../core/auth';
+import { HttpErrorResponse } from '@angular/common/http';
+import { SignInResponse } from '../../../../core/auth/_models/sign-in-response';
 
 @Component({
 	selector: 'kt-login',
@@ -19,7 +19,6 @@ import { AuthNoticeService, AuthService, Login } from '../../../../core/auth';
 	encapsulation: ViewEncapsulation.None
 })
 export class LoginComponent implements OnInit, OnDestroy {
-	// Public params
 	loginForm: FormGroup;
 	loading = false;
 	isLoggedIn$: Observable<boolean>;
@@ -43,7 +42,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnInit(): void {
-		this.initLoginForm();
+		this.createForm();
 
 		this.route.queryParams.subscribe(params => {
 			this.returnUrl = params.returnUrl || '/';
@@ -57,25 +56,22 @@ export class LoginComponent implements OnInit, OnDestroy {
 		this.loading = false;
 	}
 
-	initLoginForm() {
-
+	createForm(): void {
 		this.loginForm = this.fb.group({
 			login: [null, Validators.compose([
 				Validators.required,
 				Validators.minLength(3),
 				Validators.maxLength(320)
-			])
-			],
+			])],
 			password: [null, Validators.compose([
 				Validators.required,
 				Validators.minLength(3),
 				Validators.maxLength(100)
-			])
-			]
+			])]
 		});
 	}
 
-	submit() {
+	submit(): void {
 		const controls = this.loginForm.controls;
 
 		if (this.loginForm.invalid) {
@@ -90,21 +86,18 @@ export class LoginComponent implements OnInit, OnDestroy {
 		this.auth
 			.login(controls.login.value, controls.password.value)
 			.pipe(
-				tap(user => {
-					if (user) {
-						this.store.dispatch(new Login({authToken: user.token}));
-						this.router.navigateByUrl(this.returnUrl);
-					} else {
-						this.authNoticeService.setNotice(this.translate.instant('AUTH.VALIDATION.INVALID_LOGIN'), 'danger');
-					}
-				}),
 				takeUntil(this.unsubscribe),
 				finalize(() => {
 					this.loading = false;
 					this.cdr.markForCheck();
 				})
 			)
-			.subscribe();
+			.subscribe((user: SignInResponse) => {
+				this.store.dispatch(new Login({ authToken: user.token }));
+				this.router.navigateByUrl(this.returnUrl);
+			}, (error: HttpErrorResponse) => {
+				this.authNoticeService.setNotice(this.translate.instant('AUTH.VALIDATION.INVALID_LOGIN'), 'danger');
+			});
 	}
 
 	isControlHasError(controlName: string, validationType: string): boolean {
@@ -112,7 +105,6 @@ export class LoginComponent implements OnInit, OnDestroy {
 		if (!control) {
 			return false;
 		}
-
 		const result = control.hasError(validationType) && (control.dirty || control.touched);
 		return result;
 	}

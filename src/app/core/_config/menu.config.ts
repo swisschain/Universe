@@ -66,35 +66,6 @@ export class MenuConfig {
 						page: '/home/api-keys',
 						bullet: 'dot'
 					},
-					{ section: 'Notifications' },
-					{
-						title: 'Layouts',
-						root: true,
-						icon: 'flaticon-star',
-						page: '/home/notifications/layouts',
-						bullet: 'dot'
-					},
-					{
-						title: 'Templates',
-						root: true,
-						icon: 'flaticon-star',
-						page: '/home/notifications/templates',
-						bullet: 'dot'
-					},
-					{
-						title: 'API Keys',
-						root: true,
-						icon: 'flaticon-star',
-						page: '/home/notifications/api-keys',
-						bullet: 'dot'
-					},
-					{
-						title: 'Messages',
-						root: true,
-						icon: 'flaticon-star',
-						page: '/home/notifications/messages',
-						bullet: 'dot'
-					},
 					{ section: 'Services' },
 					{
 						title: 'Sirius',
@@ -102,14 +73,7 @@ export class MenuConfig {
 						icon: 'flaticon-star',
 						page: '/services/sirius',
 						bullet: 'dot'
-					},
-					{
-						title: 'Exchange',
-						root: true,
-						icon: 'flaticon2-line-chart',
-						page: '/services/exchange',
-						bullet: 'dot'
-					}					
+					}
 				]
 			},
 			profile: {
@@ -183,7 +147,7 @@ export class MenuConfig {
 						icon: 'flaticon2-graphic-1',
 						page: '/services/exchange/trading/order-books',
 						bullet: 'dot'
-					}					
+					}
 				]
 			},
 			sirius: {
@@ -223,20 +187,6 @@ export class MenuConfig {
 						root: true,
 						icon: 'flaticon2-list',
 						page: '/services/sirius/vaults',
-						bullet: 'dot'
-					},
-					{
-						title: 'Key Keepers',
-						root: true,
-						icon: 'flaticon2-list',
-						page: '/services/sirius/key-keepers',
-						bullet: 'dot'
-					},
-					{
-						title: 'Configuration',
-						root: true,
-						icon: 'flaticon2-list',
-						page: '/services/sirius/key-keeping-configuration',
 						bullet: 'dot'
 					}
 				]

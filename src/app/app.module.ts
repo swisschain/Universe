@@ -6,14 +6,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { GestureConfig, MatProgressSpinnerModule } from '@angular/material';
 import { OverlayModule } from '@angular/cdk/overlay';
-// Angular in memory
-import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 // Perfect Scroll bar
 import { PERFECT_SCROLLBAR_CONFIG, PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 // SVG inline
 import { InlineSVGModule } from 'ng-inline-svg';
-// Env
-import { environment } from '../environments/environment';
 // Hammer JS
 import 'hammerjs';
 // NGX Permissions
@@ -48,7 +44,7 @@ import {
 } from './core/_base/layout';
 // Auth
 import { AuthModule } from './views/pages/auth/auth.module';
-import { AuthService } from './core/auth';
+import { AuthService, AuthGuard } from './core/auth';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 // CRUD
 import { HttpUtilsService, LayoutUtilsService, TypesUtilsService } from './core/_base/crud';
@@ -62,12 +58,6 @@ import * as xml from 'highlight.js/lib/languages/xml';
 import * as json from 'highlight.js/lib/languages/json';
 
 import { AuthHeaderInterceptor } from './core/interceptors/auth-header-interceptor';
-
-
-// NEW
-
-// ::NEW
-
 
 // tslint:disable-next-line:class-name
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -119,6 +109,7 @@ export function hljsLanguages(): HighlightLanguage[] {
 	exports: [],
 	providers: [
 		AuthService,
+		AuthGuard,
 		LayoutConfigService,
 		LayoutRefService,
 		MenuConfigService,

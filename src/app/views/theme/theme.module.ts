@@ -37,6 +37,7 @@ import { HtmlClassService } from './html-class.service';
 import { HeaderMobileComponent } from './header/header-mobile/header-mobile.component';
 import { ErrorPageComponent } from './content/error-page/error-page.component';
 import { PermissionEffects, permissionsReducer, RoleEffects, rolesReducer } from '../../core/auth';
+import { ProductComponent } from './header/product/product.component';
 
 @NgModule({
 	declarations: [
@@ -47,6 +48,7 @@ import { PermissionEffects, permissionsReducer, RoleEffects, rolesReducer } from
 		HeaderComponent,
 		BrandComponent,
 		HeaderMobileComponent,
+		ProductComponent,
 
 		// subheader
 		SubheaderComponent,
@@ -70,6 +72,7 @@ import { PermissionEffects, permissionsReducer, RoleEffects, rolesReducer } from
 		HeaderComponent,
 		BrandComponent,
 		HeaderMobileComponent,
+		ProductComponent,
 
 		// subheader
 		SubheaderComponent,

@@ -2,8 +2,6 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RouterModule, Routes } from '@angular/router';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
 // Material
 import { MatButtonModule, MatCheckboxModule, MatFormFieldModule, MatInputModule } from '@angular/material';
 // Translate
@@ -18,44 +16,17 @@ import { RegisterComponent } from './register/register.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { AuthNoticeComponent } from './auth-notice/auth-notice.component';
 // Auth
-import { AuthEffects, AuthGuard, authReducer, AuthService } from '../../../core/auth';
+import { AuthEffects, authReducer, AuthService } from '../../../core/auth';
 import { SubscriptionGuard } from '../../../core/auth/_guards/subscription.guard';
-
-const routes: Routes = [
-	{
-		path: '',
-		component: AuthComponent,
-		children: [
-			{
-				path: '',
-				redirectTo: 'login',
-				pathMatch: 'full'
-			},
-			{
-				path: 'login',
-				component: LoginComponent,
-				data: { returnUrl: window.location.pathname }
-			},
-			{
-				path: 'register',
-				component: RegisterComponent
-			},
-			{
-				path: 'forgot-password',
-				component: ForgotPasswordComponent,
-			}
-		]
-	}
-];
-
+import { AuthRoutingModule } from './auth-routing.module';
 
 @NgModule({
 	imports: [
+		AuthRoutingModule,
 		CommonModule,
 		FormsModule,
 		ReactiveFormsModule,
 		MatButtonModule,
-		RouterModule.forChild(routes),
 		MatInputModule,
 		MatFormFieldModule,
 		MatCheckboxModule,
@@ -63,7 +34,7 @@ const routes: Routes = [
 		StoreModule.forFeature('auth', authReducer),
 		EffectsModule.forFeature([AuthEffects])
 	],
-	providers: [		
+	providers: [
 	],
 	exports: [AuthComponent],
 	declarations: [
@@ -81,7 +52,6 @@ export class AuthModule {
 			ngModule: AuthModule,
 			providers: [
 				AuthService,
-				AuthGuard,
 				SubscriptionGuard
 			]
 		};

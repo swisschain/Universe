@@ -1,0 +1,6 @@
+<div class="product_wrapper">
+    <button *ngIf="!root" mat-icon-button color="warn" matTooltip="Go back to Universe" matTooltipPosition="above" type="button" [routerLink]="['/home']">
+        <mat-icon>arrow_upward</mat-icon>
+    </button>
+    <span class="product_title">{{title}}<span *ngIf="beta" class="product_beta">beta</span></span>
+</div>

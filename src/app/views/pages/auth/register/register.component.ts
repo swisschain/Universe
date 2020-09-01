@@ -75,8 +75,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
 				Validators.required,
 				Validators.minLength(3),
 				Validators.maxLength(100)
-			])],
-			agree: [false, Validators.compose([Validators.required])]
+			])]
 		}, {
 			validator: ConfirmPasswordValidator.MatchPassword
 		});
@@ -92,11 +91,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
 			return;
 		}
 
-		if (!controls.agree.value) {
-			this.authNoticeService.setNotice('You must agree the terms and condition', 'danger');
-			return;
-		}
-
 		this.loading = true;
 
 		const name = controls.name.value;
@@ -108,7 +102,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
 		this.auth.register(name, company, email, login, password).pipe(
 			tap(result => {
 				if (result.token) {
-					this.store.dispatch(new Login({authToken: result.token}));
+					this.store.dispatch(new Login({ authToken: result.token }));
 					this.router.navigateByUrl('/home');
 				} else {
 					this.authNoticeService.setNotice(result.error, 'danger');
