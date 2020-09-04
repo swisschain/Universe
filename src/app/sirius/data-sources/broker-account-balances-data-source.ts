@@ -1,9 +1,9 @@
-import { of } from 'rxjs';
-import { catchError, finalize } from 'rxjs/operators';
+import { finalize } from 'rxjs/operators';
+import { HttpErrorResponse } from '@angular/common/http';
 
 import { BaseDataSource } from './base-data-source';
 
-import { BrokerBalance } from '../api/models/brocker-accounts'
+import { BrokerBalance } from '../api/models/brocker-accounts';
 import { BrokerAccountService } from '../api/services';
 import { PagedResponse } from '../api/models/pagination/paged-response.interface';
 
@@ -14,15 +14,16 @@ export class BrokerAccountBalancesDataSource extends BaseDataSource<BrokerBalanc
     }
 
     load(brokerAccountId: number) {
-        this.loadingSubject.next(true);
-
+        this.loading();
         this.brokerAccountService.getBalances(brokerAccountId)
             .pipe(
-                catchError(() => of([])),
-                finalize(() => this.loadingSubject.next(false))
+                finalize(() => this.loaded())
             )
             .subscribe((response: PagedResponse<BrokerBalance>) => {
-                this.itemsSubject.next(response.items)
-            });
+                this.itemsSubject.next(response.items);
+            },
+                (error: HttpErrorResponse) => {
+                    this.onError(error);
+                });
     }
 }

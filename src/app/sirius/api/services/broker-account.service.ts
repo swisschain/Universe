@@ -42,6 +42,17 @@ export class BrokerAccountService {
         return this.http.get<BrokerAccountRequisite>(`${API_URL}/${brokerAccountId}/details/by-asset-id/${assetId}`);
     }
 
+    getBalance(brokerAccountId: number, assetId: number) {
+        const params = new HttpParams()
+            .set('assetId', assetId.toString());
+        return this.http.get<PagedResponse<BrokerBalance>>(`${API_URL}/${brokerAccountId}/balances`, { params })
+            .pipe(
+                map(result => {
+                    return result.items.length > 0 ? result.items[0] : null;
+                })
+            );
+    }
+
     getBalances(brokerAccountId: number) {
         return this.http.get<PagedResponse<BrokerBalance>>(`${API_URL}/${brokerAccountId}/balances`);
     }

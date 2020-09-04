@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { debounceTime, distinctUntilChanged, map, tap, switchMap } from 'rxjs/operators';
@@ -25,7 +25,7 @@ export class DepositListComponent implements OnInit, OnDestroy {
   constructor(
     public dialog: MatDialog,
     public snackBar: MatSnackBar,
-    private layoutUtilsService: LayoutUtilsService,
+    private cdr: ChangeDetectorRef,
     private assetsService: AssetsService,
     private depositsService: DepositsService,
     private blockchainsService: BlockchainsService,
@@ -54,6 +54,7 @@ export class DepositListComponent implements OnInit, OnDestroy {
   filteredBrokerAccounts: ReplaySubject<BrokerAccount[]> = new ReplaySubject<BrokerAccount[]>(1);
   states = [DepositState.Detected, DepositState.Confirmed, DepositState.Completed, DepositState.Cancelled, DepositState.Failed];
 
+  hasError = false;
   dataSource: DepositsDataSource;
   displayedColumns = ['state', 'brokerAccountName', 'accountId', 'referenceId', 'blockchainName', 'assetSymbol', 'amount', 'actions'];
 
@@ -132,7 +133,6 @@ export class DepositListComponent implements OnInit, OnDestroy {
       },
         error => {
           this.assetSearching = false;
-          console.error(error);
         });
 
     this.subscriptions.push(assetFilterCtrlSubscription);
@@ -157,7 +157,6 @@ export class DepositListComponent implements OnInit, OnDestroy {
       },
         error => {
           this.brokerAccountSearching = false;
-          console.error(error);
         });
 
     this.subscriptions.push(brokerAccountFilterCtrlSubscription);
@@ -169,6 +168,9 @@ export class DepositListComponent implements OnInit, OnDestroy {
       this.filteredBrokerAccounts.next(result[0].items);
       this.blockchains = result[1].items;
       this.load();
+    }, error => {
+      this.hasError = true;
+      this.cdr.markForCheck();
     });
   }
 
@@ -177,6 +179,9 @@ export class DepositListComponent implements OnInit, OnDestroy {
   }
 
   load() {
+    if (this.hasError) {
+      return;
+    }
     this.dataSource.load(
       this.selectedBrokerAccountId && this.selectedBrokerAccountId !== '' ? Number(this.selectedBrokerAccountId) : null,
       this.selectedAccountId,

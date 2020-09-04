@@ -7,16 +7,16 @@
         </ng-container>
 
         <ng-container ktPortletTools>
-            <a (click)="load()" href="javascript:;" class="btn btn-secondary kt-margin-r-10" mat-raised-button
-                matTooltip="Refresh broker account list">
+            <button (click)="load()" href="javascript:;" class="btn btn-secondary kt-margin-r-10" mat-raised-button
+                matTooltip="Refresh broker account list" [disabled]="hasError">
                 <i class="la la-refresh"></i>
                 <span class="kt-hidden-mobile">Refresh</span>
-            </a>
-            <a (click)="add()" href="javascript:;" class="btn btn-primary kt-margin-r-10" color="primary"
-                mat-raised-button matTooltip="Create broker account">
+            </button>
+            <button (click)="add()" href="javascript:;" class="btn btn-primary kt-margin-r-10" color="primary"
+                mat-raised-button matTooltip="Create broker account" [disabled]="hasError">
                 <i class="la la-plus"></i>
                 <span class="kt-hidden-mobile">Create</span>
-            </a>
+            </button>
         </ng-container>
     </kt-portlet-header>
 
@@ -77,7 +77,9 @@
                 <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                 <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
             </mat-table>
-            <div class="mat-table__message" *ngIf="!dataSource.hasItems">No records found</div>
+            <div class="mat-table__message" *ngIf="!dataSource.hasItems && !dataSource.hasError">No records found</div>
+            <div class="mat-table__message" *ngIf="dataSource.hasError">Can not load records. Please try again later.</div>
+            <div class="mat-table__message" *ngIf="hasError">An error occurred while processing the request. Please try again later.</div>
             <div class="mat-table__message" *ngIf="dataSource.isPreloadTextViewed$ | async">Please wait....</div>
         </div>
     </kt-portlet-body>

@@ -37,12 +37,12 @@ export class BrokerAccountEditDialogComponent implements OnInit {
   errorMessage = '';
   viewLoading = false;
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.createForm();
     this.load();
   }
 
-  createForm() {
+  createForm(): void {
     this.form = this.fb.group({
       name: ['', Validators.compose([
         Validators.required,
@@ -54,7 +54,7 @@ export class BrokerAccountEditDialogComponent implements OnInit {
     });
   }
 
-  load() {
+  load(): void {
     this.viewLoading = true;
     this.vaultService.getAll()
       .subscribe(vaults => {
@@ -64,11 +64,11 @@ export class BrokerAccountEditDialogComponent implements OnInit {
       });
   }
 
-  getVaultTypeTitle(type: VaultType) {
+  getVaultTypeTitle(type: VaultType): string {
     return getVaultTypeTitle(type);
   }
 
-  onSubmit() {
+  onSubmit(): void {
     this.hasFormErrors = false;
 
     if (this.form.invalid) {
@@ -81,7 +81,7 @@ export class BrokerAccountEditDialogComponent implements OnInit {
     this.create(controls.name.value, controls.vaultId.value);
   }
 
-  create(name: string, vaultId: number) {
+  create(name: string, vaultId: number): void {
     this.viewLoading = true;
     this.brokerAccountService.create(name, vaultId, this.requestId)
       .subscribe(
@@ -106,7 +106,7 @@ export class BrokerAccountEditDialogComponent implements OnInit {
     return isFormGroupControlHasError(this.form, controlName, validationType);
   }
 
-  onAlertClose($event) {
+  onAlertClose($event): void {
     this.hasFormErrors = false;
     this.errorMessage = '';
   }

@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material';
-import { Blockchain } from '../../api/models/blockchains/blockchain.interface';
+import { formatAddress } from '../../shared/address-utils';
 
 @Component({
   selector: 'kt-requisites-dialog',
@@ -16,7 +16,7 @@ export class RequisitesDialogComponent implements OnInit {
   loading = true;
   viewLoading = false;
 
-  blockchain: Blockchain;
+  blockchainName = '';
   address = '';
   tagLable = 'Tag';
   tagTypeLable = 'Tag Type';
@@ -24,9 +24,10 @@ export class RequisitesDialogComponent implements OnInit {
   tagType = '';
 
   ngOnInit() {
-    this.address = this.data.address;
-    this.blockchain = this.data.blockchain;
+    this.address = formatAddress(this.data.address);
+    this.blockchainName = this.data.blockchain.name;
     this.tag = this.data.tag ? this.data.tag : '';
+    this.tagLable = this.data.tagLable ? this.data.tagLable : '';
     this.tagType = this.data.tagType ? this.data.tagType : '';
   }
 }

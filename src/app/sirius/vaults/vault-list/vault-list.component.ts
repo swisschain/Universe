@@ -1,6 +1,7 @@
 import { Component, ChangeDetectionStrategy, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog, MatSnackBar } from '@angular/material';
+import { ActivatedRoute } from '@angular/router';
 
 import { Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
@@ -9,10 +10,11 @@ import { LayoutUtilsService, MessageType } from '../../../core/_base/crud';
 
 import { getVaultTypeTitle, getVaultStatusTitle } from '../../shared/utils';
 
-import { Vault, VaultType, VaultStatus } from '../../api/models/vaults';
+import { VaultType, VaultStatus } from '../../api/models/vaults';
 import { VaultService } from '../../api/services';
 import { VaultDataSource } from '../../data-sources';
 import { VaultEditDialogComponent } from '../vault-edit/vault-edit.dialog.component';
+
 
 @Component({
   selector: 'kt-vault-list',
@@ -25,6 +27,7 @@ export class VaultListComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     public dialog: MatDialog,
     public snackBar: MatSnackBar,
+    private route: ActivatedRoute,
     private layoutUtilsService: LayoutUtilsService,
     private vaultService: VaultService) { }
 
@@ -32,6 +35,7 @@ export class VaultListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   searchByNameInput = new FormControl();
 
+  hasError = false;
   dataSource: VaultDataSource;
   displayedColumns = ['vaultId', 'name', 'type', 'status', 'createdAt', 'updatedAt', 'actions'];
 
@@ -58,6 +62,12 @@ export class VaultListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     this.load();
+
+    this.route.queryParams.subscribe(params => {
+      if (params.action === 'new') {
+        this.add();
+      }
+    });
   }
 
   ngOnDestroy() {
@@ -65,6 +75,9 @@ export class VaultListComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   load() {
+    if (this.hasError) {
+      return;
+    }
     this.dataSource.load(this.name, this.type);
   }
 

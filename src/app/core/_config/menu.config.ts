@@ -181,11 +181,11 @@ export class MenuConfig {
 						page: '/services/sirius/brokerage/withdrawals',
 						bullet: 'dot'
 					},
-					{ section: 'Vault' },
+					{ section: 'Custody' },
 					{
 						title: 'Vaults',
 						root: true,
-						icon: 'flaticon2-list',
+						icon: 'flaticon-safe-shield-protection',
 						page: '/services/sirius/vaults',
 						bullet: 'dot'
 					}

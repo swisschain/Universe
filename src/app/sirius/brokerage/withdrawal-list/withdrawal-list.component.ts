@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { debounceTime, distinctUntilChanged, map, filter, tap, switchMap } from 'rxjs/operators';
@@ -27,6 +27,7 @@ export class WithdrawalListComponent implements OnInit, OnDestroy {
   constructor(
     public dialog: MatDialog,
     public snackBar: MatSnackBar,
+    private cdr: ChangeDetectorRef,
     private layoutUtilsService: LayoutUtilsService,
     private withdrawalService: WithdrawalService,
     private assetsService: AssetsService,
@@ -62,6 +63,7 @@ export class WithdrawalListComponent implements OnInit, OnDestroy {
   filteredBrokerAccounts: ReplaySubject<BrokerAccount[]> = new ReplaySubject<BrokerAccount[]>(1);
   states = [WithdrawalState.Processing, WithdrawalState.Executing, WithdrawalState.Sent, WithdrawalState.Completed, WithdrawalState.Failed];
 
+  hasError = false;
   dataSource: WithdrawalDataSource;
   displayedColumns = ['state', 'brokerAccountName', 'accountId', 'referenceId', 'blockchainName', 'assetSymbol', 'amount', 'actions'];
 
@@ -179,7 +181,6 @@ export class WithdrawalListComponent implements OnInit, OnDestroy {
       },
         error => {
           this.assetSearching = false;
-          console.error(error);
         });
 
     this.subscriptions.push(assetFilterCtrlSubscription);
@@ -204,7 +205,6 @@ export class WithdrawalListComponent implements OnInit, OnDestroy {
       },
         error => {
           this.brokerAccountSearching = false;
-          console.error(error);
         });
 
     this.subscriptions.push(brokerAccountFilterCtrlSubscription);
@@ -216,6 +216,9 @@ export class WithdrawalListComponent implements OnInit, OnDestroy {
       this.filteredBrokerAccounts.next(result[0].items);
       this.blockchains = result[1].items;
       this.load();
+    }, error => {
+      this.hasError = true;
+      this.cdr.markForCheck();
     });
   }
 
@@ -224,6 +227,9 @@ export class WithdrawalListComponent implements OnInit, OnDestroy {
   }
 
   load() {
+    if (this.hasError) {
+      return;
+    }
     this.dataSource.load(
       this.selectedBrokerAccountId && this.selectedBrokerAccountId !== '' ? Number(this.selectedBrokerAccountId) : null,
       this.selectedAccountId,

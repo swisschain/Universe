@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { fromEvent, Subscription } from 'rxjs';
@@ -27,10 +27,12 @@ export class AccountListComponent implements OnInit, OnDestroy {
   constructor(
     public dialog: MatDialog,
     public snackBar: MatSnackBar,
+    private cdr: ChangeDetectorRef,
     private layoutUtilsService: LayoutUtilsService,
     private accountService: AccountService,
     private brokerAccountService: BrokerAccountService) { }
 
+  hasError = false;
   dataSource: AccountsDataSource;
   displayedColumns = ['accountId', 'referenceId', 'brokerAccountId', 'state', 'createdAt', 'updatedAt', 'actions'];
 
@@ -47,6 +49,9 @@ export class AccountListComponent implements OnInit, OnDestroy {
         distinctUntilChanged()
       )
       .subscribe(value => {
+        if (this.hasError) {
+          return;
+        }
         this.reference = value;
         this.load();
       });
@@ -58,6 +63,9 @@ export class AccountListComponent implements OnInit, OnDestroy {
       .subscribe(response => {
         this.brokerAccounts = response.items;
         this.load();
+      }, error => {
+        this.hasError = true;
+        this.cdr.markForCheck();
       });
   }
 
@@ -70,7 +78,7 @@ export class AccountListComponent implements OnInit, OnDestroy {
   }
 
   getBrokerName(brokerAccountId: number) {
-    var brokerAccount = this.brokerAccounts.filter((brokerAccount) => brokerAccount.id == brokerAccountId)[0];
+    const brokerAccount = this.brokerAccounts.filter((item) => item.id == brokerAccountId)[0];
     return brokerAccount ? brokerAccount.name : 'unknown';
   }
 

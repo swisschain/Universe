@@ -8,7 +8,7 @@
 
         <ng-container ktPortletTools>
             <a (click)="add()" href="javascript:;" class="btn btn-primary kt-margin-r-10" color="primary"
-                mat-raised-button matTooltip="Create">
+                mat-raised-button matTooltip="Create" [disabled]="hasError">
                 <i class="la la-plus"></i>
                 <span class="kt-hidden-mobile">Create</span>
             </a>
@@ -93,7 +93,11 @@
                 <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                 <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
             </mat-table>
-            <div class="mat-table__message" *ngIf="!dataSource.hasItems">No records found</div>
+            <div class="mat-table__message" *ngIf="!dataSource.hasItems && !dataSource.hasError">No records found</div>
+            <div class="mat-table__message" *ngIf="dataSource.hasError">Can not load records. Please try again later.
+            </div>
+            <div class="mat-table__message" *ngIf="hasError">An error occurred while processing the request. Please try
+                again later.</div>
             <div class="mat-table__message" *ngIf="dataSource.isPreloadTextViewed$ | async">Please wait....</div>
         </div>
     </kt-portlet-body>

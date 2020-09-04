@@ -70,9 +70,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 export function initializeLayoutConfig(appConfig: LayoutConfigService) {
 	// initialize app by loading default demo layout config
 	return () => {
-		if (appConfig.getConfig() === null) {
-			appConfig.loadConfigs(new LayoutConfig().configs);
-		}
+		appConfig.loadConfigs(new LayoutConfig().configs);
 	};
 }
 

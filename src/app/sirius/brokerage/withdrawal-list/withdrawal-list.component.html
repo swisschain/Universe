@@ -7,11 +7,12 @@
         </ng-container>
         <ng-container ktPortletTools>
             <a (click)="load()" href="javascript:;" class="btn btn-secondary kt-margin-r-10" mat-raised-button
-                matTooltip="Refresh withdrawal list">
+                matTooltip="Refresh withdrawal list" [disabled]="hasError">
                 <i class="la la-refresh"></i>
                 <span class="kt-hidden-mobile">Refresh</span>
             </a>
-            <a (click)="create()" href="javascript:;" class="btn btn-primary kt-margin-r-10" color="primary" mat-raised-button matTooltip="Create withdrawal">
+            <a (click)="create()" href="javascript:;" class="btn btn-primary kt-margin-r-10" color="primary"
+                mat-raised-button matTooltip="Create withdrawal" [disabled]="hasError">
                 <i class="la la-plus"></i>
                 <span class="kt-hidden-mobile">Create</span>
             </a>
@@ -25,10 +26,13 @@
                     <div class="col-md-3 kt-margin-bottom-10-mobile">
                         <div class="kt-form__control">
                             <mat-form-field class="mat-form-field-fluid" floatLabel="never">
-                                <mat-select [(value)]="selectedBrokerAccountId" (selectionChange)="load()" placeholder="All">
+                                <mat-select [(value)]="selectedBrokerAccountId" (selectionChange)="load()"
+                                    placeholder="All">
                                     <mat-option>
-                                        <ngx-mat-select-search [formControl]="brokerAccountFilterCtrl" [placeholderLabel]="'Search...'"
-                                            [noEntriesFoundLabel]="'No matching broker account found'" [searching]="brokerAccountSearching"></ngx-mat-select-search>
+                                        <ngx-mat-select-search [formControl]="brokerAccountFilterCtrl"
+                                            [placeholderLabel]="'Search...'"
+                                            [noEntriesFoundLabel]="'No matching broker account found'"
+                                            [searching]="brokerAccountSearching"></ngx-mat-select-search>
                                     </mat-option>
                                     <mat-option>All</mat-option>
                                     <mat-option *ngFor="let brokerAccount of filteredBrokerAccounts | async"
@@ -85,7 +89,8 @@
                     <div class="col-md-3 kt-margin-bottom-10-mobile">
                         <div class="kt-form__control">
                             <mat-form-field class="mat-form-field-fluid" floatLabel="never">
-                                <mat-select multiple [(value)]="selectedStates" (selectionChange)="load()" placeholder="All">
+                                <mat-select multiple [(value)]="selectedStates" (selectionChange)="load()"
+                                    placeholder="All">
                                     <mat-option *ngFor="let state of states" [value]="state">{{state}}</mat-option>
                                 </mat-select>
                                 <mat-hint align="start">
@@ -97,10 +102,10 @@
                     <div class="col-md-3 kt-margin-bottom-10-mobile">
                         <div class="kt-form__control">
                             <mat-form-field class="mat-form-field-fluid" floatLabel="never">
-                                <mat-select [(value)]="selectedBlockchainId" [formControl]="searchByBlockchainIdInput" placeholder="All">
+                                <mat-select [(value)]="selectedBlockchainId" [formControl]="searchByBlockchainIdInput"
+                                    placeholder="All">
                                     <mat-option value="">All</mat-option>
-                                    <mat-option *ngFor="let blockchain of blockchains"
-                                        [value]="blockchain.id">
+                                    <mat-option *ngFor="let blockchain of blockchains" [value]="blockchain.id">
                                         {{blockchain.name}}</mat-option>
                                 </mat-select>
                                 <mat-hint align="start">
@@ -114,13 +119,15 @@
                             <mat-form-field class="mat-form-field-fluid" floatLabel="never">
                                 <mat-select [(value)]="selectedAssetId" (selectionChange)="load()" placeholder="All">
                                     <mat-option>
-                                        <ngx-mat-select-search [formControl]="assetFilterCtrl" [placeholderLabel]="'Search...'"
-                                            [noEntriesFoundLabel]="'No matching assets found'" [searching]="assetSearching"></ngx-mat-select-search>
+                                        <ngx-mat-select-search [formControl]="assetFilterCtrl"
+                                            [placeholderLabel]="'Search...'"
+                                            [noEntriesFoundLabel]="'No matching assets found'"
+                                            [searching]="assetSearching"></ngx-mat-select-search>
                                     </mat-option>
                                     <mat-option>All</mat-option>
                                     <mat-option *ngFor="let asset of filteredAssets | async" [value]="asset.id">
                                         {{asset.symbol}}
-                                      </mat-option>
+                                    </mat-option>
                                 </mat-select>
                                 <mat-hint align="start">
                                     <strong>Filter</strong> by asset
@@ -193,7 +200,11 @@
                 <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
             </mat-table>
 
-            <div class="mat-table__message" *ngIf="!dataSource.hasItems">No records found</div>
+            <div class="mat-table__message" *ngIf="!dataSource.hasItems && !dataSource.hasError">No records found</div>
+            <div class="mat-table__message" *ngIf="dataSource.hasError">Can not load records. Please try again later.
+            </div>
+            <div class="mat-table__message" *ngIf="hasError">An error occurred while processing the request. Please try
+                again later.</div>
             <div class="mat-table__message" *ngIf="dataSource.isPreloadTextViewed$ | async">Please wait....</div>
         </div>
     </kt-portlet-body>

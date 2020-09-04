@@ -1,11 +1,17 @@
 import { FormGroup, FormArray } from '@angular/forms';
 
 export function getCommonError(response: any) {
-    return response.error[""];
+    if (response && response.error && response.error.errors) {
+        const errors = response.error.errors[''];
+        if (errors && errors.length > 0) {
+            return errors[0];
+        }
+    }
+    return null;
 }
 
 export function setFormError(form: FormGroup, response: any) {
-    Object.keys(response.error).forEach(field => {
+    Object.keys(response.error.errors).forEach(field => {
         const groups = field.match(/(\w+)\.(\w+)/);
         const arrayGroups = field.match(/(\w+)\[(\d+)\]\.(\w+)/);
 
@@ -14,16 +20,15 @@ export function setFormError(form: FormGroup, response: any) {
         if (arrayGroups && arrayGroups.length === 4) {
             const array = form.get(arrayGroups[1]) as FormArray;
             formControl = array.controls[Number(arrayGroups[2])].get(arrayGroups[3]);
-        } else if(groups && groups.length === 3){
+        } else if (groups && groups.length === 3) {
             const array = form.get(groups[1]) as FormArray;
             formControl = array.get(groups[2]);
-        }
-        else {
+        } else {
             formControl = form.get(field);
         }
         if (formControl) {
             formControl.setErrors({
-                serverError: response.error[field]
+                serverError: response.error.errors[field]
             });
         }
     });

@@ -1,7 +1,7 @@
 <div class="kt-portlet" [ngClass]="{ 'kt-portlet--body-progress kt-portlet--body-progress-overlay' : viewLoading }">
     <div class="kt-portlet__head kt-portlet__head__custom">
         <div class="kt-portlet__head-label">
-            <h3 class="kt-portlet__head-title">Requisites</h3>
+            <h3 class="kt-portlet__head-title">Details</h3>
         </div>
     </div>
     <form class="kt-form">
@@ -9,8 +9,8 @@
             <div class="kt-form__section kt-form__section--first">
                 <div class="form-group kt-form__group row">
                     <label class="col-lg-2 col-form-label">Blockchain:</label>
-                    <div class="col-lg-4">
-                        <label class="col-form-label">{{blockchain.name}}</label>
+                    <div class="col-lg-10">
+                        <label class="col-form-label">{{blockchainName}}</label>
                     </div>
                 </div>
                 <div class="form-group kt-form__group row">
@@ -23,14 +23,17 @@
                     </div>
                 </div>
                 <div class="form-group kt-form__group row" *ngIf="tag">
-                    <label class="col-lg-2 col-form-label">{{tagLabel}}:</label>
-                    <div class="col-lg-4">
+                    <label class="col-lg-2 col-form-label">{{tagLable}}:</label>
+                    <div class="col-lg-10">
                         <label class="col-form-label">{{tag}}</label>
+                        <button mat-icon-button color="primary" matTooltip="Copy" ngxClipboard [cbContent]="tag">
+                            <mat-icon>filter_none</mat-icon>
+                        </button>
                     </div>
                 </div>
                 <div class="form-group kt-form__group row" *ngIf="tagType">
-                    <label class="col-lg-2 col-form-label">{{tagTypeLabel}}:</label>
-                    <div class="col-lg-4">
+                    <label class="col-lg-2 col-form-label">{{tagTypeLable}}:</label>
+                    <div class="col-lg-10">
                         <label class="col-form-label">{{tagType}}</label>
                     </div>
                 </div>

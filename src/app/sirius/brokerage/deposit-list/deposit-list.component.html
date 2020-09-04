@@ -7,7 +7,7 @@
         </ng-container>
         <ng-container ktPortletTools>
             <a (click)="load()" href="javascript:;" class="btn btn-secondary kt-margin-r-10" mat-raised-button
-                matTooltip="Refresh deposits">
+                matTooltip="Refresh deposits" [disabled]="hasError">
                 <i class="la la-refresh"></i>
                 <span class="kt-hidden-mobile">Refresh</span>
             </a>
@@ -154,7 +154,9 @@
                 <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
             </mat-table>
 
-            <div class="mat-table__message" *ngIf="!dataSource.hasItems">No records found</div>
+            <div class="mat-table__message" *ngIf="!dataSource.hasItems && !dataSource.hasError">No records found</div>
+            <div class="mat-table__message" *ngIf="dataSource.hasError">Can not load records. Please try again later.</div>
+            <div class="mat-table__message" *ngIf="hasError">An error occurred while processing the request. Please try again later.</div>
             <div class="mat-table__message" *ngIf="dataSource.isPreloadTextViewed$ | async">Please wait....</div>
         </div>
     </kt-portlet-body>

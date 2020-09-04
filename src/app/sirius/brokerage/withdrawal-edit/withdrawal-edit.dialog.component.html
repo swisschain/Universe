@@ -35,6 +35,9 @@
                         </mat-hint>
                     </mat-form-field>
                 </div>
+            </div>
+
+            <div class="form-group kt-form__group row">
                 <div class="col-lg-6 kt-margin-bottom-20-mobile">
                     <mat-form-field class="mat-form-field-fluid">
                         <input matInput type="number" placeholder="Enter account id" formControlName="accountId"
@@ -50,12 +53,9 @@
                         </mat-hint>
                     </mat-form-field>
                 </div>
-            </div>
-
-            <div class="form-group kt-form__group row">
-                <div class="col-lg-12 kt-margin-bottom-20-mobile">
+                <div class="col-lg-6 kt-margin-bottom-20-mobile">
                     <mat-form-field class="mat-form-field-fluid">
-                        <input matInput placeholder="Enter reference id" formControlName="referenceId"
+                        <input matInput placeholder="Enter account reference id" formControlName="referenceId"
                             maxlength="100" />
                         <mat-error *ngIf="isFormControlHasError('referenceId','maxlength')">
                             <strong>Maximum field length: 100</strong>
@@ -64,7 +64,7 @@
                             <strong>{{form.get('referenceId').errors?.serverError}}</strong>
                         </mat-error>
                         <mat-hint align="start">Please enter
-                            <strong>reference id</strong>
+                            <strong>account reference id</strong>
                         </mat-hint>
                     </mat-form-field>
                 </div>
@@ -73,8 +73,7 @@
             <div class="form-group kt-form__group row">
                 <div class="col-lg-6 kt-margin-bottom-20-mobile">
                     <mat-form-field class="mat-form-field-fluid">
-                        <mat-select placeholder="Blockchain" formControlName="blockchainId"
-                            (selectionChange)="updateTag()">
+                        <mat-select placeholder="Blockchain" formControlName="blockchainId">
                             <mat-option>None</mat-option>
                             <mat-option *ngFor="let blockchain of blockchains" [value]="blockchain.id">
                                 {{blockchain.name}}</mat-option>
@@ -134,6 +133,9 @@
                             <strong>amount</strong>
                         </mat-hint>
                     </mat-form-field>
+                </div>
+                <div class="col-lg-6 kt-margin-bottom-20-mobile" *ngIf="balance !== null">
+                    <label class="col-form-label">Balance: {{balance | number:'1.1-8'}}</label>
                 </div>
             </div>
 

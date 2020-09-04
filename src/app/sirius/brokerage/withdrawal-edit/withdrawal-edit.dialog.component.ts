@@ -54,6 +54,7 @@ export class WithdrawalEditDialogComponent implements OnInit, OnDestroy {
 
   textTag: TextTag = null;
   numberTag: NumberTag = null;
+  balance: number = null;
 
   ngOnInit() {
     this.createForm();
@@ -108,6 +109,19 @@ export class WithdrawalEditDialogComponent implements OnInit, OnDestroy {
         });
 
     this.subscriptions.push(assetFilterCtrlSubscription);
+
+    const brokerAccountIdSubscription = this.form.controls.brokerAccountId.valueChanges
+      .subscribe(result => {
+        this.updateTag();
+        this.updateBalance();
+      });
+    this.subscriptions.push(brokerAccountIdSubscription);
+
+    const assetIdSubscription = this.form.controls.assetId.valueChanges
+      .subscribe(result => {
+        this.updateBalance();
+      });
+    this.subscriptions.push(assetIdSubscription);
 
     this.viewLoading = true;
 
@@ -166,25 +180,47 @@ export class WithdrawalEditDialogComponent implements OnInit, OnDestroy {
     });
   }
 
+  updateBalance() {
+    this.balance = null;
+    const assetId = this.form.controls.assetId.value;
+    const brokerAccountId = this.form.controls.brokerAccountId.value;
+    if (assetId && brokerAccountId) {
+      this.brokerAccountService.getBalance(brokerAccountId, assetId)
+        .subscribe(result => {
+          this.balance = result ? result.availableBalance : 0;
+          this.cdr.markForCheck();
+        },
+          error => {
+            this.balance = null;
+            console.error(error);
+          });
+    }
+  }
+
   updateTag() {
     const blockchainId = this.form.controls.blockchainId.value;
     const tagTypeControl = this.destinationRequisitesForm.controls.tagType;
     if (blockchainId) {
       const blockchain = this.blockchains.filter(item => item.id === blockchainId)[0];
-      this.textTag = blockchain.protocol.capabilities.destinationTag.text;
-      this.numberTag = blockchain.protocol.capabilities.destinationTag.number;
-      if (this.textTag && this.numberTag) {
-        this.hasTag = true;
-        tagTypeControl.enable();
-      } else if (this.textTag) {
-        this.hasTag = true;
-        tagTypeControl.disable();
-      } else if (this.numberTag) {
-        this.hasTag = true;
-        tagTypeControl.disable();
+      if (blockchain.protocol && blockchain.protocol.capabilities && blockchain.protocol.capabilities.destinationTag) {
+        this.textTag = blockchain.protocol.capabilities.destinationTag.text;
+        this.numberTag = blockchain.protocol.capabilities.destinationTag.number;
+        if (this.textTag && this.numberTag) {
+          this.hasTag = true;
+          tagTypeControl.enable();
+        } else if (this.textTag) {
+          this.hasTag = true;
+          tagTypeControl.disable();
+        } else if (this.numberTag) {
+          this.hasTag = true;
+          tagTypeControl.disable();
+        } else {
+          this.hasTag = false;
+          tagTypeControl.disable();
+        }
       } else {
-        this.hasTag = false;
-        tagTypeControl.disable();
+        this.textTag = null;
+        this.numberTag = null;
       }
     } else {
       this.hasTag = false;

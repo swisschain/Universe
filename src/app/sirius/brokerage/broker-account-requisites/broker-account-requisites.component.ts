@@ -96,10 +96,9 @@ export class BrokerAccountRequisitesComponent implements OnInit, OnDestroy {
   onAssetChanged() {
     if (this.assetId) {
       const assetId = Number(this.assetId);
-      const asset = this.assets.filter(asset => asset.id === assetId)[0]
+      const asset = this.assets.filter(item => item.id === assetId)[0]
       this.blockchainId = asset.blockchainId;
-    }
-    else {
+    } else {
       this.blockchainId = '';
     }
 
@@ -127,7 +126,7 @@ export class BrokerAccountRequisitesComponent implements OnInit, OnDestroy {
 
   getBlockchainName(blockchainId: string) {
     if (this.blockchains) {
-      const blockchain = this.blockchains.filter((blockchain) => blockchain.id === blockchainId)[0];
+      const blockchain = this.blockchains.filter((item) => item.id === blockchainId)[0];
 
       return blockchain ? blockchain.name : 'unknown';
     }
@@ -140,7 +139,8 @@ export class BrokerAccountRequisitesComponent implements OnInit, OnDestroy {
   }
 
   details(brokerAccountRequisite: BrokerAccountRequisite) {
-    const blockchain = this.blockchains.filter(blockchain => blockchain.id === brokerAccountRequisite.blockchainId)[0];
+    const blockchain = this.blockchains.filter((item) => item.id === brokerAccountRequisite.blockchainId)[0];
+
     this.dialog.open(RequisitesDialogComponent, {
       data: {
         address: brokerAccountRequisite.address,

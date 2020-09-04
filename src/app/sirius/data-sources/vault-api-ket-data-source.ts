@@ -1,5 +1,5 @@
-import { of } from 'rxjs';
-import { catchError, finalize } from 'rxjs/operators';
+import { finalize } from 'rxjs/operators';
+import { HttpErrorResponse } from '@angular/common/http';
 
 import { BaseDataSource } from './base-data-source';
 
@@ -14,14 +14,16 @@ export class VaultApiKeyDataSource extends BaseDataSource<ApiKey> {
     }
 
     load(vaultId: number, name: string, isRevoked: boolean) {
-        this.loadingSubject.next(true);
+        this.loading();
         this.vaultService.getApiKeys(vaultId, name, isRevoked)
             .pipe(
-                catchError(() => of([])),
-                finalize(() => this.loadingSubject.next(false))
+                finalize(() => this.loaded())
             )
             .subscribe((response: PagedResponse<ApiKey>) => {
-                this.itemsSubject.next(response.items)
-            });
+                this.itemsSubject.next(response.items);
+            },
+                (error: HttpErrorResponse) => {
+                    this.onError(error);
+                });
     }
 }

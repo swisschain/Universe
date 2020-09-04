@@ -98,8 +98,7 @@ export class AccountRequisitesListComponent implements OnInit, OnDestroy {
       const id = Number(this.assetId);
       const asset = this.assets.filter(asset => asset.id === id)[0]
       this.blockchainId = asset.blockchainId;
-    }
-    else {
+    } else {
       this.blockchainId = '';
     }
 
@@ -140,11 +139,21 @@ export class AccountRequisitesListComponent implements OnInit, OnDestroy {
   }
 
   details(accountRequisite: AccountRequisite) {
-    const blockchain = this.blockchains.filter((blockchain) => blockchain.id === accountRequisite.blockchainId)[0];
+    const blockchain = this.blockchains.filter((item) => item.id === accountRequisite.blockchainId)[0];
+
+    let tagLable = null;
+
+    if (accountRequisite.tagType === 'number') {
+      tagLable = blockchain.protocol.capabilities.destinationTag.number.name;
+    } else if (accountRequisite.tagType === 'text') {
+      tagLable = blockchain.protocol.capabilities.destinationTag.text.name;
+    }
+
     this.dialog.open(RequisitesDialogComponent, {
       data: {
         address: accountRequisite.address,
         tag: accountRequisite.tag,
+        tagLable,
         tagType: accountRequisite.tagType,
         blockchain
       }, width: '600px'

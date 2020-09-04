@@ -1,5 +1,5 @@
-import { of } from 'rxjs';
-import { catchError, finalize } from 'rxjs/operators';
+import { finalize } from 'rxjs/operators';
+import { HttpErrorResponse } from '@angular/common/http';
 
 import { BaseDataSource } from './base-data-source';
 
@@ -22,8 +22,7 @@ export class WithdrawalDataSource extends BaseDataSource<Withdrawal> {
         transactionId: string,
         destinationAddress: string,
         destinationTag: string) {
-        this.loadingSubject.next(true);
-
+        this.loading();
         this.withdrawalService.get(brokerAccountId,
             accountId,
             referenceId,
@@ -34,11 +33,13 @@ export class WithdrawalDataSource extends BaseDataSource<Withdrawal> {
             destinationAddress,
             destinationTag)
             .pipe(
-                catchError(() => of([])),
-                finalize(() => this.loadingSubject.next(false))
+                finalize(() => this.loaded())
             )
             .subscribe((response: PagedResponse<Withdrawal>) => {
-                this.itemsSubject.next(response.items)
-            });
+                this.itemsSubject.next(response.items);
+            },
+                (error: HttpErrorResponse) => {
+                    this.onError(error);
+                });
     }
 }

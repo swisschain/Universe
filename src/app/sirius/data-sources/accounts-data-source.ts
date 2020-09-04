@@ -1,5 +1,5 @@
-import { of } from 'rxjs';
-import { catchError, finalize } from 'rxjs/operators';
+import { finalize } from 'rxjs/operators';
+import { HttpErrorResponse } from '@angular/common/http';
 
 import { BaseDataSource } from './base-data-source';
 
@@ -14,15 +14,16 @@ export class AccountsDataSource extends BaseDataSource<Account> {
     }
 
     load(brokerAccountId: number, referenceId: string) {
-        this.loadingSubject.next(true);
-
+        this.loading();
         this.accountService.get(brokerAccountId, referenceId)
             .pipe(
-                catchError(() => of([])),
-                finalize(() => this.loadingSubject.next(false))
+                finalize(() => this.loaded())
             )
             .subscribe((response: PagedResponse<Account>) => {
-                this.itemsSubject.next(response.items)
-            });
+                this.itemsSubject.next(response.items);
+            },
+                (error: HttpErrorResponse) => {
+                    this.onError(error);
+                });
     }
 }
